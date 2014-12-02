@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="Salesforce.VisualStudio.Services.ConnectedService.Views.ObjectSelectionPage"
+             x:ClassModifier="internal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:csfx="clr-namespace:Microsoft.VisualStudio.ConnectedServices.Controls;assembly=Microsoft.VisualStudio.ConnectedServices.Framework"
+             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="CommonResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   TextWrapping="Wrap"
+                   Text="Which Salesforce objects would you like to scaffold?"
+                   Style="{DynamicResource {x:Static vsfx:VsResourceKeys.TextBlockEnvironment122PercentFontSizeStyleKey}}" />
+        <csfx:ObjectPicker Grid.Row="1"
+                           Margin="0,10,56,15"
+                           Categories="{Binding Categories}"
+                           ErrorMessage="{Binding ErrorMessage}" />
+        <TextBlock Grid.Row="2">
+            <Hyperlink NavigateUri="http://developer.salesforce.com/go/VSObjRef"
+                       RequestNavigate="Hyperlink_RequestNavigate">
+                Standard Salesforce objects reference
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock Grid.Row="3"
+                   Margin="0,2,0,0">
+            <Hyperlink NavigateUri="http://developer.salesforce.com/go/VSWorkbench"
+                       RequestNavigate="Hyperlink_RequestNavigate">
+                Salesforce Workbench and REST Explorer
+            </Hyperlink>
+        </TextBlock>
+    </Grid>
+</UserControl>

@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RuntimeAuthentication_ConsumerKeyComment" xml:space="preserve">
+    <value> The Salesforce connected app is named: {0} </value>
+    <comment>{0} = Name of the connected app</comment>
+  </data>
+  <data name="ConnectedAppHelper_FailedToCreateConnectedApp" xml:space="preserve">
+    <value>Failed to create the connected app.
+Details:  {0}</value>
+    <comment>{0} = error message returned from Salesforce</comment>
+  </data>
+  <data name="ConnectedServiceInstance_Name" xml:space="preserve">
+    <value>Salesforce Connected App</value>
+  </data>
+  <data name="ConnectedServiceProvider_Category" xml:space="preserve">
+    <value>Salesforce</value>
+  </data>
+  <data name="ConnectedServiceProvider_Description" xml:space="preserve">
+    <value>Provides programmatic access to your organization’s information using simple, powerful, and secure application programming interfaces (APIs). APIs open up a platform to developers and enable them to explore different ways to integrate platform capabilities within their own applications.</value>
+  </data>
+  <data name="ConnectedServiceProvider_Name" xml:space="preserve">
+    <value>Salesforce for .NET</value>
+  </data>
+  <data name="DesignTimeAuthenticationViewModel_Environment_Custom" xml:space="preserve">
+    <value>Custom...</value>
+  </data>
+  <data name="DesignTimeAuthenticationViewModel_Environment_Production" xml:space="preserve">
+    <value>Production</value>
+  </data>
+  <data name="DesignTimeAuthenticationViewModel_Environment_Sandbox" xml:space="preserve">
+    <value>Sandbox</value>
+  </data>
+  <data name="DesignTimeAuthenticationWizardPage_Description" xml:space="preserve">
+    <value>Choose a Salesforce environment to authenticate against</value>
+  </data>
+  <data name="DesignTimeAuthenticationWizardPage_Legend" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="DesignTimeAuthentication_NewIdentityName" xml:space="preserve">
+    <value>&lt;New user account&gt;</value>
+  </data>
+  <data name="DesignTimeAuthentication_Summary_Custom" xml:space="preserve">
+    <value>{0} ({1})</value>
+    <comment>{0} = the username of the active identity
+{1} = the My Domain of the active identity</comment>
+  </data>
+  <data name="DesignTimeAuthentication_Summary_Production" xml:space="preserve">
+    <value>{0} (Production)</value>
+    <comment>{0} = the username of the active identity</comment>
+  </data>
+  <data name="DesignTimeAuthentication_Summary_Sandbox" xml:space="preserve">
+    <value>{0} (Sandbox)</value>
+    <comment>{0} = the username of the active identity</comment>
+  </data>
+  <data name="DesignTimeAuthenticationWizardPage_Title" xml:space="preserve">
+    <value>Configure Salesforce for .NET</value>
+  </data>
+  <data name="ObjectSelectionWizardPage_Description" xml:space="preserve">
+    <value>Select objects to scaffold models within your application</value>
+  </data>
+  <data name="ObjectSelectionWizardPage_Legend" xml:space="preserve">
+    <value>Object Selection</value>
+  </data>
+  <data name="ObjectSelectionWizardPage_Title" xml:space="preserve">
+    <value>Configure Salesforce for .NET</value>
+  </data>
+  <data name="MyDomainViewModel_ErrorMessage" xml:space="preserve">
+    <value>Please enter a valid URL (example: https://yoursite-dev-ed.my.salesforce.com)</value>
+  </data>
+  <data name="LogMessage_AddedAssemblyReference" xml:space="preserve">
+    <value>Added reference to {0}.</value>
+    <comment>{0} = name of the assembly</comment>
+  </data>
+  <data name="LogMessage_AddedAssemblyReferences" xml:space="preserve">
+    <value>Successfully added assembly references to the project.</value>
+  </data>
+  <data name="LogMessage_AddedConnectedService" xml:space="preserve">
+    <value>Successfully added a Salesforce connected service to the project.</value>
+  </data>
+  <data name="LogMessage_AddedGeneratedCode" xml:space="preserve">
+    <value>Successfully added scaffold code files to the project.</value>
+  </data>
+  <data name="LogMessage_AddedNuGetPackages" xml:space="preserve">
+    <value>Successfully added NuGet packages to the project.</value>
+  </data>
+  <data name="LogMessage_AddingAssemblyReferences" xml:space="preserve">
+    <value>Adding assembly references to the project.</value>
+  </data>
+  <data name="LogMessage_AddingConnectedService" xml:space="preserve">
+    <value>Adding a Salesforce connected service to the project.</value>
+  </data>
+  <data name="LogMessage_AddingGeneratedCode" xml:space="preserve">
+    <value>Adding scaffold code files to the project.</value>
+  </data>
+  <data name="LogMessage_AddingNuGetPackages" xml:space="preserve">
+    <value>Adding NuGet packages to the project.</value>
+  </data>
+  <data name="LogMessage_BuildingObjectModel" xml:space="preserve">
+    <value>Building the object model for the Salesforce objects.</value>
+  </data>
+  <data name="LogMessage_BuiltObjectModel" xml:space="preserve">
+    <value>Finished building the object model for {0} Salesforce objects.</value>
+    <comment>{0} = The number of Salesforce objects</comment>
+  </data>
+  <data name="LogMessage_CreatedConnectedApp" xml:space="preserve">
+    <value>Successfully created the connected app within Salesforce.</value>
+  </data>
+  <data name="LogMessage_CreatingConnectedApp" xml:space="preserve">
+    <value>Creating the connected app within Salesforce.</value>
+  </data>
+  <data name="LogMessage_DetectedExistingAssemblyReference" xml:space="preserve">
+    <value>A reference to the assembly {0} already exists in the project.</value>
+    <comment>{0} = name of the assembly</comment>
+  </data>
+  <data name="LogMessage_FailedAddingAssemblyReference" xml:space="preserve">
+    <value>Failed to add reference to {0} - {1}</value>
+    <comment>{0} = name of the assembly
+{1} = Exception details</comment>
+  </data>
+  <data name="LogMessage_FailedAddingConnectedService" xml:space="preserve">
+    <value>Failed to add Salesforce connected service to the project - {0}</value>
+    <comment>{0} = Exception details</comment>
+  </data>
+  <data name="LogMessage_FailedReadingConnectedApp" xml:space="preserve">
+    <value>Failed to read the connected app that was just created; the ConsumerKey AppSetting in the config file will need to be specified."</value>
+  </data>
+  <data name="LogMessage_PresentedGettingStarted" xml:space="preserve">
+    <value>Navigated to the getting started web page.</value>
+  </data>
+  <data name="LogMessage_PresentingGettingStarted" xml:space="preserve">
+    <value>Navigating to the getting started web page.</value>
+  </data>
+  <data name="LogMessage_UpdatedConfigFile" xml:space="preserve">
+    <value>Successfully added settings to the project's config file.</value>
+  </data>
+  <data name="LogMessage_UpdatingConfigFile" xml:space="preserve">
+    <value>Adding settings to the project's config file.</value>
+  </data>
+  <data name="RuntimeAuthenticationConfigWizardPage_Description" xml:space="preserve">
+    <value>Choose runtime authentication settings</value>
+  </data>
+  <data name="RuntimeAuthenticationConfigWizardPage_Legend" xml:space="preserve">
+    <value>Runtime Authentication Config</value>
+  </data>
+  <data name="RuntimeAuthenticationConfigWizardPage_Title" xml:space="preserve">
+    <value>Configure Salesforce for .NET</value>
+  </data>
+  <data name="RuntimeAuthenticationTypeWizardPage_Description" xml:space="preserve">
+    <value>Choose a runtime authentication model</value>
+  </data>
+  <data name="RuntimeAuthenticationTypeWizardPage_Legend" xml:space="preserve">
+    <value>Runtime Authentication</value>
+  </data>
+  <data name="RuntimeAuthenticationTypeWizardPage_Title" xml:space="preserve">
+    <value>Configure Salesforce for .NET</value>
+  </data>
+  <data name="AuthenticationHelper_UnableToConnectToSalesforce" xml:space="preserve">
+    <value>Unable to connect to Salesforce.
+
+Request:  {0}
+
+Response:  {1}</value>
+    <comment>{0} = The request that failed.
+{1} = The response from the failed request.</comment>
+  </data>
+  <data name="DesignTimeAuthenticationWizardPage_UnableToAuthenticateUser" xml:space="preserve">
+    <value>Unable to authenticate with Salesforce.</value>
+  </data>
+  <data name="LogMessage_UnsupportedSoapType" xml:space="preserve">
+    <value>No CLR type found for the Salesforce soap type '{0}' used on the '{1}.{2}' property.</value>
+    <comment>{0} = Name of the Salesforce soap type
+{1} = Name of the Salesforce object
+{2} = Name of the Salesforce field</comment>
+  </data>
+  <data name="ConnectedServiceProvider_CreatedBy" xml:space="preserve">
+    <value>Salesforce</value>
+  </data>
+  <data name="LogMessage_DetectingTelemetryOptInStatus" xml:space="preserve">
+    <value>Detecting telemetry OptIn status.</value>
+  </data>
+  <data name="LogMessage_DetectingTelemetryOptInStatusCompleted" xml:space="preserve">
+    <value>Telemetry OptIn status is '{0}'.</value>
+    <comment>{0} = true/false for OptIn status</comment>
+  </data>
+  <data name="LogMessage_FailedToLogTelemetryData" xml:space="preserve">
+    <value>Failed to log telemetry data.
+{0}</value>
+    <comment>{0} = exception details</comment>
+  </data>
+  <data name="LogMessage_LoggingTelemetryData" xml:space="preserve">
+    <value>Starting to gather and log telemetry data.</value>
+  </data>
+  <data name="LogMessage_LoggingTelemetryDataCompleted" xml:space="preserve">
+    <value>Finished gathering and logging telemetry data.</value>
+  </data>
+  <data name="ObjectSelectionViewModel_AllObjects" xml:space="preserve">
+    <value>All Objects</value>
+  </data>
+  <data name="ObjectSelectionViewModel_LoadingError" xml:space="preserve">
+    <value>An unexpected error occurred while retrieving the Salesforce objects.
+{0}</value>
+    <comment>{0} = exception details</comment>
+  </data>
+</root>

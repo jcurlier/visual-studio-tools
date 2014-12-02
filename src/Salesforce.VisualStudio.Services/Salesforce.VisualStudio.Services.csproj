@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+    <MinimumVisualStudioVersion>$(VisualStudioVersion)</MinimumVisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{3ED4219C-57C9-4682-8F8E-017E3838965D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Salesforce.VisualStudio.Services</RootNamespace>
+    <AssemblyName>Salesforce.VisualStudio.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <GeneratePkgDefFile>false</GeneratePkgDefFile>
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Program Files (x86)\Microsoft Visual Studio $(VisualStudioVersion)\Common7\IDE\devenv.exe</StartProgram>
+    <StartArguments>/rootSuffix exp</StartArguments>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ConnectedService\CodeModel\ConfigurationKeyNames.cs" />
+    <Compile Include="ConnectedService\CodeModel\SObjectPickListValue.cs" />
+    <Compile Include="ConnectedService\Constants.cs" />
+    <Compile Include="ConnectedService\CodeModel\SObjectChildRelationship.cs" />
+    <Compile Include="ConnectedService\Models\ConfigSetting.cs" />
+    <Compile Include="ConnectedService\Models\EnvironmentType.cs" />
+    <Compile Include="ConnectedService\Models\IAuthenticationWithConsumerSecret.cs" />
+    <Compile Include="ConnectedService\Utilities\HyperlinkHelper.cs" />
+    <Compile Include="ConnectedService\Utilities\IVsSqm.cs" />
+    <Compile Include="ConnectedService\Utilities\TelemetryHelper.cs" />
+    <Compile Include="ConnectedService\Utilities\ExceptionHelper.cs" />
+    <Compile Include="ConnectedService\Utilities\MetadataHelper.cs" />
+    <Compile Include="ConnectedService\ViewModels\Environment.cs" />
+    <Compile Include="ConnectedService\ViewModels\IWizardPage.cs" />
+    <Compile Include="ConnectedService\ViewModels\MyDomainViewModel.cs" />
+    <Compile Include="ConnectedService\ViewModels\ViewModel.cs" />
+    <Compile Include="ConnectedService\Views\ThemedDialogColors.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="ConnectedService\CodeModel\GeneratedObject.cs" />
+    <Compile Include="ConnectedService\CodeModel\GeneratedService.cs" />
+    <Compile Include="ConnectedService\CodeModel\GeneratedStorageProperty.cs" />
+    <Compile Include="ConnectedService\CodeModel\SObjectDescription.cs" />
+    <Compile Include="ConnectedService\CodeModel\SObjectField.cs" />
+    <Compile Include="ConnectedService\Models\ServiceAccount.cs" />
+    <Compile Include="ConnectedService\Models\ServiceAccountWithJWT.cs" />
+    <Compile Include="ConnectedService\Models\ServiceAccountWithPassword.cs" />
+    <Compile Include="ConnectedService\Models\UserSettings.cs" />
+    <Compile Include="ConnectedService\ConnectedServiceWizardProvider.cs" />
+    <Compile Include="ConnectedService\CodeModel\CodeModelBuilder.cs" />
+    <Compile Include="ConnectedService\Utilities\AuthenticationHelper.cs" />
+    <Compile Include="ConnectedService\Utilities\ConfigHelperExtensions.cs" />
+    <Compile Include="ConnectedService\Utilities\GeneratedCodeHelper.cs" />
+    <Compile Include="ConnectedService\Utilities\NamingUtilities.cs" />
+    <Compile Include="ConnectedService\Utilities\ProjectHelper.cs" />
+    <Compile Include="ConnectedService\ViewModels\ObjectSelectionViewModel.cs" />
+    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationViewModel.cs" />
+    <Compile Include="ConnectedService\Views\ObjectSelectionPage.xaml.cs">
+      <DependentUpon>ObjectSelectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationConfigWizardPage.cs" />
+    <Compile Include="ConnectedService\ViewModels\ObjectSelectionWizardPage.cs" />
+    <Compile Include="ConnectedService\Views\EnumToVisibilityConverter.cs" />
+    <Compile Include="ConnectedService\Views\RuntimeAuthenticationConfigPage.xaml.cs">
+      <DependentUpon>RuntimeAuthenticationConfigPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\Views\RuntimeAuthenticationTypePage.xaml.cs">
+      <DependentUpon>RuntimeAuthenticationTypePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\Views\DesignTimeAuthenticationPage.xaml.cs">
+      <DependentUpon>DesignTimeAuthenticationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationTypeWizardPage.cs" />
+    <Compile Include="ConnectedService\ViewModels\DesignTimeAuthenticationWizardPage.cs" />
+    <Compile Include="ConnectedService\Models\WebServerFlowInfo.cs" />
+    <Compile Include="ConnectedService\AuthenticationStrategy.cs" />
+    <Compile Include="ConnectedService\Utilities\ConnectedAppHelper.cs" />
+    <Compile Include="ConnectedService\Models\DesignTimeAuthentication.cs" />
+    <Compile Include="ConnectedService\Models\RuntimeAuthentication.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ConnectedService\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\ConnectedServiceInstance.cs" />
+    <Compile Include="ConnectedService\ConnectedServiceInstanceHandler.cs" />
+    <Compile Include="ConnectedService\ConnectedServiceProvider.cs" />
+    <Compile Include="ConnectedService\ViewModels\DesignTimeAuthenticationViewModel.cs" />
+    <Compile Include="ConnectedService\Views\AuthenticateRedirectHost.xaml.cs">
+      <DependentUpon>AuthenticateRedirectHost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\Views\EnumToBooleanConverter.cs" />
+    <Compile Include="ConnectedService\ViewModels\WizardPage.cs" />
+    <Compile Include="Web References\SalesforceMetadata\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ConnectedService\Templates\CSharp\SalesforceObject.tt">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="ConnectedService\Templates\CSharp\SalesforceService.tt">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="ConnectedService\Templates\VisualBasic\SalesforceObject.tt">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="ConnectedService\Templates\VisualBasic\SalesforceOAuthRedirectHandler.tt">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="ConnectedService\Templates\VisualBasic\SalesforceService.tt">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="ExtensionIcon.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="ExtensionPreviewImage.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <Resource Include="ConnectedService\Views\Resources\ProviderIcon.png" />
+    <Content Include="ApplicationInsights.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Packages\DeveloperForce.Force.0.6.4.nupkg">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Packages\Microsoft.Bcl.1.1.9.nupkg">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Packages\Microsoft.Bcl.Async.1.0.168.nupkg">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Packages\Microsoft.Bcl.Build.1.0.14.nupkg">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Packages\Microsoft.Net.Http.2.2.28.nupkg">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Packages\Newtonsoft.Json.6.0.5.nupkg">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <None Include="README.txt" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\SalesforceMetadata\AsyncResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SalesforceMetadata\CancelDeployResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SalesforceMetadata\DeleteResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SalesforceMetadata\DeployResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SalesforceMetadata\DescribeMetadataResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SalesforceMetadata\FileProperties.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SalesforceMetadata\Metadata.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SalesforceMetadata\metadata.wsdl" />
+    <None Include="Web References\SalesforceMetadata\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\SalesforceMetadata\RetrieveResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SalesforceMetadata\SaveResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SalesforceMetadata\UpsertResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="envdte">
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.0.11.0-build11410\lib\net40\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
+      <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.0.24\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.ConnectedServices">
+      <HintPath>..\..\Externals\Microsoft.VisualStudio.ConnectedServices\Microsoft.VisualStudio.ConnectedServices.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.ConnectedServices.Framework">
+      <HintPath>..\..\Externals\Microsoft.VisualStudio.ConnectedServices\Microsoft.VisualStudio.ConnectedServices.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.14.0">
+      <HintPath>..\..\Externals\VisualStudio\Microsoft.VisualStudio.Shell.14.0.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.12.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.10.0" />
+    <Reference Include="Microsoft.VisualStudio.Utilities">
+      <HintPath>..\..\Externals\VisualStudio\Microsoft.VisualStudio.Utilities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.VisualStudio">
+      <HintPath>..\packages\NuGet.VisualStudio.2.8.2\lib\net40\NuGet.VisualStudio.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Salesforce.Common">
+      <HintPath>..\..\Externals\Salesforce\Salesforce.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="VSLangProj, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>C:\Windows\assembly\GAC\VSLangProj\7.0.3300.0__b03f5f7f11d50a3a\VSLangProj.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConnectedService\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ConnectedService\Views\AuthenticateRedirectHost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConnectedService\Views\ComboBoxStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConnectedService\Views\CommonResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConnectedService\Views\ObjectSelectionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConnectedService\Views\RuntimeAuthenticationConfigPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConnectedService\Views\RuntimeAuthenticationTypePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConnectedService\Views\DesignTimeAuthenticationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://hitnmiss-dev-ed.my.salesforce.com/services/wsdl/metadata">
+      <UrlBehavior>Static</UrlBehavior>
+      <RelPath>Web References\SalesforceMetadata\</RelPath>
+      <UpdateFromURL>https://hitnmiss-dev-ed.my.salesforce.com/services/wsdl/metadata</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Salesforce_VisualStudio_Services_Salesforce_Metadata_MetadataService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <Import Project="..\packages\Microsoft.ApplicationInsights.0.11.0-build11410\tools\net40\Microsoft.ApplicationInsights.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.0.11.0-build11410\tools\net40\Microsoft.ApplicationInsights.targets')" />
+  <Target Name="EnsureApplicationInsightsImported" BeforeTargets="BeforeBuild" Condition="'$(ApplicationInsightsImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.0.11.0-build11410\tools\net40\Microsoft.ApplicationInsights.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
+    <Error Condition="Exists('..\packages\Microsoft.ApplicationInsights.0.11.0-build11410\tools\net40\Microsoft.ApplicationInsights.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
+  </Target>
+</Project>

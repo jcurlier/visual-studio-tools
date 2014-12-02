@@ -1,0 +1,140 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="Salesforce.VisualStudio.Services.dll" #>
+<#@ import namespace="Salesforce.VisualStudio.Services.ConnectedService.CodeModel" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="Salesforce.VisualStudio.Services.ConnectedService.CodeModel.GeneratedObject" name="generatedObject" #>
+using Newtonsoft.Json;
+using Salesforce.Common.Attributes;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace <#= generatedObject.Service.ModelsNamespace #>
+{
+    public class <#= generatedObject.Model.Name #>
+    {
+<#
+// Generate the simple storage properties.
+foreach (GeneratedStorageProperty storageProperty in generatedObject.StorageProperties)
+{
+    if (string.Equals(storageProperty.Model.SoapType, "urn:address", StringComparison.OrdinalIgnoreCase))
+    {
+        continue;
+    }
+
+    if (storageProperty.IsKey)
+    {
+#>
+        [Key]
+<#
+    }
+
+    if (storageProperty.Model.Label != null && storageProperty.Model.Label != storageProperty.Model.Name)
+    {
+#>
+        [Display(Name = "<#= storageProperty.Model.Label #>")]
+<#
+    }
+
+    switch (storageProperty.Model.Type)
+    {
+        case "string":
+#>
+        [StringLength(<#= storageProperty.Model.Length #>)]
+<#
+            break;
+        case "phone":
+#>
+        [Phone]
+<#
+            break;
+        case "email":
+#>
+        [EmailAddress]
+<#
+            break;
+        case "url":
+#>
+        [Url]
+<#
+            break;
+    }
+
+    string createableUpdateable = String.Empty;
+    if (!storageProperty.Model.Createable)
+    {
+        createableUpdateable += "Createable(false)";
+    }
+    // BUG: As of 9/25/14, Salesforce doesn't set Updateable as false on the OwnerId property, which is only createable.
+    if (!storageProperty.Model.Updateable || storageProperty.Model.Name == "OwnerId") 
+    {
+        createableUpdateable += (createableUpdateable.Length > 0) ? ", Updateable(false)" : "Updateable(false)";
+    }
+    if (createableUpdateable.Length > 0) 
+    {
+#>
+        [<#= createableUpdateable #>]
+<#
+    }
+
+    // The Salesforce schema contains some Objects that have properties with the same name as the Object.
+    // This is not allowed in C#, therefore the property name must be changed when this occurs.
+    string propertyName = storageProperty.Model.Name;
+    if (generatedObject.Model.Name == propertyName)
+    {
+        propertyName += "_Property";
+#>
+        [JsonProperty("<#= storageProperty.Model.Name #>")]
+<#
+    }
+#>
+        public <#= this.GetFriendlyTypeName(storageProperty) #> <#= propertyName #> { get; set; }
+
+<#
+}
+#>
+    }
+}
+<#+
+private string GetFriendlyTypeName(GeneratedStorageProperty storageProperty)
+{
+    string typeName = storageProperty.ClrType.Name;
+
+    // Use the type's keyword if one exists.
+    if (storageProperty.ClrType == typeof(string))
+    {
+        typeName = "string";
+    }
+    else if (storageProperty.ClrType == typeof(int))
+    {
+        typeName = "int";
+    }
+    else if (storageProperty.ClrType == typeof(bool))
+    {
+        typeName = "bool";
+    }
+    else if (storageProperty.ClrType == typeof(double))
+    {
+        typeName = "double";
+    }
+    else if (storageProperty.ClrType == typeof(object))
+    {
+        typeName = "object";
+    }
+    else if (storageProperty.ClrType == typeof(byte[]))
+    {
+        typeName = "byte[]";
+    }
+
+    if (storageProperty.IsNullableType)
+    {
+        // Use the ? nullable syntax.
+        typeName += "?";
+    }
+
+    return typeName;
+}
+#>

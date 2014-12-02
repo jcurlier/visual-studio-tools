@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Salesforce.VisualStudio.Services.ConnectedService.Views.RuntimeAuthenticationTypePage"
+             x:ClassModifier="internal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:view="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.Views" 
+             xmlns:core="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService"
+             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="CommonResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <view:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,20"
+                   Text="Which runtime authentication model would you like to use?"
+                   Style="{DynamicResource {x:Static vsfx:VsResourceKeys.TextBlockEnvironment122PercentFontSizeStyleKey}}" />
+        <Grid Grid.Row="1"
+              Margin="0,0,56,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <RadioButton x:Name="WebServerFlow_Radio"
+                         Grid.Row="0"
+                         Margin="0,0,0,20"
+                         GroupName="AuthType"
+                         IsChecked="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.WebServerFlow}}"
+                         AutomationProperties.LabeledBy="{Binding ElementName=WebServerFlow_Label}" >
+                <StackPanel>
+                    <Label x:Name="WebServerFlow_Label" 
+                           Target="{Binding ElementName=WebServerFlow_Radio}"
+                           Padding="0"
+                           Content="Web server flow" />
+                    <TextBlock Margin="0,4,0,0"
+                               TextWrapping="Wrap"
+                               Text="User identities are sent from the client, through the middle tier, to Salesforce. If Salesforce is federated with Azure, users will only need to authenticate with their Azure account to access Salesforce services." />
+                </StackPanel>
+            </RadioButton>
+            <RadioButton x:Name="ServiceAccountCert_Radio"
+                         Grid.Row="1"
+                         Margin="0,0,0,20"
+                         GroupName="AuthType"
+                         IsChecked="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.DigitalCertificate}}"
+                         AutomationProperties.LabeledBy="{Binding ElementName=ServiceAccountCert_Label}">
+                <StackPanel>
+                    <Label x:Name="ServiceAccountCert_Label"
+                           Target="{Binding ElementName=ServiceAccountCert_Radio}"
+                           Padding="0"
+                           Content="Service account using a digital certificate" />
+                    <TextBlock Margin="0,4,0,0"
+                               TextWrapping="Wrap"
+                               Text="Connections to Salesforce are established with a single identity using a JWT bearer token, a digital certificate, and the identify of a Salesforce user. This option should only be used when your users may not have Salesforce accounts, such as when querying on behalf of customers on a consumer-facing web site." />
+                </StackPanel>
+            </RadioButton>
+            <RadioButton x:Name="ServiceAccountPassword_Radio"
+                         Grid.Row="2"
+                         Margin="0,0,0,32"
+                         GroupName="AuthType"
+                         IsChecked="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.UserNamePassword}}"
+                         AutomationProperties.LabeledBy="{Binding ElementName=ServiceAccountPassword_Label}">
+                <StackPanel>
+                    <Label x:Name="ServiceAccountPassword_Label" 
+                           Target="{Binding ElementName=ServiceAccountPassword_Radio}"
+                           Padding="0"
+                           Content="Service account with user name and password" />
+                    <TextBlock Margin="0,4,0,0"
+                               TextWrapping="Wrap"
+                               Text="Connections to Salesforce are established with a single identity consisting of a user name, password, user secret, and client secrets stored in your app's configuration settings." />
+                </StackPanel>
+            </RadioButton>
+        </Grid>
+        <TextBlock Grid.Row="2"
+                   TextWrapping="Wrap">
+            <Hyperlink NavigateUri="http://developer.salesforce.com/go/VSOauth"
+                       RequestNavigate="Hyperlink_RequestNavigate">
+                Help me choose the right authentication model
+            </Hyperlink>
+        </TextBlock>
+    </Grid>
+</UserControl>

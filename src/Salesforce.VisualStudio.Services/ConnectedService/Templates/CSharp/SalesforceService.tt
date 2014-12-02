@@ -1,0 +1,115 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="Salesforce.VisualStudio.Services.dll" #>
+<#@ import namespace="Salesforce.VisualStudio.Services.ConnectedService" #>
+<#@ import namespace="Salesforce.VisualStudio.Services.ConnectedService.CodeModel" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="Salesforce.VisualStudio.Services.ConnectedService.CodeModel.GeneratedService" name="generatedService" #>
+using Salesforce.Common;
+using Salesforce.Force;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+<#
+    if (generatedService.AuthenticationStrategy == AuthenticationStrategy.WebServerFlow)
+    {
+#>
+using System.Web;
+<#
+    }
+#>
+
+namespace <#= generatedService.ServiceNamespace #>
+{
+    public class SalesforceService
+    {
+        public SalesforceService()
+        {
+            this.AuthenticationClient = new AuthenticationClient();
+        }
+
+        public AuthenticationClient AuthenticationClient { get; private set; }
+
+<#
+    if (generatedService.AuthenticationStrategy == AuthenticationStrategy.WebServerFlow)
+    {
+#>
+        public ForceClient GetWebServerForceClient()
+        {
+            if (!SalesforceService.IsAuthenticated())
+            {
+                throw new InvalidOperationException("The user must be logged in to get a ForceClient.");
+            }
+
+            // Retrieve the access token and instance URL from the session object, which were set in the SalesforceOAuthRedirectHandler.
+            this.AuthenticationClient.AccessToken = HttpContext.Current.Session["AccessToken"] as string;
+            this.AuthenticationClient.InstanceUrl = HttpContext.Current.Session["InstanceUrl"] as string;
+<#
+    }
+    else if (generatedService.AuthenticationStrategy == AuthenticationStrategy.UserNamePassword)
+    {
+#>
+        public async Task<ForceClient> GetUserNamePasswordForceClientAsync()
+        {
+#error Update the config file with the connected app's UserName, Password and SecurityToken. For more information, see the Next Steps section of the Getting Started documentation.
+
+            await this.AuthenticationClient.UsernamePasswordAsync(
+                SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.ConsumerKey #>"),
+                SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.ConsumerSecret #>"),
+                SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.UserName #>"),
+                SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.Password #>") + SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.SecurityToken #>"));
+<#
+    }
+    else
+    {
+#>
+        public ForceClient GetForceClient()
+        {
+            // TODO:  Add logic that will authenticate the user.
+<#
+    }
+#>
+
+            return new ForceClient(
+                this.AuthenticationClient.InstanceUrl,
+                this.AuthenticationClient.AccessToken,
+                this.AuthenticationClient.ApiVersion);
+        }
+
+        /// <summary>
+        /// Checks if the user is currently authenticated with a Salesforce AccessToken.
+        /// </summary>
+        public static bool IsAuthenticated()
+        {
+<#
+    if (generatedService.AuthenticationStrategy == AuthenticationStrategy.WebServerFlow)
+    {
+#>
+            return HttpContext.Current.Session["AccessToken"] != null;
+<#
+    }
+    else
+    {
+#>
+            throw new InvalidOperationException("IsAuthenticated not implemented for Authentication flows beyond Web Server Flow at this time");
+<#
+    }
+#>
+        }
+
+        internal static string GetAppSetting(string name)
+        {
+            string setting = ConfigurationManager.AppSettings[name];
+            if (String.IsNullOrWhiteSpace(setting) || setting == "RequiredValue")
+            {
+                throw new InvalidOperationException(
+                    String.Format(CultureInfo.InvariantCulture, "The value for the '{0}' key is missing from the appSettings section of the config file.", name));
+            }
+
+            return setting;
+        }
+    }
+}
