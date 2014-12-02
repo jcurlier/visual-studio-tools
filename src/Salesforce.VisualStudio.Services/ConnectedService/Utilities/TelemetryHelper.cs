@@ -12,15 +12,30 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
     internal class TelemetryHelper
     {
-        private bool isOptedIn;
+        // Strings for wizard data
+        private const string WizardFinishedEvent = "SalesforceConnectedService/Finished";
+        private const string InstanceId = "InstanceId";
+        private const string EnvironmentType = "EnvironmentType";
+        private const string RuntimeAuthenticationStrategy = "RuntimeAuthenticationStrategy";
+        private const string UsesCustomDomain = "UsesCustomDomain";
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        // Strings for object data
+        private const string ObjectInformationEvent = "SalesforceConnectedService/ObjectInformation";
+        private const string ObjectSelectedCount = "SelectedCount";
+        private const string ObjectAvailableCount = "AvailableCount";
+
+        // Strings for help link clicks
+        private const string HelpLinkClickedEvent = "SalesforceConnectedService/LinkClicked";
+        private const string HelpLinkUri = "Uri";
+
+        private bool isOptedIn;
+        private TelemetryClient telemetryClient;
+
         public TelemetryHelper()
         {
             isOptedIn = TelemetryHelper.InitializeIsOptedIn();
         }
 
-        private TelemetryClient telemetryClient;
         private TelemetryClient TelemetryClient
         {
             get
@@ -33,27 +48,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             }
         }
 
-        #region Constants
-
-        //Strings for wizard data
-        private const string WizardFinishedEvent = "SalesforceConnectedService/Finished";
-        private const string InstanceId = "InstanceId";
-        private const string EnvironmentType = "EnvironmentType";
-        private const string RuntimeAuthenticationStrategy = "RuntimeAuthenticationStrategy";
-        private const string UsesCustomDomain = "UsesCustomDomain";
-
-        //Strings for object data
-        private const string ObjectInformationEvent = "SalesforceConnectedService/ObjectInformation";
-        private const string ObjectSelectedCount = "SelectedCount";
-        private const string ObjectAvailableCount = "AvailableCount";
-
-        //Strings for help link clicks
-        private const string HelpLinkClickedEvent = "SalesforceConnectedService/LinkClicked";
-        private const string HelpLinkUri = "Uri";
-        #endregion
-
-        #region Obtain Optin Status 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         private static bool InitializeIsOptedIn()
         {
             bool isOptedIn = false;
@@ -93,10 +87,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             }
             return isOptedIn;
         }
-        #endregion
 
-        #region Log Data 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         private void TrackEvent(string eventName, Func<Dictionary<string, string>> getProperties, Func<Dictionary<string, double>> getMeasurements)
         {
             try
@@ -124,62 +115,59 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             {
                 Debug.Fail(e.ToString());
             }
-
         }
+
         /// <summary>
         /// Log data gather from user selections in Wizard.  
         /// </summary>
         public void LogInstanceData(ConnectedServiceInstance salesforceInstance)
         {
-            TrackEvent(WizardFinishedEvent,
+            this.TrackEvent(TelemetryHelper.WizardFinishedEvent,
                 () =>
                 {
                     Dictionary<string, string> properties = new Dictionary<string, string>();
                     //Instance id
-                    properties.Add(InstanceId, salesforceInstance.InstanceId);
+                    properties.Add(TelemetryHelper.InstanceId, salesforceInstance.InstanceId);
 
                     // Environment type 
                     if (salesforceInstance.DesignTimeAuthentication != null)
                     {
-                        properties.Add(EnvironmentType, salesforceInstance.DesignTimeAuthentication.EnvironmentType.ToString());
+                        properties.Add(TelemetryHelper.EnvironmentType, salesforceInstance.DesignTimeAuthentication.EnvironmentType.ToString());
                     }
 
                     // Runtime Authentication
-                    properties.Add(RuntimeAuthenticationStrategy, salesforceInstance.RuntimeAuthentication.AuthStrategy.ToString());
+                    properties.Add(TelemetryHelper.RuntimeAuthenticationStrategy, salesforceInstance.RuntimeAuthentication.AuthStrategy.ToString());
 
                     //Uses custom domain
                     if (salesforceInstance.RuntimeAuthentication is WebServerFlowInfo)
                     {
-                        properties.Add(UsesCustomDomain, ((WebServerFlowInfo)salesforceInstance.RuntimeAuthentication).HasMyDomain.ToString());
+                        properties.Add(TelemetryHelper.UsesCustomDomain, ((WebServerFlowInfo)salesforceInstance.RuntimeAuthentication).HasMyDomain.ToString());
                     }
 
                     return properties;
                 },
-                null
-                );
+                null);
         }
 
         public void LogInstanceObjectData(ObjectSelectionViewModel objectSelectionViewModel)
         {
-            TrackEvent(
-                ObjectInformationEvent,
+            this.TrackEvent(
+                TelemetryHelper.ObjectInformationEvent,
                 null,
                 () =>
                 new Dictionary<string, double>()
                 {
-                    { ObjectAvailableCount, objectSelectionViewModel.GetAvailableObjectCount() },
-                    { ObjectSelectedCount, objectSelectionViewModel.GetSelectedObjects().Count() }
-                }
-                );
+                    { TelemetryHelper.ObjectAvailableCount, objectSelectionViewModel.GetAvailableObjectCount() },
+                    { TelemetryHelper.ObjectSelectedCount, objectSelectionViewModel.GetSelectedObjects().Count() }
+                });
         }
 
         public void LogLinkClickData(string page)
         {
-            TrackEvent(
-                HelpLinkClickedEvent,
-                () => new Dictionary<string, string>() { { HelpLinkUri, page } },
+            this.TrackEvent(
+                TelemetryHelper.HelpLinkClickedEvent,
+                () => new Dictionary<string, string>() { { TelemetryHelper.HelpLinkUri, page } },
                 null);
         }
-        #endregion
     }
 }
