@@ -4,7 +4,6 @@
     <Identity Id="Salesforce.VisualStudio.Services.59300730-61A5-4111-9A2B-379C3053E8C7" Version="1.0" Language="en-US" Publisher="Salesforce" />
     <DisplayName>Salesforce Visual Studio Services</DisplayName>
     <Description xml:space="preserve">Integrate your applications with Salesforce REST services. This extension will configure your application to consume the Salesforce REST APIs, add the Salesforce .NET NuGet libraries and configure a Salesforce Connected App OAuth endpoint.</Description>
-    <License>Salesforce-EULA.rtf</License>
     <GettingStartedGuide>http://developer.salesforce.com/go/VSNetTK</GettingStartedGuide>
     <Icon>ExtensionIcon.png</Icon>
     <PreviewImage>ExtensionPreviewImage.png</PreviewImage>
