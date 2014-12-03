@@ -273,10 +273,6 @@
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />
     <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.10.0" />
-    <Reference Include="Microsoft.VisualStudio.Utilities">
-      <HintPath>..\..\Externals\VisualStudio\Microsoft.VisualStudio.Utilities.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -319,10 +315,6 @@
     <Page Include="ConnectedService\Views\AuthenticateRedirectHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ConnectedService\Views\ComboBoxStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="ConnectedService\Views\CommonResourceDictionary.xaml">
       <SubType>Designer</SubType>
