@@ -345,15 +345,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A reference to the assembly {0} already exists in the project..
-        /// </summary>
-        internal static string LogMessage_DetectedExistingAssemblyReference {
-            get {
-                return ResourceManager.GetString("LogMessage_DetectedExistingAssemblyReference", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Detecting telemetry OptIn status..
         /// </summary>
         internal static string LogMessage_DetectingTelemetryOptInStatus {

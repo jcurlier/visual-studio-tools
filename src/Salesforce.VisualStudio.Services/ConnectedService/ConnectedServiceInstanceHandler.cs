@@ -123,15 +123,29 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         {
             context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddingAssemblyReferences);
 
-            ProjectHelper.AddAssemblyReference(project, context.ProjectHierarchy, "System.Configuration", context.Logger);
-            ProjectHelper.AddAssemblyReference(project, context.ProjectHierarchy, "System.Web", context.Logger);
+            ConnectedServiceInstanceHandler.AddAssemblyReference(context, "System.Configuration");
+            ConnectedServiceInstanceHandler.AddAssemblyReference(context, "System.Web");
 
             if (salesforceInstance.SelectedObjects.Any())
             {
-                ProjectHelper.AddAssemblyReference(project, context.ProjectHierarchy, "System.ComponentModel.DataAnnotations", context.Logger);
+                ConnectedServiceInstanceHandler.AddAssemblyReference(context, "System.ComponentModel.DataAnnotations");
             }
 
             context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddedAssemblyReferences);
+        }
+
+        private static void AddAssemblyReference(IConnectedServiceInstanceContext context, string assemblyPath)
+        {
+            try
+            {
+                HandlerHelper.AddAssemblyReference(context, assemblyPath);
+
+                context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddedAssemblyReference, assemblyPath);
+            }
+            catch (InvalidOperationException e)
+            {
+                context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_FailedAddingAssemblyReference, assemblyPath, e);
+            }
         }
 
         private static async Task AddGeneratedCode(IConnectedServiceInstanceContext context, Project project, ConnectedServiceInstance salesforceInstance, string generatedArtifactSuffix)

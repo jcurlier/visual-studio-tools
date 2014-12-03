@@ -36,7 +36,6 @@ dlldata.c
 *.meta
 *.obj
 *.pch
-*.pdb
 *.pgc
 *.pgd
 *.rsp
@@ -64,6 +63,9 @@ ipch/
 *.opensdf
 *.sdf
 *.cachefile
+
+# Roslyn cache files
+Salesforce.VisualStudio.Services.sln.ide/
 
 # Visual Studio profiler
 *.psess

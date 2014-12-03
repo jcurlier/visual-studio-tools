@@ -225,10 +225,6 @@ Details:  {0}</value>
   <data name="LogMessage_CreatingConnectedApp" xml:space="preserve">
     <value>Creating the connected app within Salesforce.</value>
   </data>
-  <data name="LogMessage_DetectedExistingAssemblyReference" xml:space="preserve">
-    <value>A reference to the assembly {0} already exists in the project.</value>
-    <comment>{0} = name of the assembly</comment>
-  </data>
   <data name="LogMessage_FailedAddingAssemblyReference" xml:space="preserve">
     <value>Failed to add reference to {0} - {1}</value>
     <comment>{0} = name of the assembly
