@@ -314,4 +314,10 @@ Response:  {1}</value>
 {0}</value>
     <comment>{0} = exception details</comment>
   </data>
+  <data name="DesignTimeAuthenticationWizardPage_AuthenticatingProgress" xml:space="preserve">
+    <value>Authenticating...</value>
+  </data>
+  <data name="ObjectSelectionWizardPage_LoadingObjectsProgress" xml:space="preserve">
+    <value>Loading Objects...</value>
+  </data>
 </root>

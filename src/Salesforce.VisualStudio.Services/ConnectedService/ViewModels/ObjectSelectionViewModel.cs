@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.ConnectedServices.Controls;
+﻿using Microsoft.VisualStudio.ConnectedServices;
+using Microsoft.VisualStudio.ConnectedServices.Controls;
 using Salesforce.VisualStudio.Services.ConnectedService.CodeModel;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
@@ -14,20 +15,37 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
     {
         private ObjectPickerCategory allObjectsCategory;
         private string errorMessage;
+        private DesignTimeAuthentication lastDesignTimeAuthentication;
+        private IConnectedServiceProviderHost providerHost;
+        private Task loadObjectsTask;
 
-        public ObjectSelectionViewModel()
+        public ObjectSelectionViewModel(IConnectedServiceProviderHost providerHost)
         {
             this.allObjectsCategory = new ObjectPickerCategory(Resources.ObjectSelectionViewModel_AllObjects);
+            this.providerHost = providerHost;
         }
 
-        public async Task RefreshObjects(DesignTimeAuthentication authentication)
+        /// <summary>
+        /// Refreshes the objects displayed in the picker asynchronously.  The objects are only refreshed if the specified
+        /// authentication is different than the last time the objects were retrieved.
+        /// </summary>
+        public void BeginRefreshObjects(DesignTimeAuthentication authentication)
         {
             // In the future, consider preserving any previously selected objects.  This is not currently done because
             // there is no mechanism to indicate to the user when previously selected objects are no longer available.
 
-            this.allObjectsCategory.Children = null;
-            this.ErrorMessage = null;
+            if (this.lastDesignTimeAuthentication == null ||
+                !this.lastDesignTimeAuthentication.Equals(authentication))
+            {
+                this.allObjectsCategory.Children = null;
+                this.ErrorMessage = null;
+                this.lastDesignTimeAuthentication = authentication;
+                this.loadObjectsTask = this.LoadObjects(authentication);
+            }
+        }
 
+        private async Task LoadObjects(DesignTimeAuthentication authentication)
+        {
             try
             {
                 IEnumerable<SObjectDescription> objects = await MetadataLoader.LoadObjects(authentication);
@@ -44,6 +62,22 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
                 this.ErrorMessage = String.Format(CultureInfo.CurrentCulture, Resources.ObjectSelectionViewModel_LoadingError, ex);
             }
+        }
+
+        /// <summary>
+        /// Waits for the RefreshObjects task to complete if it is not already completed.  While waiting a busy indicator will be displayed.
+        /// </summary>
+        public async Task WaitOnRefreshObjects()
+        {
+            if (this.loadObjectsTask != null && (!this.loadObjectsTask.IsCompleted || this.loadObjectsTask.IsFaulted))
+            {
+                using (this.providerHost.StartBusyIndicator(Resources.ObjectSelectionWizardPage_LoadingObjectsProgress))
+                {
+                    await this.loadObjectsTask;
+                }
+            }
+
+            this.loadObjectsTask = null;
         }
 
         public IEnumerable<SObjectDescription> GetSelectedObjects()

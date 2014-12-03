@@ -11,10 +11,18 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
     internal class DesignTimeAuthenticationWizardPage : WizardPage<DesignTimeAuthenticationViewModel>
     {
-        public DesignTimeAuthenticationWizardPage(DesignTimeAuthenticationViewModel designTimeAuthenticationViewModel)
+        private IConnectedServiceProviderHost providerHost;
+        private ObjectSelectionViewModel objectSelectionViewModel;
+
+        public DesignTimeAuthenticationWizardPage(
+            DesignTimeAuthenticationViewModel designTimeAuthenticationViewModel,
+            ObjectSelectionViewModel objectSelectionViewModel,
+            IConnectedServiceProviderHost providerHost)
             : base(designTimeAuthenticationViewModel)
         {
             this.View = new DesignTimeAuthenticationPage(this.ViewModel);
+            this.objectSelectionViewModel = objectSelectionViewModel;
+            this.providerHost = providerHost;
         }
 
         public override string Title
@@ -40,49 +48,57 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         public override async Task<WizardNavigationResult> OnPageLeaving()
         {
-            string error = null;
-
-            if (this.ViewModel.Authentication.RefreshToken == null)
-            {
-                // New identity or a existing identity w/no refresh token
-                error = this.AuthenticateUser();
-
-                if (error == null && this.ViewModel.Authentication.EnvironmentType == EnvironmentType.Custom)
-                {
-                    UserSettings.AddToTopOfMruList(this.ViewModel.UserSettings.MruMyDomains, this.ViewModel.Authentication.MyDomain.ToString());
-                }
-            }
-            else if (this.ViewModel.Authentication.AccessToken == null)
-            {
-                // Existing identity w/no access token
-                try
-                {
-                    await AuthenticationHelper.RefreshAccessToken(this.ViewModel.Authentication);
-                }
-                catch (ForceException ex)
-                {
-                    if (ex.Error == Error.InvalidGrant) // Expired refresh token
-                    {
-                        this.ViewModel.Authentication.RefreshToken = null;
-                        error = this.AuthenticateUser();
-                    }
-                    else
-                    {
-                        error = ex.Message;
-                    }
-                }
-            }
-            // else - Existing identity w/access and refresh token
-
             WizardNavigationResult result;
-            if (error == null)
+
+            using (this.providerHost.StartBusyIndicator(Resources.DesignTimeAuthenticationWizardPage_AuthenticatingProgress))
             {
-                UserSettings.AddToTopOfMruList(this.ViewModel.UserSettings.MruDesignTimeAuthentications, this.ViewModel.Authentication);
-                result = WizardNavigationResult.Success;
-            }
-            else
-            {
-                result = new WizardNavigationResult() { ErrorMessage = error, ShowMessageBoxOnFailure = true };
+                string error = null;
+
+                if (this.ViewModel.Authentication.RefreshToken == null)
+                {
+                    // New identity or a existing identity w/no refresh token
+                    error = this.AuthenticateUser();
+
+                    if (error == null && this.ViewModel.Authentication.EnvironmentType == EnvironmentType.Custom)
+                    {
+                        UserSettings.AddToTopOfMruList(this.ViewModel.UserSettings.MruMyDomains, this.ViewModel.Authentication.MyDomain.ToString());
+                    }
+                }
+                else if (this.ViewModel.Authentication.AccessToken == null)
+                {
+                    // Existing identity w/no access token
+                    try
+                    {
+                        await AuthenticationHelper.RefreshAccessToken(this.ViewModel.Authentication);
+                    }
+                    catch (ForceException ex)
+                    {
+                        if (ex.Error == Error.InvalidGrant) // Expired refresh token
+                        {
+                            this.ViewModel.Authentication.RefreshToken = null;
+                            error = this.AuthenticateUser();
+                        }
+                        else
+                        {
+                            error = ex.Message;
+                        }
+                    }
+                }
+                // else - Existing identity w/access and refresh token
+
+                if (error == null)
+                {
+                    // Kick off the loading of the Objects so that they will hopefully be loaded before the user navigates to the
+                    // Object Selection page.
+                    this.objectSelectionViewModel.BeginRefreshObjects(this.ViewModel.Authentication);
+
+                    UserSettings.AddToTopOfMruList(this.ViewModel.UserSettings.MruDesignTimeAuthentications, this.ViewModel.Authentication);
+                    result = WizardNavigationResult.Success;
+                }
+                else
+                {
+                    result = new WizardNavigationResult() { ErrorMessage = error, ShowMessageBoxOnFailure = true };
+                }
             }
 
             return result;

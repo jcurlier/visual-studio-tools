@@ -16,18 +16,18 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         private UserSettings userSettings;
         private ObservableCollection<IConnectedServiceWizardPage> pages;
 
-        public ConnectedServiceWizardProvider()
+        public ConnectedServiceWizardProvider(IConnectedServiceProviderHost providerHost)
         {
             this.userSettings = UserSettings.Load();
             this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(this.userSettings);
             this.runtimeAuthenticationViewModel = new RuntimeAuthenticationViewModel(this.userSettings, () => this.designTimeAuthenticationViewModel.Authentication.MyDomain);
-            this.objectSelectionViewModel = new ObjectSelectionViewModel();
+            this.objectSelectionViewModel = new ObjectSelectionViewModel(providerHost);
 
             this.designTimeAuthenticationViewModel.PropertyChanged += this.ViewModel_PropertyChanged;
             this.runtimeAuthenticationViewModel.PropertyChanged += this.ViewModel_PropertyChanged;
 
             this.pages = new ObservableCollection<IConnectedServiceWizardPage>();
-            this.pages.Add(new DesignTimeAuthenticationWizardPage(this.designTimeAuthenticationViewModel));
+            this.pages.Add(new DesignTimeAuthenticationWizardPage(this.designTimeAuthenticationViewModel, this.objectSelectionViewModel, providerHost));
             this.pages.Add(new RuntimeAuthenticationTypeWizardPage(this.runtimeAuthenticationViewModel));
             this.pages.Add(new RuntimeAuthenticationConfigWizardPage(this.runtimeAuthenticationViewModel));
             this.pages.Add(new ObjectSelectionWizardPage(this.objectSelectionViewModel, designTimeAuthenticationViewModel));

@@ -61,10 +61,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
             if (serviceType == typeof(IConnectedServiceProviderUI))
             {
-                service = new ConnectedServiceWizardProvider();
+                IConnectedServiceProviderHost providerHost =
+                    (IConnectedServiceProviderHost)serviceProvider.GetService(typeof(IConnectedServiceProviderHost));
+                service = new ConnectedServiceWizardProvider(providerHost);
             }
 
-            return Task.FromResult(service); ;
+            return Task.FromResult(service);
         }
 
         public Uri MoreInfoUri

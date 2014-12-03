@@ -8,7 +8,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
     internal class ObjectSelectionWizardPage : WizardPage<ObjectSelectionViewModel>
     {
         private DesignTimeAuthenticationViewModel designTimeAuthenticationViewModel;
-        private DesignTimeAuthentication lastDesignTimeAuthentication;
 
         public ObjectSelectionWizardPage(
             ObjectSelectionViewModel objectSelectionViewModel,
@@ -36,12 +35,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         public override async Task<NavigationEnabledState> OnPageEntering()
         {
-            if (this.lastDesignTimeAuthentication == null ||
-                !this.lastDesignTimeAuthentication.Equals(this.designTimeAuthenticationViewModel.Authentication))
-            {
-                await this.ViewModel.RefreshObjects(this.designTimeAuthenticationViewModel.Authentication);
-                this.lastDesignTimeAuthentication = this.designTimeAuthenticationViewModel.Authentication;
-            }
+            await this.ViewModel.WaitOnRefreshObjects();
 
             return await base.OnPageEntering();
         }

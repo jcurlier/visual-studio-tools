@@ -192,6 +192,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authenticating....
+        /// </summary>
+        internal static string DesignTimeAuthenticationWizardPage_AuthenticatingProgress {
+            get {
+                return ResourceManager.GetString("DesignTimeAuthenticationWizardPage_AuthenticatingProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose a Salesforce environment to authenticate against.
         /// </summary>
         internal static string DesignTimeAuthenticationWizardPage_Description {
@@ -505,6 +514,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         internal static string ObjectSelectionWizardPage_Legend {
             get {
                 return ResourceManager.GetString("ObjectSelectionWizardPage_Legend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading Objects....
+        /// </summary>
+        internal static string ObjectSelectionWizardPage_LoadingObjectsProgress {
+            get {
+                return ResourceManager.GetString("ObjectSelectionWizardPage_LoadingObjectsProgress", resourceCulture);
             }
         }
         
