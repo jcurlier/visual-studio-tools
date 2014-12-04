@@ -237,24 +237,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Added reference to {0}..
-        /// </summary>
-        internal static string LogMessage_AddedAssemblyReference {
-            get {
-                return ResourceManager.GetString("LogMessage_AddedAssemblyReference", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully added assembly references to the project..
-        /// </summary>
-        internal static string LogMessage_AddedAssemblyReferences {
-            get {
-                return ResourceManager.GetString("LogMessage_AddedAssemblyReferences", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Successfully added a Salesforce connected service to the project..
         /// </summary>
         internal static string LogMessage_AddedConnectedService {
@@ -264,20 +246,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully added scaffold code files to the project..
+        ///   Looks up a localized string similar to Adding reference to {0}..
         /// </summary>
-        internal static string LogMessage_AddedGeneratedCode {
+        internal static string LogMessage_AddingAssemblyReference {
             get {
-                return ResourceManager.GetString("LogMessage_AddedGeneratedCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully added NuGet packages to the project..
-        /// </summary>
-        internal static string LogMessage_AddedNuGetPackages {
-            get {
-                return ResourceManager.GetString("LogMessage_AddedNuGetPackages", resourceCulture);
+                return ResourceManager.GetString("LogMessage_AddingAssemblyReference", resourceCulture);
             }
         }
         
@@ -309,6 +282,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adding scaffold model files for Salesforce objects ({0})..
+        /// </summary>
+        internal static string LogMessage_AddingGeneratedCodeForObjects {
+            get {
+                return ResourceManager.GetString("LogMessage_AddingGeneratedCodeForObjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adding NuGet packages to the project..
         /// </summary>
         internal static string LogMessage_AddingNuGetPackages {
@@ -327,24 +309,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finished building the object model for {0} Salesforce objects..
-        /// </summary>
-        internal static string LogMessage_BuiltObjectModel {
-            get {
-                return ResourceManager.GetString("LogMessage_BuiltObjectModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully created the connected app within Salesforce..
-        /// </summary>
-        internal static string LogMessage_CreatedConnectedApp {
-            get {
-                return ResourceManager.GetString("LogMessage_CreatedConnectedApp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Creating the connected app within Salesforce..
         /// </summary>
         internal static string LogMessage_CreatingConnectedApp {
@@ -354,34 +318,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detecting telemetry OptIn status..
-        /// </summary>
-        internal static string LogMessage_DetectingTelemetryOptInStatus {
-            get {
-                return ResourceManager.GetString("LogMessage_DetectingTelemetryOptInStatus", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Telemetry OptIn status is &apos;{0}&apos;..
-        /// </summary>
-        internal static string LogMessage_DetectingTelemetryOptInStatusCompleted {
-            get {
-                return ResourceManager.GetString("LogMessage_DetectingTelemetryOptInStatusCompleted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to add reference to {0} - {1}.
-        /// </summary>
-        internal static string LogMessage_FailedAddingAssemblyReference {
-            get {
-                return ResourceManager.GetString("LogMessage_FailedAddingAssemblyReference", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to add Salesforce connected service to the project - {0}.
+        ///   Looks up a localized string similar to Failed to add the Salesforce connected service to the project - {0}.
         /// </summary>
         internal static string LogMessage_FailedAddingConnectedService {
             get {
@@ -395,43 +332,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         internal static string LogMessage_FailedReadingConnectedApp {
             get {
                 return ResourceManager.GetString("LogMessage_FailedReadingConnectedApp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to log telemetry data.
-        ///{0}.
-        /// </summary>
-        internal static string LogMessage_FailedToLogTelemetryData {
-            get {
-                return ResourceManager.GetString("LogMessage_FailedToLogTelemetryData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Starting to gather and log telemetry data..
-        /// </summary>
-        internal static string LogMessage_LoggingTelemetryData {
-            get {
-                return ResourceManager.GetString("LogMessage_LoggingTelemetryData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Finished gathering and logging telemetry data..
-        /// </summary>
-        internal static string LogMessage_LoggingTelemetryDataCompleted {
-            get {
-                return ResourceManager.GetString("LogMessage_LoggingTelemetryDataCompleted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Navigated to the getting started web page..
-        /// </summary>
-        internal static string LogMessage_PresentedGettingStarted {
-            get {
-                return ResourceManager.GetString("LogMessage_PresentedGettingStarted", resourceCulture);
             }
         }
         
@@ -450,15 +350,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         internal static string LogMessage_UnsupportedSoapType {
             get {
                 return ResourceManager.GetString("LogMessage_UnsupportedSoapType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully added settings to the project&apos;s config file..
-        /// </summary>
-        internal static string LogMessage_UpdatedConfigFile {
-            get {
-                return ResourceManager.GetString("LogMessage_UpdatedConfigFile", resourceCulture);
             }
         }
         

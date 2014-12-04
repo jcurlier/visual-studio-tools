@@ -184,21 +184,12 @@ Details:  {0}</value>
   <data name="MyDomainViewModel_ErrorMessage" xml:space="preserve">
     <value>Please enter a valid URL (example: https://yoursite-dev-ed.my.salesforce.com)</value>
   </data>
-  <data name="LogMessage_AddedAssemblyReference" xml:space="preserve">
-    <value>Added reference to {0}.</value>
+  <data name="LogMessage_AddingAssemblyReference" xml:space="preserve">
+    <value>Adding reference to {0}.</value>
     <comment>{0} = name of the assembly</comment>
-  </data>
-  <data name="LogMessage_AddedAssemblyReferences" xml:space="preserve">
-    <value>Successfully added assembly references to the project.</value>
   </data>
   <data name="LogMessage_AddedConnectedService" xml:space="preserve">
     <value>Successfully added a Salesforce connected service to the project.</value>
-  </data>
-  <data name="LogMessage_AddedGeneratedCode" xml:space="preserve">
-    <value>Successfully added scaffold code files to the project.</value>
-  </data>
-  <data name="LogMessage_AddedNuGetPackages" xml:space="preserve">
-    <value>Successfully added NuGet packages to the project.</value>
   </data>
   <data name="LogMessage_AddingAssemblyReferences" xml:space="preserve">
     <value>Adding assembly references to the project.</value>
@@ -215,36 +206,22 @@ Details:  {0}</value>
   <data name="LogMessage_BuildingObjectModel" xml:space="preserve">
     <value>Building the object model for the Salesforce objects.</value>
   </data>
-  <data name="LogMessage_BuiltObjectModel" xml:space="preserve">
-    <value>Finished building the object model for {0} Salesforce objects.</value>
+  <data name="LogMessage_AddingGeneratedCodeForObjects" xml:space="preserve">
+    <value>Adding scaffold model files for Salesforce objects ({0}).</value>
     <comment>{0} = The number of Salesforce objects</comment>
-  </data>
-  <data name="LogMessage_CreatedConnectedApp" xml:space="preserve">
-    <value>Successfully created the connected app within Salesforce.</value>
   </data>
   <data name="LogMessage_CreatingConnectedApp" xml:space="preserve">
     <value>Creating the connected app within Salesforce.</value>
   </data>
-  <data name="LogMessage_FailedAddingAssemblyReference" xml:space="preserve">
-    <value>Failed to add reference to {0} - {1}</value>
-    <comment>{0} = name of the assembly
-{1} = Exception details</comment>
-  </data>
   <data name="LogMessage_FailedAddingConnectedService" xml:space="preserve">
-    <value>Failed to add Salesforce connected service to the project - {0}</value>
+    <value>Failed to add the Salesforce connected service to the project - {0}</value>
     <comment>{0} = Exception details</comment>
   </data>
   <data name="LogMessage_FailedReadingConnectedApp" xml:space="preserve">
     <value>Failed to read the connected app that was just created; the ConsumerKey AppSetting in the config file will need to be specified."</value>
   </data>
-  <data name="LogMessage_PresentedGettingStarted" xml:space="preserve">
-    <value>Navigated to the getting started web page.</value>
-  </data>
   <data name="LogMessage_PresentingGettingStarted" xml:space="preserve">
     <value>Navigating to the getting started web page.</value>
-  </data>
-  <data name="LogMessage_UpdatedConfigFile" xml:space="preserve">
-    <value>Successfully added settings to the project's config file.</value>
   </data>
   <data name="LogMessage_UpdatingConfigFile" xml:space="preserve">
     <value>Adding settings to the project's config file.</value>
@@ -287,24 +264,6 @@ Response:  {1}</value>
   </data>
   <data name="ConnectedServiceProvider_CreatedBy" xml:space="preserve">
     <value>Salesforce</value>
-  </data>
-  <data name="LogMessage_DetectingTelemetryOptInStatus" xml:space="preserve">
-    <value>Detecting telemetry OptIn status.</value>
-  </data>
-  <data name="LogMessage_DetectingTelemetryOptInStatusCompleted" xml:space="preserve">
-    <value>Telemetry OptIn status is '{0}'.</value>
-    <comment>{0} = true/false for OptIn status</comment>
-  </data>
-  <data name="LogMessage_FailedToLogTelemetryData" xml:space="preserve">
-    <value>Failed to log telemetry data.
-{0}</value>
-    <comment>{0} = exception details</comment>
-  </data>
-  <data name="LogMessage_LoggingTelemetryData" xml:space="preserve">
-    <value>Starting to gather and log telemetry data.</value>
-  </data>
-  <data name="LogMessage_LoggingTelemetryDataCompleted" xml:space="preserve">
-    <value>Finished gathering and logging telemetry data.</value>
   </data>
   <data name="ObjectSelectionViewModel_AllObjects" xml:space="preserve">
     <value>All Objects</value>

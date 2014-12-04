@@ -30,10 +30,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         {
             context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddingConnectedService);
 
+            ConnectedServiceInstance salesforceInstance = (ConnectedServiceInstance)context.ServiceInstance;
+
             try
             {
                 Project project = ProjectHelper.GetProjectFromHierarchy(context.ProjectHierarchy);
-                ConnectedServiceInstance salesforceInstance = (ConnectedServiceInstance)context.ServiceInstance;
                 string generatedArtifactSuffix = ConnectedServiceInstanceHandler.GetGeneratedArtifactSuffix(
                     context, project, salesforceInstance.RuntimeAuthentication.AuthStrategy);
 
@@ -42,10 +43,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 this.AddNuGetPackages(context, project);
                 ConnectedServiceInstanceHandler.AddAssemblyReferences(context, project, salesforceInstance);
                 await ConnectedServiceInstanceHandler.AddGeneratedCode(context, project, salesforceInstance, generatedArtifactSuffix);
-
                 await ConnectedServiceInstanceHandler.PresentGettingStarted(context, generatedArtifactSuffix);
-
-                salesforceInstance.TelemetryHelper.LogInstanceData(salesforceInstance);
 
                 context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddedConnectedService);
             }
@@ -54,6 +52,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 context.Logger.WriteMessage(LoggerMessageCategory.Error, Resources.LogMessage_FailedAddingConnectedService, e);
                 throw;
             }
+
+            salesforceInstance.TelemetryHelper.LogInstanceData(salesforceInstance);
         }
 
         private static async Task CreateConnectedApp(IConnectedServiceInstanceContext context, Project project, ConnectedServiceInstance salesforceInstance)
@@ -61,8 +61,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_CreatingConnectedApp);
 
             await ConnectedAppHelper.CreateConnectedApp(salesforceInstance, context.Logger, project);
-
-            context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_CreatedConnectedApp);
         }
 
         private static void UpdateConfigFile(IConnectedServiceInstanceContext context, Project project, ConnectedServiceInstance salesforceInstance, string generatedArtifactSuffix)
@@ -92,8 +90,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
                 configHelper.Save();
             }
-
-            context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_UpdatedConfigFile);
         }
 
         private void AddNuGetPackages(IConnectedServiceInstanceContext context, Project project)
@@ -115,8 +111,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                     { "Microsoft.Net.Http", "2.2.28" },
                     { "Newtonsoft.Json", "6.0.5" },
                 });
-
-            context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddedNuGetPackages);
         }
 
         private static void AddAssemblyReferences(IConnectedServiceInstanceContext context, Project project, ConnectedServiceInstance salesforceInstance)
@@ -130,22 +124,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             {
                 ConnectedServiceInstanceHandler.AddAssemblyReference(context, "System.ComponentModel.DataAnnotations");
             }
-
-            context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddedAssemblyReferences);
         }
 
         private static void AddAssemblyReference(IConnectedServiceInstanceContext context, string assemblyPath)
         {
-            try
-            {
-                HandlerHelper.AddAssemblyReference(context, assemblyPath);
+            context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddingAssemblyReference, assemblyPath);
 
-                context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddedAssemblyReference, assemblyPath);
-            }
-            catch (InvalidOperationException e)
-            {
-                context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_FailedAddingAssemblyReference, assemblyPath, e);
-            }
+            HandlerHelper.AddAssemblyReference(context, assemblyPath);
         }
 
         private static async Task AddGeneratedCode(IConnectedServiceInstanceContext context, Project project, ConnectedServiceInstance salesforceInstance, string generatedArtifactSuffix)
@@ -190,8 +175,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                     salesforceInstance.DesignTimeAuthentication,
                     generatedService,
                     context.Logger);
-                context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_BuiltObjectModel, generatedObjects.Count());
 
+                context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddingGeneratedCodeForObjects, generatedObjects.Count());
                 await GeneratedCodeHelper.AddGeneratedCode(
                     context,
                     project,
@@ -200,8 +185,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                     (host) => ConnectedServiceInstanceHandler.GetObjectT4Sessions(host, generatedObjects),
                     (session) => ((GeneratedObject)session["generatedObject"]).Model.Name);
             }
-
-            context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddedGeneratedCode);
         }
 
         private static IEnumerable<ITextTemplatingSession> GetServiceT4Sessions(ITextTemplatingSessionHost host, GeneratedService generatedService)
@@ -266,9 +249,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 context,
                 ConnectedServiceInstanceHandler.GetServiceInstanceName(generatedArtifactSuffix),
                 new Uri(Constants.NextStepsUrl));
-
-            context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_PresentedGettingStarted);
-
         }
 
         /// <summary>
