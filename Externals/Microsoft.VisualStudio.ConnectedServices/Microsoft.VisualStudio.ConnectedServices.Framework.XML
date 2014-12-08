@@ -822,6 +822,11 @@
             Gets a Boolean value which indicates whether TextSearch is enabled on this item.
             </summary>
         </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.IsSelected">
+            <summary>
+            Gets a Boolean value which indicates whether the item is selected.
+            </summary>
+        </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.Name">
             <summary>
             Gets the name of the item.
@@ -845,10 +850,10 @@
             Gets or sets the collection of ObjectPickerObjects to display within the category.
             </summary>
         </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.IsSelected">
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.IsChecked">
             <summary>
             Gets or sets a Boolean value indicating whether none (false), some (null), or all (true) of the category's
-            children are selected.
+            children are checked.
             </summary>
         </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.NullVisibilityConverter">
@@ -924,9 +929,9 @@
             The name of the object.
             </param>
         </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.IsSelected">
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.IsChecked">
             <summary>
-            Gets or sets a Boolean value that indicates whether the object is selected.
+            Gets or sets a Boolean value that indicates whether the object is checked.
             </summary>
         </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.State">

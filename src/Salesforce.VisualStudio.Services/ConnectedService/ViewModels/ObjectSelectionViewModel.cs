@@ -52,6 +52,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 this.allObjectsCategory.Children = objects
                     .Select(o => new ObjectPickerObject(this.allObjectsCategory, o.Name) { State = o })
                     .ToArray();
+                this.allObjectsCategory.IsSelected = true;
             }
             catch (Exception ex)
             {
@@ -83,7 +84,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         public IEnumerable<SObjectDescription> GetSelectedObjects()
         {
             return this.allObjectsCategory.Children
-                .Where(c => c.IsSelected)
+                .Where(c => c.IsChecked)
                 .Select(c => c.State)
                 .Cast<SObjectDescription>();
         }
