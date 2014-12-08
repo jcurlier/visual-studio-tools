@@ -61,7 +61,6 @@
     <Compile Include="ConnectedService\ViewModels\IWizardPage.cs" />
     <Compile Include="ConnectedService\ViewModels\MyDomainViewModel.cs" />
     <Compile Include="ConnectedService\ViewModels\ViewModel.cs" />
-    <Compile Include="ConnectedService\Views\ThemedDialogColors.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ConnectedService\CodeModel\GeneratedObject.cs" />
     <Compile Include="ConnectedService\CodeModel\GeneratedService.cs" />
