@@ -18,8 +18,6 @@
 
         public const string ProviderId = "ProviderId";
         public const string ProviderIdValue = "SalesforceConnectedService";
-        public const string Version = "Version";
-        public const string VersionValue = "1.0";
 
         public const string SalesforceApiVersion = "32.0";
         public const string SalesforceApiVersionWithPrefix = "v32.0";

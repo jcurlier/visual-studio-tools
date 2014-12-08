@@ -20,7 +20,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
     [Export(typeof(IConnectedServiceInstanceHandler))]
     [ExportMetadata(Constants.ProviderId, Constants.ProviderIdValue)]
     [ExportMetadata("AppliesTo", "CSharp | VB")]
-    [ExportMetadata(Constants.Version, Constants.VersionValue)]
     internal class ConnectedServiceInstanceHandler : IConnectedServiceInstanceHandler
     {
         [Import]

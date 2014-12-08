@@ -1,0 +1,1069 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.VisualStudio.ConnectedServices.Framework</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.ConfigHelper">
+            <summary>
+            Provides methods for reading configuration settings in the user's project.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConfigHelper.#ctor(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy)">
+            <summary>
+            Initializes a new instance of the ConfigHelper class.
+            </summary>
+            <param name="projectHierarchy">
+            The IVsHierarchy of the project.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConfigHelper.IsPrefixUsedInAppSettings(System.String)">
+            <summary>
+            Gets a value indicating whether an appSetting key exists with the specified keyPrefix.
+            </summary>
+            <param name="keyPrefix">
+            The prefix string to check for.
+            </param>
+            <returns>
+            true if an appSetting already exists that has a key starting with the keyPrefix; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConfigHelper.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConfigHelper.Dispose(System.Boolean)">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <param name="disposing">
+            A value that indicates whether this object is being disposed or finalized.
+            </param>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConfigHelper.Configuration">
+            <summary>
+            The Configuration object that can be used to inspect the configuration settings.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServicesUtilities.GetProjectFullPath(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy,System.String)">
+            <summary>
+            Get an absolute path for a file that is in the project structure.
+            </summary>
+            <param name="projectHierarchy"> The parent project hierarchy object. </param>
+            <param name="filename"> The filename to convert to an absolute path. </param>
+            <returns> Returns an absolute path for a file that is in the project structure. </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Curator.GetHelper(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy)">
+            <summary>
+            Gets the handler helper for the given project.
+            </summary>
+            <param name="project">The project context.</param>
+            <returns>Returns the project-specific handler helper.</returns>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Curator.AllHandlerHelpers">
+            <summary>
+            Gets the complete (unfiltered) list of handler helpers.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.EditableConfigHelper">
+            <summary>
+            Provides methods for setting configuration settings in the user's project.
+            
+            The Save method must be called to save any changes.
+            </summary>
+            <remarks>
+            This class does not preserve whitespace in the appSettings section.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.EditableConfigHelper.#ctor(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy)">
+            <summary>
+            Initializes a new instance of the EditableConfigHelper class.
+            </summary>
+            <param name="projectHierarchy">
+            The IVsHierarchy of the project.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.EditableConfigHelper.Save">
+            <summary>
+            Writes the configuration settings contained within this System.Configuration.Configuration
+            object to the current XML configuration file.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.EditableConfigHelper.SetAppSetting(System.String,System.String,System.String)">
+            <summary>
+            Ensures there is a key-value pair in the appSettings config section with the specified key and value.
+            </summary>
+            <param name="key">
+            The key of the app setting.
+            </param>
+            <param name="value">
+            The value of the app setting.
+            </param>
+            <param name="comment">
+            An optional xml comment to add before the app setting.
+            </param>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.ErrorUtilities">
+            <summary> This class contains methods that are useful for error checking and validation. </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ErrorUtilities.VerifyThrowArgumentNull(System.Object,System.String)">
+            <summary> Throws an ArgumentNullException using the given parameter name if value is null. </summary>
+            <param name="value"> The value to verify. </param>
+            <param name="parameterName"> Name of the argument that is being verified. </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ErrorUtilities.VerifyThrowArgumentNull(System.String,System.String)">
+            <summary> Throws an ArgumentNullException using the given parameter name if value is null or empty. </summary>
+            <param name="value"> The value to verify. </param>
+            <param name="parameterName"> Name of the argument that is being verified. </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ErrorUtilities.VerifyThrowArgumentException(System.Boolean,System.String)">
+            <summary> Throws an ArgumentException. </summary>
+            <param name="condition"> The condition to verify. Throw if condition is false. </param>
+            <param name="parameterName"> The argument that is being verified. </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ErrorUtilities.VerifyThrowArgumentOutOfRange(System.Boolean,System.String,System.String)">
+            <summary> Throws an ArgumentOutOfRangeException using the given parameter name if the condition is false. </summary>
+            <param name="condition"> The condition to verify. </param>
+            <param name="parameterName"> The argument that is being verified. </param>
+            <param name="message"> Additional message to add to the exception. </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ErrorUtilities.ThrowArgumentNull(System.String)">
+            <summary> Throws an ArgumentNullException. </summary>
+            <param name="parameterName"> The name of the argument that is null. </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ErrorUtilities.ThrowArgumentException(System.String)">
+            <summary> Throws an ArgumentException. </summary>
+            <param name="parameterName"> The name of the argument that is invalid. </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ErrorUtilities.ThrowArgumentOutOfRange(System.String,System.String)">
+            <summary> Throws an argument out of range exception. </summary>
+            <param name="parameterName"> The name of the argument that is out of range. </param>
+            <param name="message"> Additional message to add to the exception. </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ErrorUtilities.IsCriticalException(System.Exception)">
+            <summary>
+            If the given exception is "ignorable under some circumstances" return false.
+            Otherwise it's "really bad", and return true.
+            This makes it possible to catch(Exception ex) without catching disasters.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.HandlerHelper">
+            <summary>
+            A class that contains helper methods that IConnectedServiceInstanceHandler implementations
+            commonly use.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String)">
+            <summary>
+            Adds a reference to the specified assembly to the project.
+            </summary>
+            <param name="context">
+            Specifies the context where the assembly reference should be added.
+            </param>
+            <param name="assemblyPath">
+            The assembly to which to add a reference.  This can be specified either as a simple .NET Framework object name, such 
+            as "System.Web", or as a .NET Framework file name, such as "C:\path\program.dll".
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when the assembly reference is not successfully added to the project.
+            </exception>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            Add the specified file to the project after doing token replacement.
+            </summary>
+            <param name="context">
+            Specifies the context where the file should be added.
+            </param>
+            <param name="filename">
+            The file to copy and add to the project.
+            </param>
+            <param name="targetPath">
+            The project relative filename where the file should be added.
+            </param>
+            <param name="replacementDictionary">
+            A dictionary of key/value pairs that can be used to insert runtime values into
+            the file that needs to be added to the project.
+            </param>
+            <param name="openOnCompleted">
+            A value indicating whether the file should be opened after being added.
+            </param>
+            <returns>
+            Returns the path to the file that was added.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Uri)">
+            <summary>
+            Adds the getting started artifact to the project and launches the page in the browser.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <param name="serviceFolder">
+            The name of the folder where the service artifacts are stored.  This is a subfolder of the Service References folder.
+            </param>
+            <param name="gettingStartedPage">
+            The Uri for the getting started page.
+            </param>
+            <returns>
+            Returns a Task that can be waited on to be notified when the getting started page has been added to the project
+            and opened in the browser.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+            <summary>
+            Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
+            instance should create its own subfolder under this root folder.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <returns>
+            The name of the root folder.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Given an input, replace any tokens found in the specified dictionary with the specified values.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <param name="input">
+            The text to update.
+            </param>
+            <param name="replacementDictionary">
+            A dictionary of keys to search for and values to replace the keys with.
+            </param>
+            <returns>
+            Returns a new string with the tokens replace with the values from the specified dictionary.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.BufferUtilities.UsingProjectItemBuffer(EnvDTE.ProjectItem,System.Action{Microsoft.VisualStudio.TextManager.Interop.IVsTextLines})">
+            <summary>
+            Get the IVsTextLines buffer for the ProjectItem.
+            </summary>
+            <param name="projectItem">
+            The ProjectItem to open.
+            </param>
+            <param name="action">
+            The Action that will be executed that uses the IVsTextLines object.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.BufferUtilities.UsingProjectItemBuffer(EnvDTE.ProjectItem,System.Boolean,System.Action{Microsoft.VisualStudio.TextManager.Interop.IVsTextLines})">
+            <summary>
+            Get the IVsTextLines buffer for the ProjectItem.
+            </summary>
+            <param name="projectItem">
+            The ProjectItem to open.
+            </param>
+            <param name="ensureWritable">
+            Ensure that the buffer's docdata is read/write.
+            </param>
+            <param name="action">
+            The Action that will be executed that uses the IVsTextLines object.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.BufferUtilities.UpdateProjectItemFromFile(EnvDTE.ProjectItem,System.String)">
+            <summary>
+            Get the IVsTextLines buffer for the ProjectItem.
+            </summary>
+            <param name="projectItem">
+            The ProjectItem for the file to update.
+            </param>
+            <param name="sourceFile">
+            The file from where to copy the content.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.BufferUtilities.AreFilesEqual(EnvDTE.ProjectItem,System.String)">
+            <summary>
+            Determine if the projectItem is equal to the file.
+            </summary>
+            <param name="projectItem">
+            The Project Item to compare.
+            </param>
+            <param name="filename">
+            The file to compare the project item against.
+            </param>
+            <returns>
+            Returns true if the two are equal; false otherwise.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String)">
+            <summary>
+            Adds a reference to the specified assembly to the project.
+            </summary>
+            <param name="context">
+            Specifies the context where the assembly reference should be added.
+            </param>
+            <param name="assemblyPath">
+            The assembly to which to add a reference.  This can be specified either as a simple .NET Framework object name, such 
+            as "System.Web", or as a .NET Framework file name, such as "C:\path\program.dll".
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when the assembly reference is not successfully added to the project.
+            </exception>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            Add the specified file to the project after doing token replacement.
+            </summary>
+            <param name="context">
+            Specifies the context where the file should be added.
+            </param>
+            <param name="filename">
+            The file to copy and add to the project.
+            </param>
+            <param name="targetPath">
+            The project relative filename where the file should be added.
+            </param>
+            <param name="replacementDictionary">
+            A dictionary of key/value pairs that can be used to insert runtime values into
+            the file that needs to be added to the project.
+            </param>
+            <param name="openOnCompleted">
+            A value indicating whether the file should be opened after being added.
+            </param>
+            <returns>
+            Returns the path to the file that was added.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Uri)">
+            <summary>
+            Adds the getting started artifact to the project and launches the page in the browser.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <param name="serviceFolder">
+            The name of the folder where the service artifacts are stored.  This is a subfolder of the Service References folder.
+            </param>
+            <param name="gettingStartedPage">
+            The Uri for the getting started page.
+            </param>
+            <returns>
+            Returns a Task that can be waited on to be notified when the getting started page has been added to the project
+            and opened in the browser.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+            <summary>
+            Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
+            instance should create its own subfolder under this root folder.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <returns>
+            The name of the root folder.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Given an input, replace any tokens found in the specified dictionary with the specified values.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <param name="input">
+            The text to update.
+            </param>
+            <param name="replacementDictionary">
+            A dictionary of keys to search for and values to replace the keys with.
+            </param>
+            <returns>
+            Returns a new string with the tokens replace with the values from the specified dictionary.
+            </returns>
+        </member>
+        <member name="F:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.ConnectedServiceReferenceMetadataElementName">
+            <summary>
+            The name of the element under the file name used to describe the service instance that the file is associated with.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String)">
+            <summary>
+            Adds a reference to the specified assembly to the project.
+            </summary>
+            <param name="context">
+            Specifies the context where the assembly reference should be added.
+            </param>
+            <param name="assemblyPath">
+            The assembly to which to add a reference.  This can be specified either as a simple .NET Framework object name, such 
+            as "System.Web", or as a .NET Framework file name, such as "C:\path\program.dll".
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when the assembly reference is not successfully added to the project.
+            </exception>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            Add the specified file to the project after doing token replacement.
+            </summary>
+            <param name="context">
+            Specifies the context where the file should be added.
+            </param>
+            <param name="filename">
+            The file to copy and add to the project.
+            </param>
+            <param name="targetPath">
+            The project relative filename where the file should be added.
+            </param>
+            <param name="replacementDictionary">
+            A dictionary of key/value pairs that can be used to insert runtime values into
+            the file that needs to be added to the project.
+            </param>
+            <param name="openOnCompleted">
+            A value indicating whether the file should be opened after being added.
+            </param>
+            <returns>
+            Returns the path to the file that was added.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Uri)">
+            <summary>
+            Adds the getting started artifact to the project and launches the page in the browser.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <param name="serviceFolder">
+            The name of the folder where the service artifacts are stored.  This is a subfolder of the Service References folder.
+            </param>
+            <param name="gettingStartedPage">
+            The Uri for the getting started page.
+            </param>
+            <returns>
+            Returns a Task that can be waited on to be notified when the getting started page has been added to the project
+            and opened in the browser.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.CopyAndPerformTokenReplacementAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Copy fileToCopy and perform token replacement on the newly copied file, keeping fileToCopy unchanged.
+            </summary>
+            <param name="context">
+            The context that contains the replacement dictionary.
+            </param>
+            <param name="fileToCopy">
+            The source file.
+            </param>
+            <param name="targetFilename">
+            The filename to use for the saved file.
+            </param>
+            <param name="replacementDictionary">
+            A dictionary of key/value pairs that can be used to insert runtime values into
+            the file that needs to be added to the project.
+            </param>
+            <returns>
+            Returns a task that can be awaited on and get the path to the newly created file.
+            </returns>
+            <remarks>
+            The file will be created in the temp directory after token replacement but will have the correct target name.
+            This allows the caller to add the file to the project without having to worry about the renaming step.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+            <summary>
+            Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
+            instance should create its own subfolder under this root folder.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <returns>
+            The name of the root folder.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Given an input, replace any tokens found in the specified dictionary with the specified values.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <param name="input">
+            The text to update.
+            </param>
+            <param name="replacementDictionary">
+            A dictionary of keys to search for and values to replace the keys with.
+            </param>
+            <returns>
+            Returns a new string with the tokens replace with the values from the specified dictionary.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.CreateExtendedTokens(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+            <summary>
+            Get an extended set of tokens supported by the handler helper.
+            </summary>
+            <param name="context"> The context containing service instance information. </param>
+            <returns> Returns a new dictionary with extended tokens and their values. </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.GetVirtualFoldersExpanded(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy,System.IServiceProvider)">
+            <summary>
+            Gets a dictionary that specifies whether each virtual folder in the specified project is expanded.
+            </summary>
+            <param name="projectHierarchy">
+            The project to inspect.
+            </param>
+            <param name="provider">
+            An IServiceProvider for the project.
+            </param>
+            <returns>
+            A dictionary mapping the itemId of each virtual folder in the project to a bool indicating whether the virtual folder 
+            is expanded.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.SetVirtualFoldersExpanded(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy,System.IServiceProvider,System.Collections.Generic.Dictionary{System.UInt32,System.Boolean})">
+            <summary>
+            Sets the state of the specified virtual folders to be either collapsed or expanded.
+            </summary>
+            <param name="projectHierarchy">
+            The project containing the virtual folders.
+            </param>
+            <param name="provider">
+            An IServiceProvider for the project.
+            </param>
+            <param name="virtualFolders">
+            A dictionary mapping the itemIds of virtual folders in the project to a bool indicating whether the virtual folder 
+            should be expanded.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddFileToProjectInFolder(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy,System.String,System.String,System.Boolean)">
+            <summary>
+            Copy a file to a project relative path.
+            </summary>
+            <param name="projectHierarchy">
+            The project where to add the file.
+            </param>
+            <param name="filename">
+            The path to the file to copy.
+            </param>
+            <param name="projectRelativePath">
+            The project relative path, including the filename.
+            </param>
+            <param name="openOnCompleted">
+            A value indicating whether the file should be opened after being added.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddFromFileCopy(EnvDTE.ProjectItems,System.String,System.String)">
+            <summary>
+            Add the file to the ProjectItems.
+            </summary>
+            <param name="items"> The item under which to add the file. </param>
+            <param name="filename"> The source filename. </param>
+            <param name="fileToAdd"> The target filename. </param>
+            <returns>
+            Returns the newly added project item.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddFolder(EnvDTE.ProjectItems,System.String)">
+            <summary>
+            Add the folder to the specified ProjectItem.
+            </summary>
+            <param name="parent"> The parent to which to add the folder. </param>
+            <param name="folder"> The name of the folder to add. </param>
+            <returns> Returns the ProjectItems of the newly created folder. </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddFileMetadata(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy,System.String,System.String,System.String)">
+            <summary>
+            Add metadata to a file in the project file.
+            </summary>
+            <param name="projectHierarchy">
+            The context of the project.
+            </param>
+            <param name="targetPath">
+            The name of the file to decorate with the element value.
+            </param>
+            <param name="elementName">
+            The name of the metadata element.
+            </param>
+            <param name="elementValue">
+            The metadata value.
+            </param>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.DefaultConnectedServiceHandlerHelper">
+            <summary>
+            The default handler helper that is used when no "specific" handler helper is detected.
+            </summary>
+        </member>
+        <member name="F:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.IVsTextLinesExtensions.MaxLineLengthToConsider">
+            <summary>
+            We set an arbitrary limit on the line length that we're willing to handle. This is to avoid
+            loading an unreasonably long string into memory. The buffer is compressed under the covers, so it
+            can handle much longer strings.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.IVsTextLinesExtensions.GetTextLinesEnumerator(Microsoft.VisualStudio.TextManager.Interop.IVsTextLines,System.Int32,System.Int32)">
+            <summary>
+            Enumerate over the lines [startIndex, endIndex) for the IVsTextLines buffer.
+            </summary>
+            <param name="buffer"> The buffer to enumerate. </param>
+            <param name="startIndex"> The starting index, inclusive. </param>
+            <param name="endIndex"> The end index, exclusive. </param>
+            <returns>
+            Returns an enumrator that will enumerate over the lines [startIndex, endIndex) of the buffer.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.IVsTextLinesExtensions.GetTextLinesEnumeratorInternal(Microsoft.VisualStudio.TextManager.Interop.IVsTextLines,System.Int32,System.Int32)">
+            <summary>
+            Enumerate over the lines [startIndex, endIndex) for the IVsTextLines buffer.
+            </summary>
+            <param name="buffer"> The buffer to enumerate. </param>
+            <param name="startIndex"> The starting index, inclusive. </param>
+            <param name="endIndex"> The end index, exclusive. </param>
+            <returns>
+            Returns an enumrator that will enumerate over the lines [startIndex, endIndex) of the buffer.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.ProjectKConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+            <summary>
+            Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
+            instance should create its own subfolder under this root folder.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <returns>
+            The name of the root folder.
+            </returns>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.TokenReplacementMethodAttribute">
+            <summary>
+            An attribute that can be applied to a method to signal that it can be used
+            as a Token Replacement method.
+            </summary>
+            <remarks>
+            The method is required to only have one parameter of type string and
+            the return value must be of type string.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.TokenReplacementBuilder">
+            <summary>
+            Build a new string based on replacement parameters.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.TokenReplacementBuilder.AddDictionary(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            Add a dictionary of replacement tokens to consider when performing token replacement.
+            </summary>
+            <param name="tokens">
+            The set of key/value pairs that can be used as token values.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.TokenReplacementBuilder.Build(System.String)">
+            <summary>
+            Build a new string based on replacement parameters.
+            </summary>
+            <param name="input">
+            The input to use as a template.
+            </param>
+            <returns>
+            Returns a new string with the tokens replacement.
+            </returns>
+            <remarks>
+            If a token or method is not recognized, the token is left unaltered.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.TokenReplacementBuilder.GetMethods">
+            <summary>
+            Get a list of methods supported for token replacement methods.
+            </summary>
+            <returns>
+            Returns a dictionary of methods where the key is the case-insensitive method name.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.TokenReplacementBuilder.TryEvaluateToken(System.String,System.String@)">
+            <summary>
+            Try to get the value for a token (e.g., $TokenName$ or $Method(TokenName)$).
+            </summary>
+            <param name="token">
+            The token to evaluate.
+            </param>
+            <param name="tokenValue">
+            The token value result.
+            </param>
+            <returns>
+            Returns true if the token is recognized and evaluated; otherwise false.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.TokenReplacementBuilder.TryEvaluateMethod(System.String,System.String,System.String@)">
+            <summary>
+            Call a method with the token value as a parameter.
+            </summary>
+            <param name="methodName">
+            The case-insensitive name of the method to call.
+            </param>
+            <param name="tokenValue">
+            The parameter to the method.
+            </param>
+            <param name="result">
+            If the method succeeds, result is the value returned from the method or null if the
+            method failed or was not recognized.
+            </param>
+            <returns>
+            Returns true if the method was executed successfully; otherwise false.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.TokenReplacementBuilder.MakeSafeIdentifierName(System.String)">
+            <summary>
+            Given a value, ensure that only ascii A-Z and number 0-9 and '_' are part
+            of the token value. Any other values are replaced with '_'.
+            </summary>
+            <param name="tokenValue">
+            The token value to normalize.
+            </param>
+            <returns>
+            Returns a safe string version of the token value.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.TokenReplacementBuilder.MakeSafeFileName(System.String)">
+            <summary>
+            Given a value, ensure that only valid filename characters are part
+            of the token value. Any other values are replaced with '_'.
+            </summary>
+            <param name="tokenValue">
+            The token value to normalize.
+            </param>
+            <returns>
+            Returns a safe string version of the token value.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.TokenReplacementBuilder.MakeSafeDirectoryName(System.String)">
+            <summary>
+            Given a value, ensure that only valid directory name characters are part
+            of the token value. Any other values are replaced with '_'.
+            </summary>
+            <param name="tokenValue">
+            The token value to normalize.
+            </param>
+            <returns>
+            Returns a safe string version of the token value.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.VcConnectedServiceHandlerHelper.AddFolder(EnvDTE.ProjectItems,System.String)">
+            <summary>
+            Add the folder to the specified ProjectItem.
+            </summary>
+            <param name="parent"> The parent to which to add the folder. </param>
+            <param name="folder"> The name of the folder to add. </param>
+            <returns> Returns the ProjectItems of the newly created folder. </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.VcConnectedServiceHandlerHelper.AddFromFileCopy(EnvDTE.ProjectItems,System.String,System.String)">
+            <summary>
+            Add the file to the ProjectItems.
+            </summary>
+            <param name="items"> The item under which to add the file. </param>
+            <param name="filename"> The source filename. </param>
+            <param name="fileToAdd"> The target filename. </param>
+            <returns>
+            Returns the newly added project item.
+            </returns>
+            <remarks>
+            AddFromFileCopy assumes that the file does not exist on disk already.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.WwaJavascriptConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+            <summary>
+            Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
+            instance should create its own subfolder under this root folder.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
+            </param>
+            <returns>
+            The name of the root folder.
+            </returns>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory">
+            <summary>
+            Represents a category that groups similar objects within the ObjectPicker.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem">
+            <summary>
+            Represents an item within the ObjectPicker.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.#ctor(System.String,System.Boolean)">
+            <summary>
+            Instantiates a new instance of the ObjectPickerItem class.
+            </summary>
+            <param name="name">
+            The name of the item.
+            </param>
+            <param name="isTextSearchEnabled">
+            A Boolean value which indicates whether TextSearch is enabled on this item.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>
+            A string that represents the current object.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.RaisePropertyChanged(System.String)">
+            <summary>
+            Raises the PropertyChanged event.
+            </summary>
+            <param name="name">
+            The name of the property that changed.
+            </param>
+        </member>
+        <member name="E:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.PropertyChanged">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.IsTextSearchEnabled">
+            <summary>
+            Gets a Boolean value which indicates whether TextSearch is enabled on this item.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.Name">
+            <summary>
+            Gets the name of the item.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.#ctor(System.String)">
+            <summary>
+            Instantiates a new instance of the ObjectPickerCategory class.
+            </summary>
+            <param name="name">
+            The name of the category.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.UpdateSelectionState">
+            <summary>
+            Recomputes the selection state of the category.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.Children">
+            <summary>
+            Gets or sets the collection of ObjectPickerObjects to display within the category.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.IsSelected">
+            <summary>
+            Gets or sets a Boolean value indicating whether none (false), some (null), or all (true) of the category's
+            children are selected.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.NullVisibilityConverter">
+            <summary>
+            An IValueConverter that handles converting null values into a Visibility value.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker">
+            <summary>
+            A control that displays a set of objects in a hierarchical view and allows the user to select
+            a subset of the objects.  This control is intended allow users to choose which objects to include
+            in their connected service.
+            </summary>
+            <summary>
+            ObjectPicker
+            </summary>
+        </member>
+        <member name="F:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.CategoriesProperty">
+            <summary>
+            The DependencyProperty for the ObjectPicker.Categories property.
+            </summary>
+        </member>
+        <member name="F:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.ErrorMessageProperty">
+            <summary>
+            The DependencyProperty for the ObjectPicker.ErrorMessage property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.#ctor">
+            <summary>
+            Instantiates a new instance of the ObjectPicker class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.OnInitialized(System.EventArgs)">
+            <summary>
+            Raises the System.Windows.FrameworkElement.Initialized event. This method
+            is invoked whenever System.Windows.FrameworkElement.IsInitialized is set
+            to true internally.
+            </summary>
+            <param name="e">
+            The System.Windows.RoutedEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.Categories">
+            <summary>
+            Gets or sets the collection of ObjectPickerCategory objects to display in the ObjectPicker.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.ErrorMessage">
+            <summary>
+            Gets or sets the error message that occurred while constructing the objects to display in the
+            ObjectPicker.  This error message gets displayed within the ObjectPicker as a means to indicate
+            to the end user what the issue was that prevented the objects from being displayed.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject">
+            <summary>
+            Represents a selectable object within the ObjectPicker.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.#ctor(Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory,System.String)">
+            <summary>
+            Instantiates a new instance of the ObjectPickerObject class.
+            </summary>
+            <param name="parent">
+            The ObjectPickerCategory that contains this object.
+            </param>
+            <param name="name">
+            The name of the object.
+            </param>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.IsSelected">
+            <summary>
+            Gets or sets a Boolean value that indicates whether the object is selected.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.State">
+            <summary>
+            Gets or sets custom state to track with this object.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.VirtualToggleButton">
+            <summary>
+            Represents a virtual toggle button.  This is used when it is necessary for 
+            non-toggleable control (e.g TreeViewItem) to behave like a toggle buttons.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Resources.FailedAddingAssemblyReference">
+            <summary>
+              Looks up a localized string similar to Failed to add reference to {0}.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Resources.ProjectItemInvalidBuffer">
+            <summary>
+              Looks up a localized string similar to Project item does not contain a valid buffer..
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Resources.UserSettingsFailedLoading">
+             <summary>
+               Looks up a localized string similar to Failed loading the {0} user settings.
+            {1}.
+             </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Resources.UserSettingsFailedSaving">
+             <summary>
+               Looks up a localized string similar to Failed saving the {0} user settings.
+            {1}.
+             </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Resources.VsProjectItemOverwriteExistingFile">
+            <summary>
+              Looks up a localized string similar to A file with the name &apos;{0}&apos; already exists. Do you want to replace it?.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.UserSettingsHelper">
+            <summary>
+            Provides methods for loading and saving user settings from isolated storage.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.UserSettingsHelper.Save(System.Object,System.String,System.String,System.Action)">
+            <summary>
+            Saves user settings to isolated storage.  The data is stored with the user's roaming profile.
+            </summary>
+            <param name="userSettings">
+            The user settings to be saved.  A DataContractSerializer is used to store the data, so this object must
+            specify a System.Runtime.Serialization.DataContractAttribute.
+            </param>
+            <param name="providerId">
+            The ProviderId of the Connected Service Provider invoking this method.
+            </param>
+            <param name="name">
+            A unique name for the user settings being saved.  If an isolated storage file for the current user exists 
+            for the specified providerId and name, it will be overwritten with the specified userSettings.
+            </param>
+            <param name="onSaved">
+            An optional delegate which, if specified, will be executed immediately after a successful save operation.
+            </param>
+            <remarks>
+            Non-critical exceptions are handled by writing an error message in the output window.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.UserSettingsHelper.Load``1(System.String,System.String,System.Action{``0})">
+            <summary>
+            Loads user settings from isolated storage.
+            </summary>
+            <typeparam name="T">
+            The type of the userSettings to load.  A DataContractSerializer is used to store the data, so this 
+            type must specify a System.Runtime.Serialization.DataContractAttribute.
+            </typeparam>
+            <param name="providerId">
+            The ProviderId of the Connected Service Provider invoking this method.
+            </param>
+            <param name="name">
+            The name of the user settings to be loaded.
+            </param>
+            <param name="onLoaded">
+            An optional delegate which, if specified, will be executed immediately after a successful load operation.
+            </param>
+            <returns>
+            The specified user settings if they exist; else returns null.
+            </returns>
+            <remarks>
+            Non-critical exceptions are handled by writing an error message in the output window and 
+            returning null.
+            </remarks>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
+        </member>
+    </members>
+</doc>

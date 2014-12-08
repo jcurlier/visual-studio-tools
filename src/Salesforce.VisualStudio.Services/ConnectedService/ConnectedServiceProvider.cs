@@ -10,7 +10,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 {
     [Export(typeof(IConnectedServiceProvider))]
     [ExportMetadata(Constants.ProviderId, Constants.ProviderIdValue)]
-    [ExportMetadata(Constants.Version, Constants.VersionValue)]
     internal class ConnectedServiceProvider : IConnectedServiceProvider
     {
         private BitmapImage icon;
@@ -50,9 +49,19 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             }
         }
 
+        public Uri MoreInfoUri
+        {
+            get { return new Uri(Constants.MoreInfoLink); }
+        }
+
         public string Name
         {
             get { return Resources.ConnectedServiceProvider_Name; }
+        }
+
+        public Version Version
+        {
+            get { return typeof(ConnectedServiceProvider).Assembly.GetName().Version; }
         }
 
         public Task<object> CreateService(Type serviceType, IServiceProvider serviceProvider)
@@ -67,11 +76,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             }
 
             return Task.FromResult(service);
-        }
-
-        public Uri MoreInfoUri
-        {
-            get { return new Uri(Constants.MoreInfoLink); }
         }
     }
 }
