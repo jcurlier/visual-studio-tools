@@ -44,7 +44,7 @@ Namespace <#= generatedService.ServiceNamespace.Substring(generatedService.Defau
             Me.AuthenticationClient.AccessToken = CType(HttpContext.Current.Session("AccessToken"), String)
             Me.AuthenticationClient.InstanceUrl = CType(HttpContext.Current.Session("InstanceUrl"), String)
 <#
-    Else If generatedService.AuthenticationStrategy = AuthenticationStrategy.UserNamePassword Then
+    Else
 #>
         Public Async Function GetUserNamePasswordForceClientAsync() As Task(Of ForceClient)
             Await Me.AuthenticationClient.UsernamePasswordAsync(
@@ -52,11 +52,6 @@ Namespace <#= generatedService.ServiceNamespace.Substring(generatedService.Defau
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.ConsumerSecret #>"),
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.UserName #>"),
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.Password #>") + SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.SecurityToken #>"))
-<#
-    Else
-#>
-        Public Function GetForceClient() As ForceClient
-            ' TODO:  Add logic that will authenticate the user.
 <#
     End If
 #>

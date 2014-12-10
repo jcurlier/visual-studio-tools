@@ -28,9 +28,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     case AuthenticationStrategy.WebServerFlow:
                         this.RuntimeAuthentication = new WebServerFlowInfo();
                         break;
-                    case AuthenticationStrategy.DigitalCertificate:
-                        this.RuntimeAuthentication = new ServiceAccountWithJWT();
-                        break;
                     case AuthenticationStrategy.UserNamePassword:
                         this.RuntimeAuthentication = new ServiceAccountWithPassword();
                         break;

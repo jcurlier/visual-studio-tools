@@ -49,7 +49,7 @@ namespace <#= generatedService.ServiceNamespace #>
             this.AuthenticationClient.InstanceUrl = HttpContext.Current.Session["InstanceUrl"] as string;
 <#
     }
-    else if (generatedService.AuthenticationStrategy == AuthenticationStrategy.UserNamePassword)
+    else
     {
 #>
         public async Task<ForceClient> GetUserNamePasswordForceClientAsync()
@@ -61,14 +61,6 @@ namespace <#= generatedService.ServiceNamespace #>
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.ConsumerSecret #>"),
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.UserName #>"),
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.Password #>") + SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.SecurityToken #>"));
-<#
-    }
-    else
-    {
-#>
-        public ForceClient GetForceClient()
-        {
-            // TODO:  Add logic that will authenticate the user.
 <#
     }
 #>

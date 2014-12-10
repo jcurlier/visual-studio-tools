@@ -52,10 +52,6 @@
             </StackPanel>
             <TextBlock Grid.Row="1"
                        TextWrapping="Wrap"
-                       Visibility="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.DigitalCertificate}}"
-                       Text="The configuration for service account using a digital certificate is not complete in this release. You can update the GetForceClient() method in the SalesforceService class as well as specify a CertificatePath and CertificatePassword in the configuration file." />
-            <TextBlock Grid.Row="1"
-                       TextWrapping="Wrap"
                        Visibility="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.UserNamePassword}}"
                        Text="To complete the user name and password configuration, edit the configuration file, providing the UserName, Password and SecurityToken values." />
         </Grid>

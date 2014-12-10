@@ -8,6 +8,5 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WebServer")]
         WebServerFlow,
         UserNamePassword,
-        DigitalCertificate,
     }
 }

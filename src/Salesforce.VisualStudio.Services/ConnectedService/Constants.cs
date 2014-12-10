@@ -11,8 +11,6 @@
         public const string ConfigKey_UserName = "UserName";
         public const string ConfigKey_Password = "Password";
         public const string ConfigKey_SecurityToken = "SecurityToken";
-        public const string ConfigKey_CertificatePath = "CertificatePath";
-        public const string ConfigKey_CertificatePassword = "CertificatePassword";
 
         public const string ConfigDefaultValue = "RequiredValue";
 

@@ -67,8 +67,6 @@
     <Compile Include="ConnectedService\CodeModel\GeneratedStorageProperty.cs" />
     <Compile Include="ConnectedService\CodeModel\SObjectDescription.cs" />
     <Compile Include="ConnectedService\CodeModel\SObjectField.cs" />
-    <Compile Include="ConnectedService\Models\ServiceAccount.cs" />
-    <Compile Include="ConnectedService\Models\ServiceAccountWithJWT.cs" />
     <Compile Include="ConnectedService\Models\ServiceAccountWithPassword.cs" />
     <Compile Include="ConnectedService\Models\UserSettings.cs" />
     <Compile Include="ConnectedService\ConnectedServiceWizardProvider.cs" />
