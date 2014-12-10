@@ -73,7 +73,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     {
                         this.MyDomainViewModel = new MyDomainViewModel(
                             this.getDesignTimeMyDomain(),
-                            myDomainUri => ((WebServerFlowInfo)(this.RuntimeAuthentication)).MyDomain = myDomainUri);
+                            myDomainUri => ((WebServerFlowInfo)(this.RuntimeAuthentication)).MyDomain = myDomainUri,
+                            this.UserSettings);
                         this.MyDomainViewModel.PropertyChanged += this.MyDomainViewModel_PropertyChanged;
                     }
                     else if (this.MyDomainViewModel != null)

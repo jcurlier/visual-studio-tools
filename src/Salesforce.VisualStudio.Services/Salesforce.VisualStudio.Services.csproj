@@ -61,6 +61,10 @@
     <Compile Include="ConnectedService\ViewModels\IWizardPage.cs" />
     <Compile Include="ConnectedService\ViewModels\MyDomainViewModel.cs" />
     <Compile Include="ConnectedService\ViewModels\ViewModel.cs" />
+    <Compile Include="ConnectedService\Views\EnvironmentColors.cs" />
+    <Compile Include="ConnectedService\Views\MyDomainControl.xaml.cs">
+      <DependentUpon>MyDomainControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ConnectedService\CodeModel\GeneratedObject.cs" />
     <Compile Include="ConnectedService\CodeModel\GeneratedService.cs" />
@@ -313,7 +317,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConnectedService\Views\CommonResourceDictionary.xaml">
+    <Page Include="ConnectedService\Views\MyDomainControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -341,10 +345,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="https://hitnmiss-dev-ed.my.salesforce.com/services/wsdl/metadata">
+    <WebReferenceUrl Include="https://www.salesforce.com/services/wsdl/metadata">
       <UrlBehavior>Static</UrlBehavior>
       <RelPath>Web References\SalesforceMetadata\</RelPath>
-      <UpdateFromURL>https://hitnmiss-dev-ed.my.salesforce.com/services/wsdl/metadata</UpdateFromURL>
+      <UpdateFromURL>https://www.salesforce.com/services/wsdl/metadata</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

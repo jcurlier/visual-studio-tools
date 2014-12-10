@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="CommonResourceDictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Microsoft.VisualStudio.ConnectedServices.Framework;component/Controls/CommonResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <view:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         </ResourceDictionary>

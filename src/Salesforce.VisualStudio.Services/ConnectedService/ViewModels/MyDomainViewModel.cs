@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Salesforce.VisualStudio.Services.ConnectedService.Models;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Linq;
@@ -16,11 +17,14 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private bool hasMyDomainLostFocus;
         private bool hasErrors;
         private Action<Uri> onValidMyDomain;
+        private UserSettings userSettings;
 
-        public MyDomainViewModel(Uri myDomain, Action<Uri> onValidMyDomain)
+        public MyDomainViewModel(Uri myDomain, Action<Uri> onValidMyDomain, UserSettings userSettings)
         {
             this.onValidMyDomain = onValidMyDomain;
             this.MyDomain = myDomain == null ? null : myDomain.ToString();
+            this.userSettings = userSettings;
+
             this.RefreshErrorState();
         }
 
@@ -82,6 +86,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         public override bool HasErrors
         {
             get { return this.hasErrors; }
+        }
+
+        public UserSettings UserSettings
+        {
+            get { return this.userSettings; }
         }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;

@@ -2,14 +2,14 @@
              x:ClassModifier="internal"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:view="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.Views" 
+             xmlns:view="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.Views"
              xmlns:model="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.Models"
              xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="CommonResourceDictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Microsoft.VisualStudio.ConnectedServices.Framework;component/Controls/CommonResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <view:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" NonVisibleVisibility="Hidden" />
@@ -67,20 +67,12 @@
                         IsEnabled="{Binding Path=Authentication.IsNewIdentity}"
                         Visibility="{Binding Path=Authentication.EnvironmentType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static model:EnvironmentType.Custom}}">
                 <Label x:Name="DomainName_Label"
-                       Target="{Binding ElementName=DomainName_Combobox}"
+                       Target="{Binding ElementName=MyDomainControl}"
                        Padding="0"
                        Content="Domain name:" />
-                <ComboBox x:Name="DomainName_Combobox"
-                          Style="{StaticResource ComboBoxValidationStyle}"
-                          MinWidth="320"
-                          Margin="0,4,0,0"
-                          HorizontalAlignment="Left"
-                          IsEditable="True"
-                          ItemsSource="{Binding Path=UserSettings.MruMyDomains}"
-                          GotFocus="MyDomain_GotFocus"
-                          LostFocus="MyDomain_LostFocus"
-                          Text="{Binding Path=MyDomainViewModel.MyDomain, ValidatesOnNotifyDataErrors=True}"
-                          AutomationProperties.LabeledBy="{Binding ElementName=DomainName_Label}"/>
+                <view:MyDomainControl Margin="0,4,0,0"
+                                      x:Name="MyDomainControl"
+                                      DataContext="{Binding MyDomainViewModel}" />
             </StackPanel>
         </Grid>
     </AdornerDecorator>
