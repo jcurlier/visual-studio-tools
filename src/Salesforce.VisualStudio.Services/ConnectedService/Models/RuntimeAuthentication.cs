@@ -13,6 +13,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 
         public string ConsumerKey { get; set; }
 
+        public string ConsumerSecret { get; set; }
+
         public virtual IList<ConfigSetting> GetConfigSettings(string connectedAppName)
         {
             IList<ConfigSetting> settings = new List<ConfigSetting>();
@@ -21,6 +23,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
                 Constants.ConfigKey_ConsumerKey,
                 this.ConsumerKey,
                 string.Format(CultureInfo.CurrentCulture, Resources.RuntimeAuthentication_ConsumerKeyComment, connectedAppName)));
+            settings.Add(new ConfigSetting(Constants.ConfigKey_ConsumerSecret, this.ConsumerSecret));
 
             return settings;
         }

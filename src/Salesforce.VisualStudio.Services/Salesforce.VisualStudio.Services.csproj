@@ -51,7 +51,6 @@
     <Compile Include="ConnectedService\CodeModel\SObjectChildRelationship.cs" />
     <Compile Include="ConnectedService\Models\ConfigSetting.cs" />
     <Compile Include="ConnectedService\Models\EnvironmentType.cs" />
-    <Compile Include="ConnectedService\Models\IAuthenticationWithConsumerSecret.cs" />
     <Compile Include="ConnectedService\Utilities\HyperlinkHelper.cs" />
     <Compile Include="ConnectedService\Utilities\IVsSqm.cs" />
     <Compile Include="ConnectedService\Utilities\TelemetryHelper.cs" />

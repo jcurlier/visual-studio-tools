@@ -129,13 +129,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 ConnectedAppOauthAccessScope.RefreshToken,
             };
 
-            if (salesforceInstance.RuntimeAuthentication is IAuthenticationWithConsumerSecret)
-            {
-                IAuthenticationWithConsumerSecret authWithSecret = (IAuthenticationWithConsumerSecret)salesforceInstance.RuntimeAuthentication;
-                string secret = Guid.NewGuid().ToString("N");
-                authWithSecret.ConsumerSecret = secret;
-                oauthConfig.consumerSecret = secret;
-            }
+            string secret = Guid.NewGuid().ToString("N");
+            salesforceInstance.RuntimeAuthentication.ConsumerSecret = secret;
+            oauthConfig.consumerSecret = secret;
 
             return connectedApp;
         }

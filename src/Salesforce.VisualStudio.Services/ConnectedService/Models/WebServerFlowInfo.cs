@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 {
-    internal class WebServerFlowInfo : RuntimeAuthentication, IAuthenticationWithConsumerSecret
+    internal class WebServerFlowInfo : RuntimeAuthentication
     {
         public WebServerFlowInfo()
             : base()
@@ -14,8 +14,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
         {
             get { return AuthenticationStrategy.WebServerFlow; }
         }
-
-        public string ConsumerSecret { get; set; }
 
         public Uri MyDomain { get; set; }
 
@@ -30,7 +28,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
         {
             IList<ConfigSetting> settings = base.GetConfigSettings(connectedAppName);
 
-            settings.Add(new ConfigSetting(Constants.ConfigKey_ConsumerSecret, this.ConsumerSecret));
             settings.Add(new ConfigSetting(Constants.ConfigKey_RedirectUri, this.RedirectUri));
             settings.Add(new ConfigSetting(
                 Constants.ConfigKey_Domain,
