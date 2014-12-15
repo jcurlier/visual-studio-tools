@@ -1,21 +1,49 @@
 ﻿using Salesforce.VisualStudio.Services.ConnectedService.Models;
+using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.ComponentModel;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal class RuntimeAuthenticationViewModel : ViewModel
+    internal class RuntimeAuthenticationConfigViewModel : PageViewModel
     {
         private MyDomainViewModel myDomainViewModel;
         private RuntimeAuthentication runtimeAuthentication;
         private bool isCustomDomain;
         private Func<Uri> getDesignTimeMyDomain;
 
-        public RuntimeAuthenticationViewModel(UserSettings userSettings, Func<Uri> getDesignTimeMyDomain)
+        public RuntimeAuthenticationConfigViewModel(UserSettings userSettings, Func<Uri> getDesignTimeMyDomain)
         {
-            this.RuntimeAuthStrategy = AuthenticationStrategy.WebServerFlow;
             this.UserSettings = userSettings;
             this.getDesignTimeMyDomain = getDesignTimeMyDomain;
+            this.View = new RuntimeAuthenticationConfigPage(this);
+        }
+
+        public override string Description
+        {
+            get { return Resources.RuntimeAuthenticationConfigViewModel_Description; }
+        }
+
+        public override string Legend
+        {
+            get { return Resources.RuntimeAuthenticationConfigViewModel_Legend; }
+        }
+
+        public override string Title
+        {
+            get { return Resources.RuntimeAuthenticationConfigViewModel_Title; }
+        }
+
+        public MyDomainViewModel MyDomainViewModel
+        {
+            get { return this.myDomainViewModel; }
+            private set
+            {
+                this.myDomainViewModel = value;
+                this.RaisePropertyChanged();
+                this.RaisePropertyChanged(CommonViewModel.IsValidPropertyName);
+                this.RaisePropertyChanged(CommonViewModel.HasErrorsPropertyName);
+            }
         }
 
         public AuthenticationStrategy RuntimeAuthStrategy
@@ -34,18 +62,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     default:
                         throw new NotImplementedException();
                 }
-            }
-        }
 
-        public MyDomainViewModel MyDomainViewModel
-        {
-            get { return this.myDomainViewModel; }
-            private set
-            {
-                this.myDomainViewModel = value;
                 this.RaisePropertyChanged();
-                this.RaisePropertyChanged(Constants.IsValidPropertyName);
-                this.RaisePropertyChanged(Constants.HasErrorsPropertyName);
             }
         }
 
@@ -56,7 +74,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             {
                 this.runtimeAuthentication = value;
                 this.RaisePropertyChanged();
-                this.RaisePropertyChanged("RuntimeAuthStrategy");
             }
         }
 
@@ -81,7 +98,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     {
                         this.MyDomainViewModel.PropertyChanged -= this.MyDomainViewModel_PropertyChanged;
                         this.MyDomainViewModel = null;
-                        this.RaisePropertyChanged(Constants.HasErrorsPropertyName);
+                        this.RaisePropertyChanged(CommonViewModel.HasErrorsPropertyName);
                     }
 
                     this.RaisePropertyChanged();
@@ -103,13 +120,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         private void MyDomainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == Constants.IsValidPropertyName)
+            if (e.PropertyName == CommonViewModel.IsValidPropertyName)
             {
-                this.RaisePropertyChanged(Constants.IsValidPropertyName);
+                this.RaisePropertyChanged(CommonViewModel.IsValidPropertyName);
             }
-            else if (e.PropertyName == Constants.HasErrorsPropertyName)
+            else if (e.PropertyName == CommonViewModel.HasErrorsPropertyName)
             {
-                this.RaisePropertyChanged(Constants.HasErrorsPropertyName);
+                this.RaisePropertyChanged(CommonViewModel.HasErrorsPropertyName);
             }
         }
     }

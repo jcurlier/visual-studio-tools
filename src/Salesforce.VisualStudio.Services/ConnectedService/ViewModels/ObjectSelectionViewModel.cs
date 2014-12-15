@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.ConnectedServices.Controls;
 using Salesforce.VisualStudio.Services.ConnectedService.CodeModel;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
+using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal class ObjectSelectionViewModel : ViewModel
+    internal class ObjectSelectionViewModel : PageViewModel
     {
         private ObjectPickerCategory allObjectsCategory;
         private string errorMessage;
@@ -23,8 +24,38 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             this.allObjectsCategory = new ObjectPickerCategory(Resources.ObjectSelectionViewModel_AllObjects);
             this.providerHost = providerHost;
+            this.View = new ObjectSelectionPage(this);
         }
 
+        public override string Title
+        {
+            get { return Resources.ObjectSelectionViewModel_Title; }
+        }
+
+        public override string Description
+        {
+            get { return Resources.ObjectSelectionViewModel_Description; }
+        }
+
+        public override string Legend
+        {
+            get { return Resources.ObjectSelectionViewModel_Legend; }
+        }
+
+        public IEnumerable<ObjectPickerCategory> Categories
+        {
+            get { yield return this.allObjectsCategory; }
+        }
+
+        public string ErrorMessage
+        {
+            get { return this.errorMessage; }
+            set
+            {
+                this.errorMessage = value;
+                this.RaisePropertyChanged();
+            }
+        }
         /// <summary>
         /// Refreshes the objects displayed in the picker asynchronously.  The objects are only refreshed if the specified
         /// authentication is different than the last time the objects were retrieved.
@@ -68,11 +99,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         /// <summary>
         /// Waits for the RefreshObjects task to complete if it is not already completed.  While waiting a busy indicator will be displayed.
         /// </summary>
-        public async Task WaitOnRefreshObjects()
+        private async Task WaitOnRefreshObjects()
         {
             if (this.loadObjectsTask != null && (!this.loadObjectsTask.IsCompleted || this.loadObjectsTask.IsFaulted))
             {
-                using (this.providerHost.StartBusyIndicator(Resources.ObjectSelectionWizardPage_LoadingObjectsProgress))
+                using (this.providerHost.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
                 {
                     await this.loadObjectsTask;
                 }
@@ -94,19 +125,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             return this.allObjectsCategory.Children.Count();
         }
 
-        public IEnumerable<ObjectPickerCategory> Categories
+        public override async Task<NavigationEnabledState> OnPageEntering()
         {
-            get { yield return this.allObjectsCategory; }
-        }
+            await this.WaitOnRefreshObjects();
 
-        public string ErrorMessage
-        {
-            get { return this.errorMessage; }
-            set
-            {
-                this.errorMessage = value;
-                this.RaisePropertyChanged();
-            }
+            return await base.OnPageEntering();
         }
     }
 }

@@ -57,9 +57,9 @@
     <Compile Include="ConnectedService\Utilities\ExceptionHelper.cs" />
     <Compile Include="ConnectedService\Utilities\MetadataHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\Environment.cs" />
-    <Compile Include="ConnectedService\ViewModels\IWizardPage.cs" />
     <Compile Include="ConnectedService\ViewModels\MyDomainViewModel.cs" />
-    <Compile Include="ConnectedService\ViewModels\ViewModel.cs" />
+    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationConfigViewModel.cs" />
+    <Compile Include="ConnectedService\ViewModels\CommonViewModel.cs" />
     <Compile Include="ConnectedService\Views\EnvironmentColors.cs" />
     <Compile Include="ConnectedService\Views\MyDomainControl.xaml.cs">
       <DependentUpon>MyDomainControl.xaml</DependentUpon>
@@ -80,12 +80,9 @@
     <Compile Include="ConnectedService\Utilities\NamingUtilities.cs" />
     <Compile Include="ConnectedService\Utilities\ProjectHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\ObjectSelectionViewModel.cs" />
-    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationViewModel.cs" />
     <Compile Include="ConnectedService\Views\ObjectSelectionPage.xaml.cs">
       <DependentUpon>ObjectSelectionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationConfigWizardPage.cs" />
-    <Compile Include="ConnectedService\ViewModels\ObjectSelectionWizardPage.cs" />
     <Compile Include="ConnectedService\Views\EnumToVisibilityConverter.cs" />
     <Compile Include="ConnectedService\Views\RuntimeAuthenticationConfigPage.xaml.cs">
       <DependentUpon>RuntimeAuthenticationConfigPage.xaml</DependentUpon>
@@ -96,8 +93,7 @@
     <Compile Include="ConnectedService\Views\DesignTimeAuthenticationPage.xaml.cs">
       <DependentUpon>DesignTimeAuthenticationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationTypeWizardPage.cs" />
-    <Compile Include="ConnectedService\ViewModels\DesignTimeAuthenticationWizardPage.cs" />
+    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationTypeViewModel.cs" />
     <Compile Include="ConnectedService\Models\WebServerFlowInfo.cs" />
     <Compile Include="ConnectedService\AuthenticationStrategy.cs" />
     <Compile Include="ConnectedService\Utilities\ConnectedAppHelper.cs" />
@@ -117,7 +113,7 @@
       <DependentUpon>AuthenticateRedirectHost.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConnectedService\Views\EnumToBooleanConverter.cs" />
-    <Compile Include="ConnectedService\ViewModels\WizardPage.cs" />
+    <Compile Include="ConnectedService\ViewModels\PageViewModel.cs" />
     <Compile Include="Web References\SalesforceMetadata\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

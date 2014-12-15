@@ -44,8 +44,5 @@
 
         public const string CSharpTemplateFolderName = "CSharp";
         public const string VBTemplateFolderName = "VisualBasic";
-
-        public const string HasErrorsPropertyName = "HasErrors";
-        public const string IsValidPropertyName = "IsValid";
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal class MyDomainViewModel : ViewModel, INotifyDataErrorInfo
+    internal class MyDomainViewModel : CommonViewModel, INotifyDataErrorInfo
     {
         private static readonly string[] myDomainError = { Resources.MyDomainViewModel_ErrorMessage };
         private const string MyDomainPropertyName = "MyDomain";
@@ -52,7 +52,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     if (isMyDomainValid != this.isValid)
                     {
                         this.isValid = isMyDomainValid;
-                        this.RaisePropertyChanged(Constants.IsValidPropertyName);
+                        this.RaisePropertyChanged(CommonViewModel.IsValidPropertyName);
                     }
 
                     this.RefreshErrorState();
@@ -129,7 +129,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             if (hasErrorsNewValue != this.hasErrors)
             {
                 this.hasErrors = hasErrorsNewValue;
-                this.RaisePropertyChanged(Constants.HasErrorsPropertyName);
+                this.RaisePropertyChanged(CommonViewModel.HasErrorsPropertyName);
                 this.OnErrorsChanged(MyDomainViewModel.MyDomainPropertyName);
             }
         }

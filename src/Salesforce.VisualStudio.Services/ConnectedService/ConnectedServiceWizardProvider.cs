@@ -4,6 +4,7 @@ using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService
@@ -11,7 +12,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
     internal class ConnectedServiceWizardProvider : IConnectedServiceProviderWizardUI
     {
         private DesignTimeAuthenticationViewModel designTimeAuthenticationViewModel;
-        private RuntimeAuthenticationViewModel runtimeAuthenticationViewModel;
+        private RuntimeAuthenticationTypeViewModel runtimeAuthenticationTypeViewModel;
+        private RuntimeAuthenticationConfigViewModel runtimeAuthenticationConfigViewModel;
         private ObjectSelectionViewModel objectSelectionViewModel;
         private UserSettings userSettings;
         private ObservableCollection<IConnectedServiceWizardPage> pages;
@@ -19,22 +21,22 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         public ConnectedServiceWizardProvider(IConnectedServiceProviderHost providerHost)
         {
             this.userSettings = UserSettings.Load();
-            this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(this.userSettings);
-            this.runtimeAuthenticationViewModel = new RuntimeAuthenticationViewModel(this.userSettings, () => this.designTimeAuthenticationViewModel.Authentication.MyDomain);
+            this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(this.userSettings, providerHost);
+            this.designTimeAuthenticationViewModel.PageLeaving += DesignTimeAuthenticationViewModel_PageLeaving;
+            this.runtimeAuthenticationTypeViewModel = new RuntimeAuthenticationTypeViewModel();
+            this.runtimeAuthenticationConfigViewModel = new RuntimeAuthenticationConfigViewModel(this.userSettings, () => this.designTimeAuthenticationViewModel.Authentication.MyDomain);
+            this.runtimeAuthenticationConfigViewModel.RuntimeAuthStrategy = this.runtimeAuthenticationTypeViewModel.RuntimeAuthStrategy;
             this.objectSelectionViewModel = new ObjectSelectionViewModel(providerHost);
 
-            this.designTimeAuthenticationViewModel.PropertyChanged += this.ViewModel_PropertyChanged;
-            this.runtimeAuthenticationViewModel.PropertyChanged += this.ViewModel_PropertyChanged;
-
             this.pages = new ObservableCollection<IConnectedServiceWizardPage>();
-            this.pages.Add(new DesignTimeAuthenticationWizardPage(this.designTimeAuthenticationViewModel, this.objectSelectionViewModel, providerHost));
-            this.pages.Add(new RuntimeAuthenticationTypeWizardPage(this.runtimeAuthenticationViewModel));
-            this.pages.Add(new RuntimeAuthenticationConfigWizardPage(this.runtimeAuthenticationViewModel));
-            this.pages.Add(new ObjectSelectionWizardPage(this.objectSelectionViewModel, designTimeAuthenticationViewModel));
+            this.pages.Add(this.designTimeAuthenticationViewModel);
+            this.pages.Add(this.runtimeAuthenticationTypeViewModel);
+            this.pages.Add(this.runtimeAuthenticationConfigViewModel);
+            this.pages.Add(this.objectSelectionViewModel);
 
-            foreach (IWizardPage page in this.Pages)
+            foreach (PageViewModel page in this.Pages)
             {
-                page.PropertyChanged += this.WizardPage_PropertyChanged;
+                page.PropertyChanged += this.PageViewModel_PropertyChanged;
             }
         }
 
@@ -49,7 +51,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
             ConnectedServiceInstance serviceInstance = new ConnectedServiceInstance(
                     this.designTimeAuthenticationViewModel.Authentication,
-                    this.runtimeAuthenticationViewModel.RuntimeAuthentication,
+                    this.runtimeAuthenticationConfigViewModel.RuntimeAuthentication,
                     this.objectSelectionViewModel.GetSelectedObjects());
 
             serviceInstance.TelemetryHelper.LogInstanceObjectData(this.objectSelectionViewModel);
@@ -67,16 +69,23 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             }
         }
 
-        private void WizardPage_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void DesignTimeAuthenticationViewModel_PageLeaving(object sender, EventArgs e)
         {
-            if (e.PropertyName == Constants.IsValidPropertyName)
+            // Kick off the loading of the Objects so that they will hopefully be loaded before the user navigates to the
+            // Object Selection page.
+            this.objectSelectionViewModel.BeginRefreshObjects(this.designTimeAuthenticationViewModel.Authentication);
+        }
+
+        private void PageViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == CommonViewModel.IsValidPropertyName)
             {
-                IWizardPage senderPage = (IWizardPage)sender;
+                PageViewModel senderPage = (PageViewModel)sender;
                 int invalidPageIndex = this.Pages.IndexOf(senderPage);
 
                 for (int i = invalidPageIndex + 1; i < this.Pages.Count; i++)
                 {
-                    IWizardPage page = (IWizardPage)this.Pages[i];
+                    PageViewModel page = (PageViewModel)this.Pages[i];
                     page.IsEnabled = senderPage.IsValid;
 
                     // If an invalid page is reached, then all subsequent pages are currently disabled
@@ -86,23 +95,23 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                         break;
                     }
                 }
-            }
-        }
 
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == DesignTimeAuthenticationViewModel.IsAuthenticationVerifiedPropertyName
-                || e.PropertyName == Constants.IsValidPropertyName)
+                this.RefreshFinishButtonState();
+            }
+            else if (sender is DesignTimeAuthenticationViewModel && e.PropertyName == DesignTimeAuthenticationViewModel.IsAuthenticationVerifiedPropertyName)
             {
                 this.RefreshFinishButtonState();
+            }
+            else if (sender is RuntimeAuthenticationTypeViewModel && e.PropertyName == RuntimeAuthenticationTypeViewModel.RuntimeAuthStrategyPropertyName)
+            {
+                this.runtimeAuthenticationConfigViewModel.RuntimeAuthStrategy = this.runtimeAuthenticationTypeViewModel.RuntimeAuthStrategy;
             }
         }
 
         private void RefreshFinishButtonState()
         {
             bool isFinishedEnabled = this.designTimeAuthenticationViewModel.IsAuthenticationVerified
-                && this.designTimeAuthenticationViewModel.IsValid
-                && this.runtimeAuthenticationViewModel.IsValid;
+                && this.Pages.Cast<PageViewModel>().All(p => p.IsValid);
 
             this.RaiseEnableNavigation(new NavigationEnabledState(null, null, isFinishedEnabled));
         }

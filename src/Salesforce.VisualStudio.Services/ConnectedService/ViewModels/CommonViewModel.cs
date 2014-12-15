@@ -3,8 +3,15 @@ using System.Runtime.CompilerServices;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal abstract class ViewModel : INotifyPropertyChanged
+    internal abstract class CommonViewModel : INotifyPropertyChanged
     {
+        public const string HasErrorsPropertyName = "HasErrors";
+        public const string IsValidPropertyName = "IsValid";
+
+        protected CommonViewModel()
+        {
+        }
+
         public virtual bool IsValid
         {
             get { return true; }

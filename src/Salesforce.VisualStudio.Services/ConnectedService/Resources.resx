@@ -147,10 +147,10 @@ Details:  {0}</value>
   <data name="DesignTimeAuthenticationViewModel_Environment_Sandbox" xml:space="preserve">
     <value>Sandbox</value>
   </data>
-  <data name="DesignTimeAuthenticationWizardPage_Description" xml:space="preserve">
+  <data name="DesignTimeAuthenticationViewModel_Description" xml:space="preserve">
     <value>Choose a Salesforce environment to authenticate against</value>
   </data>
-  <data name="DesignTimeAuthenticationWizardPage_Legend" xml:space="preserve">
+  <data name="DesignTimeAuthenticationViewModel_Legend" xml:space="preserve">
     <value>Environment</value>
   </data>
   <data name="DesignTimeAuthentication_NewIdentityName" xml:space="preserve">
@@ -169,16 +169,16 @@ Details:  {0}</value>
     <value>{0} (Sandbox)</value>
     <comment>{0} = the username of the active identity</comment>
   </data>
-  <data name="DesignTimeAuthenticationWizardPage_Title" xml:space="preserve">
+  <data name="DesignTimeAuthenticationViewModel_Title" xml:space="preserve">
     <value>Configure Salesforce for .NET</value>
   </data>
-  <data name="ObjectSelectionWizardPage_Description" xml:space="preserve">
+  <data name="ObjectSelectionViewModel_Description" xml:space="preserve">
     <value>Select objects to scaffold models within your application</value>
   </data>
-  <data name="ObjectSelectionWizardPage_Legend" xml:space="preserve">
+  <data name="ObjectSelectionViewModel_Legend" xml:space="preserve">
     <value>Object Selection</value>
   </data>
-  <data name="ObjectSelectionWizardPage_Title" xml:space="preserve">
+  <data name="ObjectSelectionViewModel_Title" xml:space="preserve">
     <value>Configure Salesforce for .NET</value>
   </data>
   <data name="MyDomainViewModel_ErrorMessage" xml:space="preserve">
@@ -226,22 +226,22 @@ Details:  {0}</value>
   <data name="LogMessage_UpdatingConfigFile" xml:space="preserve">
     <value>Adding settings to the project's config file.</value>
   </data>
-  <data name="RuntimeAuthenticationConfigWizardPage_Description" xml:space="preserve">
+  <data name="RuntimeAuthenticationConfigViewModel_Description" xml:space="preserve">
     <value>Choose runtime authentication settings</value>
   </data>
-  <data name="RuntimeAuthenticationConfigWizardPage_Legend" xml:space="preserve">
+  <data name="RuntimeAuthenticationConfigViewModel_Legend" xml:space="preserve">
     <value>Runtime Authentication Config</value>
   </data>
-  <data name="RuntimeAuthenticationConfigWizardPage_Title" xml:space="preserve">
+  <data name="RuntimeAuthenticationConfigViewModel_Title" xml:space="preserve">
     <value>Configure Salesforce for .NET</value>
   </data>
-  <data name="RuntimeAuthenticationTypeWizardPage_Description" xml:space="preserve">
+  <data name="RuntimeAuthenticationTypeViewModel_Description" xml:space="preserve">
     <value>Choose a runtime authentication model</value>
   </data>
-  <data name="RuntimeAuthenticationTypeWizardPage_Legend" xml:space="preserve">
+  <data name="RuntimeAuthenticationTypeViewModel_Legend" xml:space="preserve">
     <value>Runtime Authentication</value>
   </data>
-  <data name="RuntimeAuthenticationTypeWizardPage_Title" xml:space="preserve">
+  <data name="RuntimeAuthenticationTypeViewModel_Title" xml:space="preserve">
     <value>Configure Salesforce for .NET</value>
   </data>
   <data name="AuthenticationHelper_UnableToConnectToSalesforce" xml:space="preserve">
@@ -253,7 +253,7 @@ Response:  {1}</value>
     <comment>{0} = The request that failed.
 {1} = The response from the failed request.</comment>
   </data>
-  <data name="DesignTimeAuthenticationWizardPage_UnableToAuthenticateUser" xml:space="preserve">
+  <data name="DesignTimeAuthenticationViewModel_UnableToAuthenticateUser" xml:space="preserve">
     <value>Unable to authenticate with Salesforce.</value>
   </data>
   <data name="LogMessage_UnsupportedSoapType" xml:space="preserve">
@@ -273,10 +273,10 @@ Response:  {1}</value>
 {0}</value>
     <comment>{0} = exception details</comment>
   </data>
-  <data name="DesignTimeAuthenticationWizardPage_AuthenticatingProgress" xml:space="preserve">
+  <data name="DesignTimeAuthenticationViewModel_AuthenticatingProgress" xml:space="preserve">
     <value>Authenticating...</value>
   </data>
-  <data name="ObjectSelectionWizardPage_LoadingObjectsProgress" xml:space="preserve">
+  <data name="ObjectSelectionViewModel_LoadingObjectsProgress" xml:space="preserve">
     <value>Loading Objects...</value>
   </data>
 </root>

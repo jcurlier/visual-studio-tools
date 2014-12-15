@@ -8,11 +8,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
     /// </summary>
     internal partial class DesignTimeAuthenticationPage : UserControl
     {
-        public DesignTimeAuthenticationPage(DesignTimeAuthenticationViewModel authenticationViewModel)
+        public DesignTimeAuthenticationPage(DesignTimeAuthenticationViewModel designTimeAuthenticationViewModel)
         {
             this.InitializeComponent();
 
-            this.DataContext = authenticationViewModel;
+            this.DataContext = designTimeAuthenticationViewModel;
         }
     }
 }

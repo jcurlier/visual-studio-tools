@@ -1,5 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.VisualStudio.ConnectedServices;
+using Newtonsoft.Json;
+using Salesforce.Common;
+using Salesforce.Common.Models;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
+using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
+using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,20 +15,23 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal class DesignTimeAuthenticationViewModel : ViewModel
+    internal class DesignTimeAuthenticationViewModel : PageViewModel
     {
         public const string IsAuthenticationVerifiedPropertyName = "IsAuthenticationVerified";
 
         private MyDomainViewModel myDomainViewModel;
         private DesignTimeAuthentication authentication;
         private Environment[] environments;
+        private IConnectedServiceProviderHost providerHost;
 
-        public DesignTimeAuthenticationViewModel(UserSettings userSettings)
+        public DesignTimeAuthenticationViewModel(UserSettings userSettings, IConnectedServiceProviderHost providerHost)
         {
             this.UserSettings = userSettings;
+            this.providerHost = providerHost;
 
             this.environments = new Environment[] {
                 new Environment()
@@ -42,6 +50,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         Type = EnvironmentType.Custom
                     }
             };
+
+            this.View = new DesignTimeAuthenticationPage(this);
         }
 
         private Uri RedirectUrl
@@ -79,8 +89,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             {
                 this.myDomainViewModel = value;
                 this.RaisePropertyChanged();
-                this.RaisePropertyChanged(Constants.IsValidPropertyName);
-                this.RaisePropertyChanged(Constants.HasErrorsPropertyName);
+                this.RaisePropertyChanged(CommonViewModel.IsValidPropertyName);
+                this.RaisePropertyChanged(CommonViewModel.HasErrorsPropertyName);
             }
         }
 
@@ -129,12 +139,111 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         public UserSettings UserSettings { get; private set; }
 
-        public void InitializeAuthenticationOptions()
+        public override string Title
+        {
+            get { return Resources.DesignTimeAuthenticationViewModel_Title; }
+        }
+
+        public override string Description
+        {
+            get { return Resources.DesignTimeAuthenticationViewModel_Description; }
+        }
+
+        public override string Legend
+        {
+            get { return Resources.DesignTimeAuthenticationViewModel_Legend; }
+        }
+
+        public event EventHandler<EventArgs> PageLeaving;
+
+        public override Task<NavigationEnabledState> OnPageEntering()
         {
             this.AvailableAuthentications = this.UserSettings.MruDesignTimeAuthentications.Union(
                 new DesignTimeAuthentication[] { new DesignTimeAuthentication() });
             this.Authentication = this.AvailableAuthentications.First();
             this.RaisePropertyChanged("AvailableAuthentications");
+
+            return base.OnPageEntering();
+        }
+
+        public override async Task<WizardNavigationResult> OnPageLeaving()
+        {
+            WizardNavigationResult result;
+
+            using (this.providerHost.StartBusyIndicator(Resources.DesignTimeAuthenticationViewModel_AuthenticatingProgress))
+            {
+                string error = null;
+
+                if (this.Authentication.RefreshToken == null)
+                {
+                    // New identity or a existing identity w/no refresh token
+                    error = this.AuthenticateUser();
+
+                    if (error == null && this.Authentication.EnvironmentType == EnvironmentType.Custom)
+                    {
+                        UserSettings.AddToTopOfMruList(this.UserSettings.MruMyDomains, this.Authentication.MyDomain.ToString());
+                    }
+                }
+                else if (this.Authentication.AccessToken == null)
+                {
+                    // Existing identity w/no access token
+                    try
+                    {
+                        await AuthenticationHelper.RefreshAccessToken(this.Authentication);
+                    }
+                    catch (ForceException ex)
+                    {
+                        if (ex.Error == Error.InvalidGrant) // Expired refresh token
+                        {
+                            this.Authentication.RefreshToken = null;
+                            error = this.AuthenticateUser();
+                        }
+                        else
+                        {
+                            error = ex.Message;
+                        }
+                    }
+                }
+                // else - Existing identity w/access and refresh token
+
+                if (error == null)
+                {
+                    UserSettings.AddToTopOfMruList(this.UserSettings.MruDesignTimeAuthentications, this.Authentication);
+                    result = WizardNavigationResult.Success;
+
+                    if (this.PageLeaving != null)
+                    {
+                        this.PageLeaving(this, EventArgs.Empty);
+                    }
+                }
+                else
+                {
+                    result = new WizardNavigationResult() { ErrorMessage = error, ShowMessageBoxOnFailure = true };
+                }
+            }
+
+            return result;
+        }
+
+        private string AuthenticateUser()
+        {
+            string error = null;
+
+            AuthenticateRedirectHost dialog = new AuthenticateRedirectHost(this);
+            dialog.Owner = Window.GetWindow(this.View);
+            dialog.ShowDialog();
+
+            if (dialog.AuthenticationError != null)
+            {
+                error = dialog.AuthenticationError.Message;
+            }
+            else if (this.Authentication.RefreshToken == null)
+            {
+                // The user either canceled out of the authentication dialog or did not grant the required permissions.
+                error = Resources.DesignTimeAuthenticationViewModel_UnableToAuthenticateUser;
+            }
+
+            return error;
         }
 
         private void InitializeMyDomainViewModel()
@@ -234,13 +343,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         private void MyDomainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == Constants.IsValidPropertyName)
+            if (e.PropertyName == CommonViewModel.IsValidPropertyName)
             {
-                this.RaisePropertyChanged(Constants.IsValidPropertyName);
+                this.RaisePropertyChanged(CommonViewModel.IsValidPropertyName);
             }
-            else if (e.PropertyName == Constants.HasErrorsPropertyName)
+            else if (e.PropertyName == CommonViewModel.HasErrorsPropertyName)
             {
-                this.RaisePropertyChanged(Constants.HasErrorsPropertyName);
+                this.RaisePropertyChanged(CommonViewModel.HasErrorsPropertyName);
             }
         }
 

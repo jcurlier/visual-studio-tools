@@ -10,11 +10,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
     /// </summary>
     internal partial class RuntimeAuthenticationConfigPage : UserControl
     {
-        public RuntimeAuthenticationConfigPage(RuntimeAuthenticationViewModel authenticationViewModel)
+        public RuntimeAuthenticationConfigPage(RuntimeAuthenticationConfigViewModel runtimeAuthenticationConfigViewModel)
         {
             this.InitializeComponent();
 
-            this.DataContext = authenticationViewModel;
+            this.DataContext = runtimeAuthenticationConfigViewModel;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
