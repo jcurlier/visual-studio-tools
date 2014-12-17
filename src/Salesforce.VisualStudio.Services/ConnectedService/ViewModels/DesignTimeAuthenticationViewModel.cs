@@ -21,15 +21,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
     internal class DesignTimeAuthenticationViewModel : PageViewModel
     {
-        public const string IsAuthenticationVerifiedPropertyName = "IsAuthenticationVerified";
-
         private MyDomainViewModel myDomainViewModel;
         private DesignTimeAuthentication authentication;
         private Environment[] environments;
         private IConnectedServiceProviderHost providerHost;
+        private bool isFirstUse;
 
         public DesignTimeAuthenticationViewModel(UserSettings userSettings, IConnectedServiceProviderHost providerHost)
         {
+            this.isFirstUse = true;
             this.UserSettings = userSettings;
             this.providerHost = providerHost;
 
@@ -109,15 +109,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     this.authentication = value;
                     this.authentication.PropertyChanged += this.Authentication_PropertyChanged;
                     this.RaisePropertyChanged();
-                    this.RaisePropertyChanged(DesignTimeAuthenticationViewModel.IsAuthenticationVerifiedPropertyName);
                     this.InitializeMyDomainViewModel();
                 }
             }
-        }
-
-        public bool IsAuthenticationVerified
-        {
-            get { return this.Authentication.AccessToken != null; }
         }
 
         public IEnumerable<DesignTimeAuthentication> AvailableAuthentications { get; private set; }
@@ -163,7 +157,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             this.Authentication = this.AvailableAuthentications.First();
             this.RaisePropertyChanged("AvailableAuthentications");
 
-            return base.OnPageEntering();
+            // If this is the first use of the page, default the finish button to be enabled.
+            bool? isFinishEnabled = this.isFirstUse ? true : (bool?)null;
+            this.isFirstUse = false;
+
+            return Task.FromResult(new NavigationEnabledState(null, null, isFinishEnabled));
         }
 
         public override async Task<WizardNavigationResult> OnPageLeaving()
@@ -355,11 +353,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         private void Authentication_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == DesignTimeAuthentication.AccessTokenPropertyName)
-            {
-                this.RaisePropertyChanged(DesignTimeAuthenticationViewModel.IsAuthenticationVerifiedPropertyName);
-            }
-            else if (e.PropertyName == DesignTimeAuthentication.EnvironmentTypePropertyName)
+            if (e.PropertyName == DesignTimeAuthentication.EnvironmentTypePropertyName)
             {
                 this.InitializeMyDomainViewModel();
             }

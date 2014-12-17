@@ -98,10 +98,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
                 this.RefreshFinishButtonState();
             }
-            else if (sender is DesignTimeAuthenticationViewModel && e.PropertyName == DesignTimeAuthenticationViewModel.IsAuthenticationVerifiedPropertyName)
-            {
-                this.RefreshFinishButtonState();
-            }
             else if (sender is RuntimeAuthenticationTypeViewModel && e.PropertyName == RuntimeAuthenticationTypeViewModel.RuntimeAuthStrategyPropertyName)
             {
                 this.runtimeAuthenticationConfigViewModel.RuntimeAuthStrategy = this.runtimeAuthenticationTypeViewModel.RuntimeAuthStrategy;
@@ -110,9 +106,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         private void RefreshFinishButtonState()
         {
-            bool isFinishedEnabled = this.designTimeAuthenticationViewModel.IsAuthenticationVerified
-                && this.Pages.Cast<PageViewModel>().All(p => p.IsValid);
-
+            bool isFinishedEnabled = this.Pages.Cast<PageViewModel>().All(p => p.IsValid);
             this.RaiseEnableNavigation(new NavigationEnabledState(null, null, isFinishedEnabled));
         }
     }
