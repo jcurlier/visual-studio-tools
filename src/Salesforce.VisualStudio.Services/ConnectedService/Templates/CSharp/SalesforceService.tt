@@ -60,7 +60,8 @@ namespace <#= generatedService.ServiceNamespace #>
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.ConsumerKey #>"),
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.ConsumerSecret #>"),
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.UserName #>"),
-                SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.Password #>") + SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.SecurityToken #>"));
+                SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.Password #>") + SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.SecurityToken #>", true),
+                SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.Domain #>") + "/services/oauth2/token");
 <#
     }
 #>
@@ -92,13 +93,17 @@ namespace <#= generatedService.ServiceNamespace #>
 #>
         }
 
-        internal static string GetAppSetting(string name)
+        internal static string GetAppSetting(string name, bool isOptional = false)
         {
             string setting = ConfigurationManager.AppSettings[name];
-            if (String.IsNullOrWhiteSpace(setting) || setting == "RequiredValue")
+            if (!isOptional && (String.IsNullOrWhiteSpace(setting) || string.Equals(setting, "RequiredValue", StringComparison.OrdinalIgnoreCase)))
             {
                 throw new InvalidOperationException(
                     String.Format(CultureInfo.InvariantCulture, "The value for the '{0}' key is missing from the appSettings section of the config file.", name));
+            }
+            else if (isOptional && (String.IsNullOrWhiteSpace(setting) || string.Equals(setting, "OptionalValue", StringComparison.OrdinalIgnoreCase)))
+            {
+                setting = null;
             }
 
             return setting;

@@ -26,9 +26,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 
             // Note:  Once UI support is added for configuring service accounts, this code will need to be updated
             // to reference the Password and UserSecurityToken property values.
-            settings.Add(new ConfigSetting(Constants.ConfigKey_UserName, Constants.ConfigDefaultValue));
-            settings.Add(new ConfigSetting(Constants.ConfigKey_Password, Constants.ConfigDefaultValue));
-            settings.Add(new ConfigSetting(Constants.ConfigKey_SecurityToken, Constants.ConfigDefaultValue));
+            settings.Add(new ConfigSetting(Constants.ConfigKey_UserName, Constants.ConfigValue_RequiredDefault));
+            settings.Add(new ConfigSetting(Constants.ConfigKey_Password, Constants.ConfigValue_RequiredDefault));
+            settings.Add(new ConfigSetting(Constants.ConfigKey_SecurityToken, Constants.ConfigValue_OptionalDefault));
+
+            // Add a Domain appSetting to support scenarios that require authenticating to a non-default domain
+            // (e.g. using a sandbox account).
+            settings.Add(new ConfigSetting(Constants.ConfigKey_Domain, Constants.ProductionDomainUrl));
 
             return settings;
         }

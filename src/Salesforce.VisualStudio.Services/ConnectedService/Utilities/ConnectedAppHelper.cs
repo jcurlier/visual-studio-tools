@@ -65,7 +65,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 {
                     logger.WriteMessage(LoggerMessageCategory.Error, Resources.LogMessage_FailedReadingConnectedApp);
 
-                    salesforceInstance.RuntimeAuthentication.ConsumerKey = Constants.ConfigDefaultValue;
+                    salesforceInstance.RuntimeAuthentication.ConsumerKey = Constants.ConfigValue_RequiredDefault;
                 }
             }
         }

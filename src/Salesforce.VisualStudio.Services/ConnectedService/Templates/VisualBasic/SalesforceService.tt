@@ -51,7 +51,8 @@ Namespace <#= generatedService.ServiceNamespace.Substring(generatedService.Defau
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.ConsumerKey #>"),
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.ConsumerSecret #>"),
                 SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.UserName #>"),
-                SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.Password #>") + SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.SecurityToken #>"))
+                SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.Password #>") + SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.SecurityToken #>", True),
+                SalesforceService.GetAppSetting("<#= generatedService.ConfigurationKeyNames.Domain #>") + "/services/oauth2/token")
 <#
     End If
 #>
@@ -79,11 +80,13 @@ Namespace <#= generatedService.ServiceNamespace.Substring(generatedService.Defau
 #>
         End Function
 
-        Friend Shared Function GetAppSetting(ByVal name As String) As String
+        Friend Shared Function GetAppSetting(ByVal name As String, Optional ByVal isOptional As Boolean = False) As String
             Dim setting As String = ConfigurationManager.AppSettings(name)
-            If String.IsNullOrWhiteSpace(setting) OrElse setting = "RequiredValue" Then
+            If Not isOptional AndAlso (String.IsNullOrWhiteSpace(setting) OrElse String.Equals(setting, "RequiredValue", StringComparison.OrdinalIgnoreCase)) Then
                 Throw New InvalidOperationException(
                     String.Format(CultureInfo.InvariantCulture, "The value for the '{0}' key is missing from the appSettings section of the config file.", name))
+            ElseIf isOptional AndAlso (String.IsNullOrWhiteSpace(setting) OrElse String.Equals(setting, "OptionalValue", StringComparison.OrdinalIgnoreCase)) Then
+                setting = Nothing
             End If
 
             Return setting

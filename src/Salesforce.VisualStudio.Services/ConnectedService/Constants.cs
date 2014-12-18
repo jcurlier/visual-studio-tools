@@ -12,7 +12,8 @@
         public const string ConfigKey_Password = "Password";
         public const string ConfigKey_SecurityToken = "SecurityToken";
 
-        public const string ConfigDefaultValue = "RequiredValue";
+        public const string ConfigValue_RequiredDefault = "RequiredValue";
+        public const string ConfigValue_OptionalDefault = "OptionalValue";
 
         public const string ProviderId = "ProviderId";
         public const string ProviderIdValue = "SalesforceConnectedService";
