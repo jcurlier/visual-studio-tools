@@ -17,6 +17,11 @@
             The IVsHierarchy of the project.
             </param>
         </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConfigHelper.Configuration">
+            <summary>
+            The Configuration object that can be used to inspect the configuration settings.
+            </summary>
+        </member>
         <member name="M:Microsoft.VisualStudio.ConnectedServices.ConfigHelper.IsPrefixUsedInAppSettings(System.String)">
             <summary>
             Gets a value indicating whether an appSetting key exists with the specified keyPrefix.
@@ -41,11 +46,6 @@
             A value that indicates whether this object is being disposed or finalized.
             </param>
         </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConfigHelper.Configuration">
-            <summary>
-            The Configuration object that can be used to inspect the configuration settings.
-            </summary>
-        </member>
         <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServicesUtilities.GetProjectFullPath(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy,System.String)">
             <summary>
             Get an absolute path for a file that is in the project structure.
@@ -54,17 +54,187 @@
             <param name="filename"> The filename to convert to an absolute path. </param>
             <returns> Returns an absolute path for a file that is in the project structure. </returns>
         </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory">
+            <summary>
+            Represents a category that groups similar objects within the ObjectPicker.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.#ctor(System.String)">
+            <summary>
+            Instantiates a new instance of the ObjectPickerCategory class.
+            </summary>
+            <param name="name">
+            The name of the category.
+            </param>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.Children">
+            <summary>
+            Gets or sets the collection of ObjectPickerObjects to display within the category.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.IsChecked">
+            <summary>
+            Gets or sets a Boolean value indicating whether none (false), some (null), or all (true) of the category's
+            children are checked.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.UpdateSelectionState">
+            <summary>
+            Recomputes the selection state of the category.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.NullVisibilityConverter">
+            <summary>
+            An IValueConverter that handles converting null values into a Visibility value.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker">
+            <summary>
+            A control that displays a set of objects in a hierarchical view and allows the user to select
+            a subset of the objects.  This control is intended allow users to choose which objects to include
+            in their connected service.
+            </summary>
+            <summary>
+            ObjectPicker
+            </summary>
+        </member>
+        <member name="F:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.CategoriesProperty">
+            <summary>
+            The DependencyProperty for the ObjectPicker.Categories property.
+            </summary>
+        </member>
+        <member name="F:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.ErrorMessageProperty">
+            <summary>
+            The DependencyProperty for the ObjectPicker.ErrorMessage property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.#ctor">
+            <summary>
+            Instantiates a new instance of the ObjectPicker class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.OnInitialized(System.EventArgs)">
+            <summary>
+            Raises the System.Windows.FrameworkElement.Initialized event. This method
+            is invoked whenever System.Windows.FrameworkElement.IsInitialized is set
+            to true internally.
+            </summary>
+            <param name="e">
+            The System.Windows.RoutedEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.Categories">
+            <summary>
+            Gets or sets the collection of ObjectPickerCategory objects to display in the ObjectPicker.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.ErrorMessage">
+            <summary>
+            Gets or sets the error message that occurred while constructing the objects to display in the
+            ObjectPicker.  This error message gets displayed within the ObjectPicker as a means to indicate
+            to the end user what the issue was that prevented the objects from being displayed.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject">
+            <summary>
+            Represents a selectable object within the ObjectPicker.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.#ctor(Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory,System.String)">
+            <summary>
+            Instantiates a new instance of the ObjectPickerObject class.
+            </summary>
+            <param name="parent">
+            The ObjectPickerCategory that contains this object.
+            </param>
+            <param name="name">
+            The name of the object.
+            </param>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.IsChecked">
+            <summary>
+            Gets or sets a Boolean value that indicates whether the object is checked.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.State">
+            <summary>
+            Gets or sets custom state to track with this object.
+            </summary>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem">
+            <summary>
+            Represents an item within the ObjectPicker.
+            </summary>
+        </member>
+        <member name="E:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.PropertyChanged">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.#ctor(System.String,System.Boolean)">
+            <summary>
+            Instantiates a new instance of the ObjectPickerItem class.
+            </summary>
+            <param name="name">
+            The name of the item.
+            </param>
+            <param name="isTextSearchEnabled">
+            A Boolean value which indicates whether TextSearch is enabled on this item.
+            </param>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.IsTextSearchEnabled">
+            <summary>
+            Gets a Boolean value which indicates whether TextSearch is enabled on this item.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.IsSelected">
+            <summary>
+            Gets a Boolean value which indicates whether the item is selected.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.Name">
+            <summary>
+            Gets the name of the item.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>
+            A string that represents the current object.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.RaisePropertyChanged(System.String)">
+            <summary>
+            Raises the PropertyChanged event.
+            </summary>
+            <param name="name">
+            The name of the property that changed.
+            </param>
+        </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.VirtualToggleButton">
+            <summary>
+            Represents a virtual toggle button.  This is used when it is necessary for 
+            non-toggleable control (e.g TreeViewItem) to behave like a toggle buttons.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.Curator.AllHandlerHelpers">
+            <summary>
+            Gets the complete (unfiltered) list of handler helpers.
+            </summary>
+        </member>
         <member name="M:Microsoft.VisualStudio.ConnectedServices.Curator.GetHelper(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy)">
             <summary>
             Gets the handler helper for the given project.
             </summary>
             <param name="project">The project context.</param>
             <returns>Returns the project-specific handler helper.</returns>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Curator.AllHandlerHelpers">
-            <summary>
-            Gets the complete (unfiltered) list of handler helpers.
-            </summary>
         </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.EditableConfigHelper">
             <summary>
@@ -288,92 +458,6 @@
             </param>
             <returns>
             Returns true if the two are equal; false otherwise.
-            </returns>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String)">
-            <summary>
-            Adds a reference to the specified assembly to the project.
-            </summary>
-            <param name="context">
-            Specifies the context where the assembly reference should be added.
-            </param>
-            <param name="assemblyPath">
-            The assembly to which to add a reference.  This can be specified either as a simple .NET Framework object name, such 
-            as "System.Web", or as a .NET Framework file name, such as "C:\path\program.dll".
-            </param>
-            <exception cref="T:System.InvalidOperationException">
-            Thrown when the assembly reference is not successfully added to the project.
-            </exception>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
-            <summary>
-            Add the specified file to the project after doing token replacement.
-            </summary>
-            <param name="context">
-            Specifies the context where the file should be added.
-            </param>
-            <param name="filename">
-            The file to copy and add to the project.
-            </param>
-            <param name="targetPath">
-            The project relative filename where the file should be added.
-            </param>
-            <param name="replacementDictionary">
-            A dictionary of key/value pairs that can be used to insert runtime values into
-            the file that needs to be added to the project.
-            </param>
-            <param name="openOnCompleted">
-            A value indicating whether the file should be opened after being added.
-            </param>
-            <returns>
-            Returns the path to the file that was added.
-            </returns>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Uri)">
-            <summary>
-            Adds the getting started artifact to the project and launches the page in the browser.
-            </summary>
-            <param name="context">
-            The context containing service instance information.
-            </param>
-            <param name="serviceFolder">
-            The name of the folder where the service artifacts are stored.  This is a subfolder of the Service References folder.
-            </param>
-            <param name="gettingStartedPage">
-            The Uri for the getting started page.
-            </param>
-            <returns>
-            Returns a Task that can be waited on to be notified when the getting started page has been added to the project
-            and opened in the browser.
-            </returns>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
-            <summary>
-            Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
-            instance should create its own subfolder under this root folder.
-            </summary>
-            <param name="context">
-            The context containing service instance information.
-            </param>
-            <returns>
-            The name of the root folder.
-            </returns>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Given an input, replace any tokens found in the specified dictionary with the specified values.
-            </summary>
-            <param name="context">
-            The context containing service instance information.
-            </param>
-            <param name="input">
-            The text to update.
-            </param>
-            <param name="replacementDictionary">
-            A dictionary of keys to search for and values to replace the keys with.
-            </param>
-            <returns>
-            Returns a new string with the tokens replace with the values from the specified dictionary.
             </returns>
         </member>
         <member name="F:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.ConnectedServiceReferenceMetadataElementName">
@@ -775,175 +859,91 @@
             The name of the root folder.
             </returns>
         </member>
-        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String)">
             <summary>
-            Represents a category that groups similar objects within the ObjectPicker.
+            Adds a reference to the specified assembly to the project.
             </summary>
-        </member>
-        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem">
-            <summary>
-            Represents an item within the ObjectPicker.
-            </summary>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.#ctor(System.String,System.Boolean)">
-            <summary>
-            Instantiates a new instance of the ObjectPickerItem class.
-            </summary>
-            <param name="name">
-            The name of the item.
+            <param name="context">
+            Specifies the context where the assembly reference should be added.
             </param>
-            <param name="isTextSearchEnabled">
-            A Boolean value which indicates whether TextSearch is enabled on this item.
+            <param name="assemblyPath">
+            The assembly to which to add a reference.  This can be specified either as a simple .NET Framework object name, such 
+            as "System.Web", or as a .NET Framework file name, such as "C:\path\program.dll".
             </param>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when the assembly reference is not successfully added to the project.
+            </exception>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.ToString">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
             <summary>
-            Returns a string that represents the current object.
+            Add the specified file to the project after doing token replacement.
             </summary>
+            <param name="context">
+            Specifies the context where the file should be added.
+            </param>
+            <param name="filename">
+            The file to copy and add to the project.
+            </param>
+            <param name="targetPath">
+            The project relative filename where the file should be added.
+            </param>
+            <param name="replacementDictionary">
+            A dictionary of key/value pairs that can be used to insert runtime values into
+            the file that needs to be added to the project.
+            </param>
+            <param name="openOnCompleted">
+            A value indicating whether the file should be opened after being added.
+            </param>
             <returns>
-            A string that represents the current object.
+            Returns the path to the file that was added.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.RaisePropertyChanged(System.String)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Uri)">
             <summary>
-            Raises the PropertyChanged event.
+            Adds the getting started artifact to the project and launches the page in the browser.
             </summary>
-            <param name="name">
-            The name of the property that changed.
+            <param name="context">
+            The context containing service instance information.
             </param>
-        </member>
-        <member name="E:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.PropertyChanged">
-            <summary>
-            Occurs when a property value changes.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.IsTextSearchEnabled">
-            <summary>
-            Gets a Boolean value which indicates whether TextSearch is enabled on this item.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.IsSelected">
-            <summary>
-            Gets a Boolean value which indicates whether the item is selected.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerItem.Name">
-            <summary>
-            Gets the name of the item.
-            </summary>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.#ctor(System.String)">
-            <summary>
-            Instantiates a new instance of the ObjectPickerCategory class.
-            </summary>
-            <param name="name">
-            The name of the category.
+            <param name="serviceFolder">
+            The name of the folder where the service artifacts are stored.  This is a subfolder of the Service References folder.
             </param>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.UpdateSelectionState">
-            <summary>
-            Recomputes the selection state of the category.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.Children">
-            <summary>
-            Gets or sets the collection of ObjectPickerObjects to display within the category.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory.IsChecked">
-            <summary>
-            Gets or sets a Boolean value indicating whether none (false), some (null), or all (true) of the category's
-            children are checked.
-            </summary>
-        </member>
-        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.NullVisibilityConverter">
-            <summary>
-            An IValueConverter that handles converting null values into a Visibility value.
-            </summary>
-        </member>
-        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker">
-            <summary>
-            A control that displays a set of objects in a hierarchical view and allows the user to select
-            a subset of the objects.  This control is intended allow users to choose which objects to include
-            in their connected service.
-            </summary>
-            <summary>
-            ObjectPicker
-            </summary>
-        </member>
-        <member name="F:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.CategoriesProperty">
-            <summary>
-            The DependencyProperty for the ObjectPicker.Categories property.
-            </summary>
-        </member>
-        <member name="F:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.ErrorMessageProperty">
-            <summary>
-            The DependencyProperty for the ObjectPicker.ErrorMessage property.
-            </summary>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.#ctor">
-            <summary>
-            Instantiates a new instance of the ObjectPicker class.
-            </summary>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.OnInitialized(System.EventArgs)">
-            <summary>
-            Raises the System.Windows.FrameworkElement.Initialized event. This method
-            is invoked whenever System.Windows.FrameworkElement.IsInitialized is set
-            to true internally.
-            </summary>
-            <param name="e">
-            The System.Windows.RoutedEventArgs that contains the event data.
+            <param name="gettingStartedPage">
+            The Uri for the getting started page.
             </param>
+            <returns>
+            Returns a Task that can be waited on to be notified when the getting started page has been added to the project
+            and opened in the browser.
+            </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.InitializeComponent">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
             <summary>
-            InitializeComponent
+            Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
+            instance should create its own subfolder under this root folder.
             </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.Categories">
-            <summary>
-            Gets or sets the collection of ObjectPickerCategory objects to display in the ObjectPicker.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPicker.ErrorMessage">
-            <summary>
-            Gets or sets the error message that occurred while constructing the objects to display in the
-            ObjectPicker.  This error message gets displayed within the ObjectPicker as a means to indicate
-            to the end user what the issue was that prevented the objects from being displayed.
-            </summary>
-        </member>
-        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject">
-            <summary>
-            Represents a selectable object within the ObjectPicker.
-            </summary>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.#ctor(Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerCategory,System.String)">
-            <summary>
-            Instantiates a new instance of the ObjectPickerObject class.
-            </summary>
-            <param name="parent">
-            The ObjectPickerCategory that contains this object.
+            <param name="context">
+            The context containing service instance information.
             </param>
-            <param name="name">
-            The name of the object.
+            <returns>
+            The name of the root folder.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Given an input, replace any tokens found in the specified dictionary with the specified values.
+            </summary>
+            <param name="context">
+            The context containing service instance information.
             </param>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.IsChecked">
-            <summary>
-            Gets or sets a Boolean value that indicates whether the object is checked.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.Controls.ObjectPickerObject.State">
-            <summary>
-            Gets or sets custom state to track with this object.
-            </summary>
-        </member>
-        <member name="T:Microsoft.VisualStudio.ConnectedServices.Controls.VirtualToggleButton">
-            <summary>
-            Represents a virtual toggle button.  This is used when it is necessary for 
-            non-toggleable control (e.g TreeViewItem) to behave like a toggle buttons.
-            </summary>
+            <param name="input">
+            The text to update.
+            </param>
+            <param name="replacementDictionary">
+            A dictionary of keys to search for and values to replace the keys with.
+            </param>
+            <returns>
+            Returns a new string with the tokens replace with the values from the specified dictionary.
+            </returns>
         </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.Resources">
             <summary>
