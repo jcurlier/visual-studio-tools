@@ -28,9 +28,9 @@
                    Text="Which runtime authentication model would you like to use?"
                    Style="{DynamicResource {x:Static vsfx:VsResourceKeys.TextBlockEnvironment122PercentFontSizeStyleKey}}" />
         <Grid Grid.Row="1"
-              Margin="0,0,56,0">
+              Margin="0,0,56,0"
+              KeyboardNavigation.TabNavigation="Once">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
