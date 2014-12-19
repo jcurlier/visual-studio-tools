@@ -34,15 +34,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             try
             {
                 Project project = ProjectHelper.GetProjectFromHierarchy(context.ProjectHierarchy);
-                string generatedArtifactSuffix = ConnectedServiceInstanceHandler.GetGeneratedArtifactSuffix(
+                salesforceInstance.GeneratedArtifactSuffix = ConnectedServiceInstanceHandler.GetGeneratedArtifactSuffix(
                     context, project, salesforceInstance.RuntimeAuthentication.AuthStrategy);
 
                 await ConnectedServiceInstanceHandler.CreateConnectedApp(context, project, salesforceInstance);
-                ConnectedServiceInstanceHandler.UpdateConfigFile(context, project, salesforceInstance, generatedArtifactSuffix);
+                ConnectedServiceInstanceHandler.UpdateConfigFile(context, project, salesforceInstance);
                 this.AddNuGetPackages(context, project);
                 ConnectedServiceInstanceHandler.AddAssemblyReferences(context, project, salesforceInstance);
-                await ConnectedServiceInstanceHandler.AddGeneratedCode(context, project, salesforceInstance, generatedArtifactSuffix);
-                await ConnectedServiceInstanceHandler.PresentGettingStarted(context, generatedArtifactSuffix);
+                await ConnectedServiceInstanceHandler.AddGeneratedCode(context, project, salesforceInstance);
+                await ConnectedServiceInstanceHandler.PresentGettingStarted(context, salesforceInstance);
 
                 context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddedConnectedService);
             }
@@ -62,7 +62,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             await ConnectedAppHelper.CreateConnectedApp(salesforceInstance, context.Logger, project);
         }
 
-        private static void UpdateConfigFile(IConnectedServiceInstanceContext context, Project project, ConnectedServiceInstance salesforceInstance, string generatedArtifactSuffix)
+        private static void UpdateConfigFile(IConnectedServiceInstanceContext context, Project project, ConnectedServiceInstance salesforceInstance)
         {
             context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_UpdatingConfigFile);
 
@@ -71,17 +71,16 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 foreach (ConfigSetting configSetting in salesforceInstance.RuntimeAuthentication.GetConfigSettings(salesforceInstance.ConnectedAppName))
                 {
                     configHelper.SetAppSetting(
-                        ConfigurationKeyNames.GetQualifiedKeyName(configSetting.Key, generatedArtifactSuffix),
+                        ConfigurationKeyNames.GetQualifiedKeyName(configSetting.Key, salesforceInstance.GeneratedArtifactSuffix),
                         configSetting.Value == null ? string.Empty : configSetting.Value.ToString(),
                         configSetting.Comment);
                 }
 
                 if (salesforceInstance.RuntimeAuthentication.AuthStrategy == AuthenticationStrategy.WebServerFlow)
                 {
-                    string handlerTypeName = Constants.OAuthRedirectHandlerName;
-                    string handlerName = handlerTypeName + generatedArtifactSuffix;
-                    string qualifiedHandlerTypeName =
-                        ConnectedServiceInstanceHandler.GetServiceNamespace(project, generatedArtifactSuffix) + Type.Delimiter + handlerTypeName;
+                    string handlerName = string.Format(CultureInfo.InvariantCulture, Constants.OAuthRedirectHandlerNameFormat, salesforceInstance.GeneratedArtifactSuffix);
+                    string qualifiedHandlerTypeName = ConnectedServiceInstanceHandler.GetServiceNamespace(project, salesforceInstance.GeneratedArtifactSuffix)
+                        + Type.Delimiter + Constants.OAuthRedirectHandlerTypeName;
                     string redirectUri = ((WebServerFlowInfo)salesforceInstance.RuntimeAuthentication).RedirectUri.ToString();
 
                     configHelper.RegisterRedirectHandler(handlerName, redirectUri, qualifiedHandlerTypeName);
@@ -132,20 +131,20 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             HandlerHelper.AddAssemblyReference(context, assemblyPath);
         }
 
-        private static async Task AddGeneratedCode(IConnectedServiceInstanceContext context, Project project, ConnectedServiceInstance salesforceInstance, string generatedArtifactSuffix)
+        private static async Task AddGeneratedCode(IConnectedServiceInstanceContext context, Project project, ConnectedServiceInstance salesforceInstance)
         {
             context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_AddingGeneratedCode);
 
             GeneratedService generatedService = new GeneratedService()
             {
-                ServiceNamespace = ConnectedServiceInstanceHandler.GetServiceNamespace(project, generatedArtifactSuffix),
-                ModelsNamespace = ConnectedServiceInstanceHandler.GetModelsNamespace(project, generatedArtifactSuffix),
+                ServiceNamespace = ConnectedServiceInstanceHandler.GetServiceNamespace(project, salesforceInstance.GeneratedArtifactSuffix),
+                ModelsNamespace = ConnectedServiceInstanceHandler.GetModelsNamespace(project, salesforceInstance.GeneratedArtifactSuffix),
                 DefaultNamespace = ProjectHelper.GetProjectNamespace(project),
                 AuthenticationStrategy = salesforceInstance.RuntimeAuthentication.AuthStrategy,
-                ConfigurationKeyNames = new ConfigurationKeyNames(generatedArtifactSuffix),
+                ConfigurationKeyNames = new ConfigurationKeyNames(salesforceInstance.GeneratedArtifactSuffix),
             };
 
-            string serviceDirectoryName = ConnectedServiceInstanceHandler.GetServiceDirectoryName(context, generatedArtifactSuffix);
+            string serviceDirectoryName = ConnectedServiceInstanceHandler.GetServiceDirectoryName(context, salesforceInstance.GeneratedArtifactSuffix);
 
             await GeneratedCodeHelper.AddGeneratedCode(
                 context,
@@ -160,10 +159,10 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 await GeneratedCodeHelper.AddGeneratedCode(
                     context,
                     project,
-                    Constants.OAuthRedirectHandlerName,
+                    Constants.OAuthRedirectHandlerTypeName,
                     serviceDirectoryName,
                     (host) => ConnectedServiceInstanceHandler.GetServiceT4Sessions(host, generatedService),
-                    (session) => Constants.OAuthRedirectHandlerName);
+                    (session) => Constants.OAuthRedirectHandlerTypeName);
             }
 
             if (salesforceInstance.SelectedObjects.Any())
@@ -180,7 +179,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                     context,
                     project,
                     "SalesforceObject",
-                    ConnectedServiceInstanceHandler.GetModelsDirectoryName(generatedArtifactSuffix),
+                    ConnectedServiceInstanceHandler.GetModelsDirectoryName(salesforceInstance.GeneratedArtifactSuffix),
                     (host) => ConnectedServiceInstanceHandler.GetObjectT4Sessions(host, generatedObjects),
                     (session) => ((GeneratedObject)session["generatedObject"]).Model.Name);
             }
@@ -240,13 +239,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 + ConnectedServiceInstanceHandler.GetServiceInstanceName(generatedArtifactSuffix);
         }
 
-        private static async Task PresentGettingStarted(IConnectedServiceInstanceContext context, string generatedArtifactSuffix)
+        private static async Task PresentGettingStarted(IConnectedServiceInstanceContext context, ConnectedServiceInstance salesforceInstance)
         {
             context.Logger.WriteMessage(LoggerMessageCategory.Information, Resources.LogMessage_PresentingGettingStarted);
 
             await HandlerHelper.AddGettingStartedAsync(
                 context,
-                ConnectedServiceInstanceHandler.GetServiceInstanceName(generatedArtifactSuffix),
+                ConnectedServiceInstanceHandler.GetServiceInstanceName(salesforceInstance.GeneratedArtifactSuffix),
                 new Uri(Constants.NextStepsUrl));
         }
 
@@ -260,7 +259,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             {
                 return NamingUtilities.GetUniqueSuffix(suffix =>
                     configHelper.IsPrefixUsedInAppSettings(ConfigurationKeyNames.GetQualifiedKeyName(string.Empty, suffix))
-                        || authStrategy == AuthenticationStrategy.WebServerFlow && configHelper.IsHandlerNameUsed(Constants.OAuthRedirectHandlerName + suffix)
+                        || (authStrategy == AuthenticationStrategy.WebServerFlow
+                            && configHelper.IsHandlerNameUsed(string.Format(CultureInfo.InvariantCulture, Constants.OAuthRedirectHandlerNameFormat, suffix)))
                         || ConnectedServiceInstanceHandler.IsSuffixUsedInGeneratedFilesDirectories(context, suffix, project));
             }
         }

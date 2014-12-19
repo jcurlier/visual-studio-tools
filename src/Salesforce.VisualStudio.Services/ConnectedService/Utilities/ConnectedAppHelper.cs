@@ -143,7 +143,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             if (webServerFlowInfo != null)
             {
                 webServerFlowInfo.RedirectUri = new Uri(
-                    String.Format(CultureInfo.InvariantCulture, "/{0}-SalesforceRedirectHandler.axd", salesforceInstance.ConnectedAppName),
+                    String.Format(CultureInfo.InvariantCulture, Constants.OAuthRedirectHandlerPathFormat, salesforceInstance.GeneratedArtifactSuffix),
                     UriKind.Relative);
 
                 string appUriAuthority;

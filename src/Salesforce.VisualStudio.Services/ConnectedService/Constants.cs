@@ -24,7 +24,9 @@
         public const string ServiceInstanceNameFormat = "Salesforce{0}";
         public const string ModelsName = "Models";
 
-        public const string OAuthRedirectHandlerName = "SalesforceOAuthRedirectHandler";
+        public const string OAuthRedirectHandlerTypeName = "SalesforceOAuthRedirectHandler";
+        public const string OAuthRedirectHandlerNameFormat = "Salesforce{0}OAuthRedirectHandler";
+        public const string OAuthRedirectHandlerPathFormat = "/Salesforce{0}OAuthRedirectHandler.axd";
 
         public const string Metadata_ConnectedAppType = "ConnectedApp";
 

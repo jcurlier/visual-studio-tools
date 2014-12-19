@@ -45,6 +45,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         public string ConnectedAppName { get; set; }
 
+        public string GeneratedArtifactSuffix { get; set; }
+
         public IEnumerable<SObjectDescription> SelectedObjects { get; private set; }
 
         public TelemetryHelper TelemetryHelper { get; private set; }
