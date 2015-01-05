@@ -14,6 +14,59 @@
             Initializes a new instance of the AuthenticationChangedEventArgs class.
             </summary>
         </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceSinglePage">
+            <summary>
+            A ConnectedServiceConfigurator that shows completely custom UI in a single step.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceSinglePage.#ctor">
+            <summary>
+            Initializes a new instance of the ConnectedServiceSinglePage class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceSinglePage.Title">
+            <summary>
+            Gets or sets the title of the page that is shown at the top of the dialog.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceSinglePage.Description">
+            <summary>
+            Gets or sets the description of the page that is shown at the top of the dialog.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceSinglePage.IsFinishEnabled">
+            <summary>
+            Gets or sets a value indicating whether the ConnectedServiceSinglePage.GetFinishedServiceInstanceAsync()
+            can be invoked.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceSinglePage.View">
+            <summary>
+            Gets or sets the WPF UI Element that describes the content of the page.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceSinglePage.GetFinishedServiceInstanceAsync">
+            <summary>
+            The method that is invoked when the user gestures that they are finished configuring the service
+            and want their project updated.
+            
+            This method will return a “finished” service instance that will be passed off to the Handler.
+            </summary>
+            <returns>
+            A Task that returns the completed ConnectedServiceInstance.
+            </returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceSinglePage.CreateAuthenticatorAsync">
+            <summary>
+            Creates the ConnectedServiceAuthenticator that allows users to log into the service.
+            </summary>
+            <returns>
+            A Task that returns the ConnectedServiceAuthenticator instance, or null if the provider doesn't need to use authentication.
+            </returns>
+            <remarks>
+            The Connected Services core will call Dispose() on this instance when the dialog is closed.
+            </remarks>
+        </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceViewModelBase">
             <summary>
             A base class for all view model objects used in Connected Services.
@@ -84,6 +137,17 @@
             Allows the user to authenticate to the service.
             </summary>
         </member>
+        <member name="E:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.AuthenticationChanged">
+            <summary>
+             An event that signals a change to the current authentication state such as the
+             authenticated user has changed.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.#ctor">
+            <summary>
+            Initializes a new instance of the ConnectedServiceAuthenticator class.
+            </summary>
+        </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.IsAuthenticated">
             <summary>
             Gets or sets a value indicating whether the user is already logged in or
@@ -96,28 +160,12 @@
             <see cref="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.IsAuthenticated"/> is 'false'.
             </summary>
         </member>
-        <member name="T:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceCustomAuthenticator">
-            <summary>
-            A ConnectedServiceAuthenticator that uses custom UI to authenticate.
-            </summary>
-        </member>
-        <member name="E:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceCustomAuthenticator.AuthenticationChanged">
-            <summary>
-             An event that signals a change to the current authentication state such as the
-             authenticated user has changed.
-            </summary>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceCustomAuthenticator.#ctor">
-            <summary>
-            Initializes a new instance of the ConnectedServiceCustomAuthenticator class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceCustomAuthenticator.View">
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.View">
             <summary>
             Gets or sets the Framework Element that should be displayed to allow the user to authenticate to the service.
             </summary>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceCustomAuthenticator.OnAuthenticationChanged(Microsoft.VisualStudio.ConnectedServices.AuthenticationChangedEventArgs)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.OnAuthenticationChanged(Microsoft.VisualStudio.ConnectedServices.AuthenticationChangedEventArgs)">
             <summary>
             Notifies clients that the Authentication has changed.
             </summary>
@@ -702,7 +750,7 @@
         </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceWizard.Pages">
             <summary>
-            The collection of pages in the wizard.  Each page is a “step” in the wizard.
+            Gets the collection of pages in the wizard.  Each page is a “step” in the wizard.
             </summary>
         </member>
         <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceWizard.OnEnableNavigation(Microsoft.VisualStudio.ConnectedServices.NavigationEnabledState)">

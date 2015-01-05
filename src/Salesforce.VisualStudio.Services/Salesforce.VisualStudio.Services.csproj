@@ -57,6 +57,7 @@
     <Compile Include="ConnectedService\Models\EnvironmentType.cs" />
     <Compile Include="ConnectedService\Utilities\HyperlinkHelper.cs" />
     <Compile Include="ConnectedService\Utilities\IVsSqm.cs" />
+    <Compile Include="ConnectedService\Utilities\RegistryHelper.cs" />
     <Compile Include="ConnectedService\Utilities\TelemetryHelper.cs" />
     <Compile Include="ConnectedService\Utilities\ExceptionHelper.cs" />
     <Compile Include="ConnectedService\Utilities\MetadataHelper.cs" />

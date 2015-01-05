@@ -39,15 +39,6 @@
 
         public const string VisualStudioConnectedAppClientId = "3MVG9JZ_r.QzrS7gAjO9uCs2VkFkrvkiZiv9w9fBwzt4ds5YE4fN9VVa.3oTwr7KJKk.BZiPNekIw.d_yEVle";
 
-        public const string CSharpProjectKind = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
-        public const string VBProjectKind = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}";
-
-        public const string CSharpFileExtensions = "cs";
-        public const string VBFileExtensions = "vb";
-
-        public const string CSharpTemplateFolderName = "CSharp";
-        public const string VBTemplateFolderName = "VisualBasic";
-
         public const string HasErrorsPropertyName = "HasErrors";
         public const string IsValidPropertyName = "IsValid";
     }

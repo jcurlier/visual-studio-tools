@@ -24,6 +24,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         private const string ObjectSelectedCount = "SelectedCount";
         private const string ObjectAvailableCount = "AvailableCount";
 
+        // Strings for generated code data
+        private const string GeneratedCodeEvent = "SalesforceConnectedService/GeneratedCode";
+        private const string GeneratedCodeTemplate = "Template";
+        private const string GeneratedCodeLanguage = "Language";
+        private const string GeneratedCodeUsedCustomTemplate = "UsedCustomTemplate";
+
         // Strings for help link clicks
         private const string HelpLinkClickedEvent = "SalesforceConnectedService/LinkClicked";
         private const string HelpLinkUri = "Uri";
@@ -118,18 +124,19 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         }
 
         /// <summary>
-        /// Log data gather from user selections in Wizard.  
+        /// Log data gather from user selections in Wizard.
         /// </summary>
         public void LogInstanceData(SalesforceConnectedServiceInstance salesforceInstance)
         {
-            this.TrackEvent(TelemetryHelper.WizardFinishedEvent,
+            this.TrackEvent(
+                TelemetryHelper.WizardFinishedEvent,
                 () =>
                 {
                     Dictionary<string, string> properties = new Dictionary<string, string>();
-                    //Instance id
+                    // Instance id
                     properties.Add(TelemetryHelper.InstanceId, salesforceInstance.InstanceId);
 
-                    // Environment type 
+                    // Environment type
                     if (salesforceInstance.DesignTimeAuthentication != null)
                     {
                         properties.Add(TelemetryHelper.EnvironmentType, salesforceInstance.DesignTimeAuthentication.EnvironmentType.ToString());
@@ -138,7 +145,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                     // Runtime Authentication
                     properties.Add(TelemetryHelper.RuntimeAuthenticationStrategy, salesforceInstance.RuntimeAuthentication.AuthStrategy.ToString());
 
-                    //Uses custom domain
+                    // Uses custom domain
                     if (salesforceInstance.RuntimeAuthentication is WebServerFlowInfo)
                     {
                         properties.Add(TelemetryHelper.UsesCustomDomain, ((WebServerFlowInfo)salesforceInstance.RuntimeAuthentication).HasMyDomain.ToString());
@@ -154,12 +161,24 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             this.TrackEvent(
                 TelemetryHelper.ObjectInformationEvent,
                 null,
-                () =>
-                new Dictionary<string, double>()
-                {
-                    { TelemetryHelper.ObjectAvailableCount, objectSelectionViewModel.GetAvailableObjectCount() },
-                    { TelemetryHelper.ObjectSelectedCount, objectSelectionViewModel.GetSelectedObjects().Count() }
-                });
+                () => new Dictionary<string, double>()
+                    {
+                        { TelemetryHelper.ObjectAvailableCount, objectSelectionViewModel.GetAvailableObjectCount() },
+                        { TelemetryHelper.ObjectSelectedCount, objectSelectionViewModel.GetSelectedObjects().Count() }
+                    });
+        }
+
+        public void LogGeneratedCodeData(string template, string language, bool usedCustomTemplate)
+        {
+            this.TrackEvent(
+                TelemetryHelper.GeneratedCodeEvent,
+                () => new Dictionary<string, string>()
+                    {
+                        { TelemetryHelper.GeneratedCodeTemplate, template },
+                        { TelemetryHelper.GeneratedCodeLanguage, language },
+                        { TelemetryHelper.GeneratedCodeUsedCustomTemplate, usedCustomTemplate.ToString() }
+                    },
+                null);
         }
 
         public void LogLinkClickData(string page)
