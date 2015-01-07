@@ -1,6 +1,9 @@
 # version format.  This will always be changed by the Install script.
 version: 1.0.{build}
 
+# Dev14 is required to build (os actually means VM image)
+os: Visual Studio 2015 Preview
+
 # set up the build number (last two numbers).  this has to happen before
 # we do anything else because it's the only time we can set environment
 # variables.
