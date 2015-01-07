@@ -393,7 +393,4 @@
   <PropertyGroup>
     <CompileDependsOn>GenerateAssemblyInfoFile;$(CompileDependsOn)</CompileDependsOn>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(APPVEYOR)' == 'True'">
-    <PreBuildEvent>nuget restore</PreBuildEvent>
-  </PropertyGroup>
 </Project>

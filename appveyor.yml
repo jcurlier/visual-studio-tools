@@ -17,6 +17,9 @@ init:
 install:
   - cmd: powershell -ExecutionPolicy Bypass scripts\Appveyor-Install.ps1
 
+before_build:
+  - nuget restore
+
 build:
   project: Salesforce.VisualStudio.Services.sln
   
