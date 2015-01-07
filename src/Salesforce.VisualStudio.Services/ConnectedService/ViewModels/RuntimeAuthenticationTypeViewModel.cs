@@ -1,10 +1,8 @@
-﻿using Salesforce.VisualStudio.Services.ConnectedService.Models;
-using Salesforce.VisualStudio.Services.ConnectedService.Views;
-using System;
+﻿using Salesforce.VisualStudio.Services.ConnectedService.Views;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal class RuntimeAuthenticationTypeViewModel : PageViewModel
+    internal class RuntimeAuthenticationTypeViewModel : SalesforceConnectedServiceWizardPage
     {
         public const string RuntimeAuthStrategyPropertyName = "RuntimeAuthStrategy";
 
@@ -13,22 +11,10 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         public RuntimeAuthenticationTypeViewModel()
         {
             this.runtimeAuthStrategy = AuthenticationStrategy.WebServerFlow;
+            this.Title = Resources.RuntimeAuthenticationTypeViewModel_Title;
+            this.Description = Resources.RuntimeAuthenticationTypeViewModel_Description;
+            this.Legend = Resources.RuntimeAuthenticationTypeViewModel_Legend;
             this.View = new RuntimeAuthenticationTypePage(this);
-        }
-
-        public override string Title
-        {
-            get { return Resources.RuntimeAuthenticationTypeViewModel_Title; }
-        }
-
-        public override string Description
-        {
-            get { return Resources.RuntimeAuthenticationTypeViewModel_Description; }
-        }
-
-        public override string Legend
-        {
-            get { return Resources.RuntimeAuthenticationTypeViewModel_Legend; }
         }
 
         public AuthenticationStrategy RuntimeAuthStrategy
@@ -37,7 +23,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             set
             {
                 this.runtimeAuthStrategy = value;
-                this.RaisePropertyChanged();
+                this.OnNotifyPropertyChanged();
             }
         }
     }

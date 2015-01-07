@@ -120,7 +120,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         /// <summary>
         /// Log data gather from user selections in Wizard.  
         /// </summary>
-        public void LogInstanceData(ConnectedServiceInstance salesforceInstance)
+        public void LogInstanceData(SalesforceConnectedServiceInstance salesforceInstance)
         {
             this.TrackEvent(TelemetryHelper.WizardFinishedEvent,
                 () =>

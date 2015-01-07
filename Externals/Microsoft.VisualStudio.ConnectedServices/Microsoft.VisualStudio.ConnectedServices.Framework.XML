@@ -324,7 +324,7 @@
             commonly use.
             </summary>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String)">
             <summary>
             Adds a reference to the specified assembly to the project.
             </summary>
@@ -339,7 +339,7 @@
             Thrown when the assembly reference is not successfully added to the project.
             </exception>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
             <summary>
             Add the specified file to the project after doing token replacement.
             </summary>
@@ -363,7 +363,7 @@
             Returns the path to the file that was added.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Uri)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String,System.Uri)">
             <summary>
             Adds the getting started artifact to the project and launches the page in the browser.
             </summary>
@@ -381,7 +381,7 @@
             and opened in the browser.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext)">
             <summary>
             Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
             instance should create its own subfolder under this root folder.
@@ -393,7 +393,7 @@
             The name of the root folder.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Given an input, replace any tokens found in the specified dictionary with the specified values.
             </summary>
@@ -465,7 +465,7 @@
             The name of the element under the file name used to describe the service instance that the file is associated with.
             </summary>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String)">
             <summary>
             Adds a reference to the specified assembly to the project.
             </summary>
@@ -480,7 +480,7 @@
             Thrown when the assembly reference is not successfully added to the project.
             </exception>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
             <summary>
             Add the specified file to the project after doing token replacement.
             </summary>
@@ -504,7 +504,7 @@
             Returns the path to the file that was added.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Uri)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String,System.Uri)">
             <summary>
             Adds the getting started artifact to the project and launches the page in the browser.
             </summary>
@@ -522,7 +522,7 @@
             and opened in the browser.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.CopyAndPerformTokenReplacementAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.CopyAndPerformTokenReplacementAsync(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Copy fileToCopy and perform token replacement on the newly copied file, keeping fileToCopy unchanged.
             </summary>
@@ -547,7 +547,7 @@
             This allows the caller to add the file to the project without having to worry about the renaming step.
             </remarks>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext)">
             <summary>
             Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
             instance should create its own subfolder under this root folder.
@@ -559,7 +559,7 @@
             The name of the root folder.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Given an input, replace any tokens found in the specified dictionary with the specified values.
             </summary>
@@ -576,7 +576,7 @@
             Returns a new string with the tokens replace with the values from the specified dictionary.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.CreateExtendedTokens(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.CommonConnectedServiceHandlerHelper.CreateExtendedTokens(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext)">
             <summary>
             Get an extended set of tokens supported by the handler helper.
             </summary>
@@ -700,7 +700,7 @@
             Returns an enumrator that will enumerate over the lines [startIndex, endIndex) of the buffer.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.ProjectKConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.ProjectKConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext)">
             <summary>
             Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
             instance should create its own subfolder under this root folder.
@@ -847,7 +847,7 @@
             AddFromFileCopy assumes that the file does not exist on disk already.
             </remarks>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.WwaJavascriptConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.HandlerHelpers.WwaJavascriptConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext)">
             <summary>
             Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
             instance should create its own subfolder under this root folder.
@@ -859,7 +859,7 @@
             The name of the root folder.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddAssemblyReference(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String)">
             <summary>
             Adds a reference to the specified assembly to the project.
             </summary>
@@ -874,7 +874,7 @@
             Thrown when the assembly reference is not successfully added to the project.
             </exception>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddFileAsync(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean)">
             <summary>
             Add the specified file to the project after doing token replacement.
             </summary>
@@ -898,7 +898,7 @@
             Returns the path to the file that was added.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Uri)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.AddGettingStartedAsync(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String,System.Uri)">
             <summary>
             Adds the getting started artifact to the project and launches the page in the browser.
             </summary>
@@ -916,7 +916,7 @@
             and opened in the browser.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext)">
             <summary>
             Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
             instance should create its own subfolder under this root folder.
@@ -928,7 +928,7 @@
             The name of the root folder.
             </returns>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.IConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.IConnectedServiceHandlerHelper.PerformTokenReplacement(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstanceContext,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Given an input, replace any tokens found in the specified dictionary with the specified values.
             </summary>

@@ -18,7 +18,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         }
 
         public static async Task AddGeneratedCode(
-            IConnectedServiceInstanceContext context,
+            ConnectedServiceInstanceContext context,
             Project project,
             string templateFileName,
             string generatedFilesDirectory,
@@ -26,7 +26,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             Func<ITextTemplatingSession, string> getArtifactName)
         {
             string templatePath = Path.Combine(
-                    Path.GetDirectoryName(typeof(ConnectedServiceInstanceHandler).Assembly.Location),
+                    Path.GetDirectoryName(typeof(SalesforceConnectedServiceHandler).Assembly.Location),
                     "ConnectedService\\Templates",
                     GeneratedCodeHelper.GetTemplateFolderName(project),
                     templateFileName + ".tt");

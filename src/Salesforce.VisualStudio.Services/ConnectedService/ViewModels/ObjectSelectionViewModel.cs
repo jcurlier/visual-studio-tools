@@ -12,34 +12,22 @@ using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal class ObjectSelectionViewModel : PageViewModel
+    internal class ObjectSelectionViewModel : SalesforceConnectedServiceWizardPage
     {
         private ObjectPickerCategory allObjectsCategory;
         private string errorMessage;
         private DesignTimeAuthentication lastDesignTimeAuthentication;
-        private IConnectedServiceProviderHost providerHost;
+        private ConnectedServiceProviderHost host;
         private Task loadObjectsTask;
 
-        public ObjectSelectionViewModel(IConnectedServiceProviderHost providerHost)
+        public ObjectSelectionViewModel(ConnectedServiceProviderHost host)
         {
             this.allObjectsCategory = new ObjectPickerCategory(Resources.ObjectSelectionViewModel_AllObjects);
-            this.providerHost = providerHost;
+            this.host = host;
+            this.Title = Resources.ObjectSelectionViewModel_Title;
+            this.Description = Resources.ObjectSelectionViewModel_Description;
+            this.Legend = Resources.ObjectSelectionViewModel_Legend;
             this.View = new ObjectSelectionPage(this);
-        }
-
-        public override string Title
-        {
-            get { return Resources.ObjectSelectionViewModel_Title; }
-        }
-
-        public override string Description
-        {
-            get { return Resources.ObjectSelectionViewModel_Description; }
-        }
-
-        public override string Legend
-        {
-            get { return Resources.ObjectSelectionViewModel_Legend; }
         }
 
         public IEnumerable<ObjectPickerCategory> Categories
@@ -53,7 +41,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             set
             {
                 this.errorMessage = value;
-                this.RaisePropertyChanged();
+                this.OnNotifyPropertyChanged();
             }
         }
         /// <summary>
@@ -103,7 +91,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             if (this.loadObjectsTask != null && (!this.loadObjectsTask.IsCompleted || this.loadObjectsTask.IsFaulted))
             {
-                using (this.providerHost.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
+                using (this.host.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
                 {
                     await this.loadObjectsTask;
                 }
@@ -125,11 +113,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             return this.allObjectsCategory.Children.Count();
         }
 
-        public override async Task<NavigationEnabledState> OnPageEntering()
+        public override async Task<NavigationEnabledState> OnPageEnteringAsync(WizardEnteringArgs args)
         {
             await this.WaitOnRefreshObjects();
 
-            return await base.OnPageEntering();
+            return await base.OnPageEnteringAsync(args);
         }
     }
 }

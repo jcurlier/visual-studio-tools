@@ -2,71 +2,54 @@
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService
 {
-    internal class ConnectedServiceWizardProvider : IConnectedServiceProviderWizardUI
+    internal class SalesforceConnectedServiceWizard : ConnectedServiceWizard
     {
         private DesignTimeAuthenticationViewModel designTimeAuthenticationViewModel;
         private RuntimeAuthenticationTypeViewModel runtimeAuthenticationTypeViewModel;
         private RuntimeAuthenticationConfigViewModel runtimeAuthenticationConfigViewModel;
         private ObjectSelectionViewModel objectSelectionViewModel;
         private UserSettings userSettings;
-        private ObservableCollection<IConnectedServiceWizardPage> pages;
 
-        public ConnectedServiceWizardProvider(IConnectedServiceProviderHost providerHost)
+        public SalesforceConnectedServiceWizard(ConnectedServiceProviderHost host)
         {
             this.userSettings = UserSettings.Load();
-            this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(this.userSettings, providerHost);
+            this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(this.userSettings, host);
             this.designTimeAuthenticationViewModel.PageLeaving += DesignTimeAuthenticationViewModel_PageLeaving;
             this.runtimeAuthenticationTypeViewModel = new RuntimeAuthenticationTypeViewModel();
-            this.runtimeAuthenticationConfigViewModel = new RuntimeAuthenticationConfigViewModel(this.userSettings, () => this.designTimeAuthenticationViewModel.Authentication.MyDomain);
+            this.runtimeAuthenticationConfigViewModel = new RuntimeAuthenticationConfigViewModel(
+                this.userSettings, () => this.designTimeAuthenticationViewModel.Authentication.MyDomain);
             this.runtimeAuthenticationConfigViewModel.RuntimeAuthStrategy = this.runtimeAuthenticationTypeViewModel.RuntimeAuthStrategy;
-            this.objectSelectionViewModel = new ObjectSelectionViewModel(providerHost);
+            this.objectSelectionViewModel = new ObjectSelectionViewModel(host);
 
-            this.pages = new ObservableCollection<IConnectedServiceWizardPage>();
-            this.pages.Add(this.designTimeAuthenticationViewModel);
-            this.pages.Add(this.runtimeAuthenticationTypeViewModel);
-            this.pages.Add(this.runtimeAuthenticationConfigViewModel);
-            this.pages.Add(this.objectSelectionViewModel);
+            this.Pages.Add(this.designTimeAuthenticationViewModel);
+            this.Pages.Add(this.runtimeAuthenticationTypeViewModel);
+            this.Pages.Add(this.runtimeAuthenticationConfigViewModel);
+            this.Pages.Add(this.objectSelectionViewModel);
 
-            foreach (PageViewModel page in this.Pages)
+            foreach (SalesforceConnectedServiceWizardPage page in this.Pages)
             {
                 page.PropertyChanged += this.PageViewModel_PropertyChanged;
             }
         }
 
-        public ObservableCollection<IConnectedServiceWizardPage> Pages
-        {
-            get { return this.pages; }
-        }
-
-        public Task<IConnectedServiceInstance> GetFinishedServiceInstance()
+        public override Task<ConnectedServiceInstance> GetFinishedServiceInstanceAsync()
         {
             this.userSettings.Save();
 
-            ConnectedServiceInstance serviceInstance = new ConnectedServiceInstance(
+            SalesforceConnectedServiceInstance serviceInstance = new SalesforceConnectedServiceInstance(
                     this.designTimeAuthenticationViewModel.Authentication,
                     this.runtimeAuthenticationConfigViewModel.RuntimeAuthentication,
                     this.objectSelectionViewModel.GetSelectedObjects());
 
             serviceInstance.TelemetryHelper.LogInstanceObjectData(this.objectSelectionViewModel);
 
-            return Task.FromResult<IConnectedServiceInstance>(serviceInstance);
-        }
-
-        public event EventHandler<EnableNavigationEventArgs> EnableNavigation;
-
-        private void RaiseEnableNavigation(NavigationEnabledState navigationEnabledState)
-        {
-            if (this.EnableNavigation != null)
-            {
-                this.EnableNavigation(this, new EnableNavigationEventArgs() { State = navigationEnabledState });
-            }
+            return Task.FromResult<ConnectedServiceInstance>(serviceInstance);
         }
 
         private void DesignTimeAuthenticationViewModel_PageLeaving(object sender, EventArgs e)
@@ -78,14 +61,14 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         private void PageViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == CommonViewModel.IsValidPropertyName)
+            if (e.PropertyName == Constants.IsValidPropertyName)
             {
-                PageViewModel senderPage = (PageViewModel)sender;
+                SalesforceConnectedServiceWizardPage senderPage = (SalesforceConnectedServiceWizardPage)sender;
                 int invalidPageIndex = this.Pages.IndexOf(senderPage);
 
                 for (int i = invalidPageIndex + 1; i < this.Pages.Count; i++)
                 {
-                    PageViewModel page = (PageViewModel)this.Pages[i];
+                    SalesforceConnectedServiceWizardPage page = (SalesforceConnectedServiceWizardPage)this.Pages[i];
                     page.IsEnabled = senderPage.IsValid;
 
                     // If an invalid page is reached, then all subsequent pages are currently disabled
@@ -106,8 +89,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         private void RefreshFinishButtonState()
         {
-            bool isFinishedEnabled = this.Pages.Cast<PageViewModel>().All(p => p.IsValid);
-            this.RaiseEnableNavigation(new NavigationEnabledState(null, null, isFinishedEnabled));
+            bool isFinishedEnabled = this.Pages.Cast<SalesforceConnectedServiceWizardPage>().All(p => p.IsValid);
+            this.OnEnableNavigation(new NavigationEnabledState(null, null, isFinishedEnabled));
         }
     }
 }

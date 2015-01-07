@@ -3,10 +3,11 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal class MyDomainViewModel : CommonViewModel, INotifyDataErrorInfo
+    internal class MyDomainViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         private static readonly string[] myDomainError = { Resources.MyDomainViewModel_ErrorMessage };
         private const string MyDomainPropertyName = "MyDomain";
@@ -52,7 +53,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     if (isMyDomainValid != this.isValid)
                     {
                         this.isValid = isMyDomainValid;
-                        this.RaisePropertyChanged(CommonViewModel.IsValidPropertyName);
+                        this.OnNotifyPropertyChanged(Constants.IsValidPropertyName);
                     }
 
                     this.RefreshErrorState();
@@ -78,12 +79,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             }
         }
 
-        public override bool IsValid
+        public bool IsValid
         {
             get { return this.isValid; }
         }
 
-        public override bool HasErrors
+        public bool HasErrors
         {
             get { return this.hasErrors; }
         }
@@ -91,6 +92,16 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         public UserSettings UserSettings
         {
             get { return this.userSettings; }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnNotifyPropertyChanged([CallerMemberName] string name = "")
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -129,7 +140,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             if (hasErrorsNewValue != this.hasErrors)
             {
                 this.hasErrors = hasErrorsNewValue;
-                this.RaisePropertyChanged(CommonViewModel.HasErrorsPropertyName);
+                this.OnNotifyPropertyChanged(Constants.HasErrorsPropertyName);
                 this.OnErrorsChanged(MyDomainViewModel.MyDomainPropertyName);
             }
         }

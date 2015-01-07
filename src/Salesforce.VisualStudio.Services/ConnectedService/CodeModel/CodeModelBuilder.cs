@@ -15,7 +15,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
             IEnumerable<SObjectDescription> sObjects,
             DesignTimeAuthentication authentication,
             GeneratedService generatedService,
-            ILogger logger)
+            ConnectedServiceLogger logger)
         {
             IEnumerable<SObjectDescription> sObjectsWithDetails = await MetadataLoader.LoadObjectDetails(sObjects, authentication);
 
@@ -31,12 +31,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
             return generatedObjects;
         }
 
-        private static IEnumerable<GeneratedStorageProperty> BuildStorageProperties(SObjectDescription objDescription, ILogger logger)
+        private static IEnumerable<GeneratedStorageProperty> BuildStorageProperties(SObjectDescription objDescription, ConnectedServiceLogger logger)
         {
             return objDescription.Fields
                 .Select(f => CodeModelBuilder.BuildStorageProperty(
                     f,
-                    (soapType) => logger.WriteMessage(LoggerMessageCategory.Error, Resources.LogMessage_UnsupportedSoapType, soapType, objDescription.Name, f.Name)))
+                    (soapType) => logger.WriteMessageAsync(LoggerMessageCategory.Error, Resources.LogMessage_UnsupportedSoapType, soapType, objDescription.Name, f.Name)))
                 .ToArray();
         }
 

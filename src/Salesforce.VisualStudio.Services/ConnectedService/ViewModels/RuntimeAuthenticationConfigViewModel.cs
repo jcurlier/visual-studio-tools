@@ -5,33 +5,22 @@ using System.ComponentModel;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal class RuntimeAuthenticationConfigViewModel : PageViewModel
+    internal class RuntimeAuthenticationConfigViewModel : SalesforceConnectedServiceWizardPage
     {
         private MyDomainViewModel myDomainViewModel;
         private RuntimeAuthentication runtimeAuthentication;
         private bool isCustomDomain;
         private Func<Uri> getDesignTimeMyDomain;
+        private UserSettings userSettings;
 
         public RuntimeAuthenticationConfigViewModel(UserSettings userSettings, Func<Uri> getDesignTimeMyDomain)
         {
-            this.UserSettings = userSettings;
+            this.userSettings = userSettings;
             this.getDesignTimeMyDomain = getDesignTimeMyDomain;
+            this.Title = Resources.RuntimeAuthenticationConfigViewModel_Title;
+            this.Description = Resources.RuntimeAuthenticationConfigViewModel_Description;
+            this.Legend = Resources.RuntimeAuthenticationConfigViewModel_Legend;
             this.View = new RuntimeAuthenticationConfigPage(this);
-        }
-
-        public override string Description
-        {
-            get { return Resources.RuntimeAuthenticationConfigViewModel_Description; }
-        }
-
-        public override string Legend
-        {
-            get { return Resources.RuntimeAuthenticationConfigViewModel_Legend; }
-        }
-
-        public override string Title
-        {
-            get { return Resources.RuntimeAuthenticationConfigViewModel_Title; }
         }
 
         public MyDomainViewModel MyDomainViewModel
@@ -40,9 +29,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             private set
             {
                 this.myDomainViewModel = value;
-                this.RaisePropertyChanged();
-                this.RaisePropertyChanged(CommonViewModel.IsValidPropertyName);
-                this.RaisePropertyChanged(CommonViewModel.HasErrorsPropertyName);
+                this.OnNotifyPropertyChanged();
+                this.OnNotifyPropertyChanged(Constants.IsValidPropertyName);
+                this.OnNotifyPropertyChanged(Constants.HasErrorsPropertyName);
             }
         }
 
@@ -63,7 +52,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         throw new NotImplementedException();
                 }
 
-                this.RaisePropertyChanged();
+                this.OnNotifyPropertyChanged();
             }
         }
 
@@ -73,7 +62,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             private set
             {
                 this.runtimeAuthentication = value;
-                this.RaisePropertyChanged();
+                this.OnNotifyPropertyChanged();
             }
         }
 
@@ -91,17 +80,17 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         this.MyDomainViewModel = new MyDomainViewModel(
                             this.getDesignTimeMyDomain(),
                             myDomainUri => ((WebServerFlowInfo)(this.RuntimeAuthentication)).MyDomain = myDomainUri,
-                            this.UserSettings);
+                            this.userSettings);
                         this.MyDomainViewModel.PropertyChanged += this.MyDomainViewModel_PropertyChanged;
                     }
                     else if (this.MyDomainViewModel != null)
                     {
                         this.MyDomainViewModel.PropertyChanged -= this.MyDomainViewModel_PropertyChanged;
                         this.MyDomainViewModel = null;
-                        this.RaisePropertyChanged(CommonViewModel.HasErrorsPropertyName);
+                        this.OnNotifyPropertyChanged(Constants.HasErrorsPropertyName);
                     }
 
-                    this.RaisePropertyChanged();
+                    this.OnNotifyPropertyChanged();
                 }
             }
         }
@@ -116,17 +105,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             get { return this.MyDomainViewModel != null && this.MyDomainViewModel.HasErrors; }
         }
 
-        public UserSettings UserSettings { get; private set; }
-
         private void MyDomainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == CommonViewModel.IsValidPropertyName)
+            if (e.PropertyName == Constants.IsValidPropertyName)
             {
-                this.RaisePropertyChanged(CommonViewModel.IsValidPropertyName);
+                this.OnNotifyPropertyChanged(Constants.IsValidPropertyName);
             }
-            else if (e.PropertyName == CommonViewModel.HasErrorsPropertyName)
+            else if (e.PropertyName == Constants.HasErrorsPropertyName)
             {
-                this.RaisePropertyChanged(CommonViewModel.HasErrorsPropertyName);
+                this.OnNotifyPropertyChanged(Constants.HasErrorsPropertyName);
             }
         }
     }

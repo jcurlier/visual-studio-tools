@@ -67,7 +67,6 @@
     <Compile Include="ConnectedService\ViewModels\Environment.cs" />
     <Compile Include="ConnectedService\ViewModels\MyDomainViewModel.cs" />
     <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationConfigViewModel.cs" />
-    <Compile Include="ConnectedService\ViewModels\CommonViewModel.cs" />
     <Compile Include="ConnectedService\Views\EnvironmentColors.cs" />
     <Compile Include="ConnectedService\Views\MyDomainControl.xaml.cs">
       <DependentUpon>MyDomainControl.xaml</DependentUpon>
@@ -80,7 +79,7 @@
     <Compile Include="ConnectedService\CodeModel\SObjectField.cs" />
     <Compile Include="ConnectedService\Models\ServiceAccountWithPassword.cs" />
     <Compile Include="ConnectedService\Models\UserSettings.cs" />
-    <Compile Include="ConnectedService\ConnectedServiceWizardProvider.cs" />
+    <Compile Include="ConnectedService\SalesforceConnectedServiceWizard.cs" />
     <Compile Include="ConnectedService\CodeModel\CodeModelBuilder.cs" />
     <Compile Include="ConnectedService\Utilities\AuthenticationHelper.cs" />
     <Compile Include="ConnectedService\Utilities\ConfigHelperExtensions.cs" />
@@ -113,15 +112,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ConnectedService\ConnectedServiceInstance.cs" />
-    <Compile Include="ConnectedService\ConnectedServiceInstanceHandler.cs" />
-    <Compile Include="ConnectedService\ConnectedServiceProvider.cs" />
+    <Compile Include="ConnectedService\SalesforceConnectedServiceInstance.cs" />
+    <Compile Include="ConnectedService\SalesforceConnectedServiceHandler.cs" />
+    <Compile Include="ConnectedService\SalesforceConnectedServiceProvider.cs" />
     <Compile Include="ConnectedService\ViewModels\DesignTimeAuthenticationViewModel.cs" />
     <Compile Include="ConnectedService\Views\AuthenticateRedirectHost.xaml.cs">
       <DependentUpon>AuthenticateRedirectHost.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConnectedService\Views\EnumToBooleanConverter.cs" />
-    <Compile Include="ConnectedService\ViewModels\PageViewModel.cs" />
+    <Compile Include="ConnectedService\ViewModels\SalesforceConnectedServiceWizardPage.cs" />
     <Compile Include="Web References\SalesforceMetadata\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -8,32 +8,32 @@ using System.Windows.Media.Imaging;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService
 {
-    [Export(typeof(IConnectedServiceProvider))]
+    [Export(typeof(ConnectedServiceProvider))]
     [ExportMetadata(Constants.ProviderId, Constants.ProviderIdValue)]
-    internal class ConnectedServiceProvider : IConnectedServiceProvider
+    internal class SalesforceConnectedServiceProvider : ConnectedServiceProvider
     {
         private BitmapImage icon;
 
-        public ConnectedServiceProvider()
+        public SalesforceConnectedServiceProvider()
         {
         }
 
-        public string Category
+        public override string Category
         {
             get { return Resources.ConnectedServiceProvider_Category; }
         }
 
-        public string CreatedBy
+        public override string CreatedBy
         {
             get { return Resources.ConnectedServiceProvider_CreatedBy; }
         }
 
-        public string Description
+        public override string Description
         {
             get { return Resources.ConnectedServiceProvider_Description; }
         }
 
-        public ImageSource Icon
+        public override ImageSource Icon
         {
             get
             {
@@ -49,33 +49,26 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             }
         }
 
-        public Uri MoreInfoUri
+        public override Uri MoreInfoUri
         {
             get { return new Uri(Constants.MoreInfoLink); }
         }
 
-        public string Name
+        public override string Name
         {
             get { return Resources.ConnectedServiceProvider_Name; }
         }
 
-        public Version Version
+        public override Version Version
         {
-            get { return typeof(ConnectedServiceProvider).Assembly.GetName().Version; }
+            get { return typeof(SalesforceConnectedServiceProvider).Assembly.GetName().Version; }
         }
 
-        public Task<object> CreateService(Type serviceType, IServiceProvider serviceProvider)
+        public override Task<ConnectedServiceConfigurator> CreateConfiguratorAsync(ConnectedServiceProviderHost host)
         {
-            object service = null;
+            ConnectedServiceConfigurator wizard = new SalesforceConnectedServiceWizard(host);
 
-            if (serviceType == typeof(IConnectedServiceProviderUI))
-            {
-                IConnectedServiceProviderHost providerHost =
-                    (IConnectedServiceProviderHost)serviceProvider.GetService(typeof(IConnectedServiceProviderHost));
-                service = new ConnectedServiceWizardProvider(providerHost);
-            }
-
-            return Task.FromResult(service);
+            return Task.FromResult(wizard);
         }
     }
 }
