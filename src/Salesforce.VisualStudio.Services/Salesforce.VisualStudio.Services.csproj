@@ -385,7 +385,7 @@
   </Target>
   <Target Name="GetBuildVersion" Outputs="$(BuildVersion)" />
   <Target Name="GenerateAssemblyInfoFile">
-    <WriteCodeFragment AssemblyAttributes="@(AssemblyVersionAttribute)" Language="C#" OutputFile="$(MSBuildProjectFileDirectory)\GlobalAssemblyInfo.cs">
+    <WriteCodeFragment AssemblyAttributes="@(AssemblyVersionAttribute)" Language="C#" OutputFile="$(MSBuildProjectDirectory)\GlobalAssemblyInfo.cs">
       <Output TaskParameter="OutputFile" ItemName="Compile" />
       <Output TaskParameter="OutputFile" ItemName="FileWrites" />
     </WriteCodeFragment>
