@@ -29,9 +29,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             private set
             {
                 this.myDomainViewModel = value;
+                this.CalculateIsValid();
+                this.CalculateHasErrors();
                 this.OnNotifyPropertyChanged();
-                this.OnNotifyPropertyChanged(Constants.IsValidPropertyName);
-                this.OnNotifyPropertyChanged(Constants.HasErrorsPropertyName);
             }
         }
 
@@ -87,7 +87,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     {
                         this.MyDomainViewModel.PropertyChanged -= this.MyDomainViewModel_PropertyChanged;
                         this.MyDomainViewModel = null;
-                        this.OnNotifyPropertyChanged(Constants.HasErrorsPropertyName);
                     }
 
                     this.OnNotifyPropertyChanged();
@@ -95,26 +94,25 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             }
         }
 
-        public override bool IsValid
-        {
-            get { return this.MyDomainViewModel == null || this.MyDomainViewModel.IsValid; }
-        }
-
-        public override bool HasErrors
-        {
-            get { return this.MyDomainViewModel != null && this.MyDomainViewModel.HasErrors; }
-        }
-
         private void MyDomainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == Constants.IsValidPropertyName)
             {
-                this.OnNotifyPropertyChanged(Constants.IsValidPropertyName);
+                this.CalculateIsValid();
             }
             else if (e.PropertyName == Constants.HasErrorsPropertyName)
             {
-                this.OnNotifyPropertyChanged(Constants.HasErrorsPropertyName);
+                this.CalculateHasErrors();
             }
+        }
+        private void CalculateIsValid()
+        {
+            this.IsValid = this.MyDomainViewModel == null || this.MyDomainViewModel.IsValid;
+        }
+
+        private void CalculateHasErrors()
+        {
+            this.HasErrors = this.MyDomainViewModel != null && this.MyDomainViewModel.HasErrors;
         }
     }
 }

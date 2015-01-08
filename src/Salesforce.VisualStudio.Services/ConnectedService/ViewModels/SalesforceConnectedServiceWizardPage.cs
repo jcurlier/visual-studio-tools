@@ -4,13 +4,24 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
     internal abstract class SalesforceConnectedServiceWizardPage : ConnectedServiceWizardPage
     {
+        private bool isValid;
+
         protected SalesforceConnectedServiceWizardPage()
         {
+            this.isValid = true;
         }
 
-        public virtual bool IsValid
+        public bool IsValid
         {
-            get { return true; }
+            get { return this.isValid; }
+            set
+            {
+                if (this.isValid != value)
+                {
+                    this.isValid = value;
+                    this.OnNotifyPropertyChanged();
+                }
+            }
         }
     }
 }
