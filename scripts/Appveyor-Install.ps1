@@ -1,5 +1,5 @@
 $regex = New-Object System.Text.RegularExpressions.Regex('<MajorVersion>(\d\.\d)</MajorVersion>')
-$m = $regex.Match((Get-Content src\Salesforce.VisualStudio.Services\Salesforce.VisualStudio.Services.csproj))
+$m = $regex.Match((Get-Content Salesforce.props))
 $majorMinor = $m.Groups[1].Value
 $version = $majorMinor + '.' + $env:BuildNumber
 
