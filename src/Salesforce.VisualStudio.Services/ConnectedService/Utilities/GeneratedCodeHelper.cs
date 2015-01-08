@@ -17,7 +17,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             get { return (ITextTemplating)Shell.Package.GetGlobalService(typeof(STextTemplating)); }
         }
 
-        public static async Task AddGeneratedCode(
+        public static async Task AddGeneratedCodeAsync(
             ConnectedServiceInstanceContext context,
             Project project,
             string templateFileName,

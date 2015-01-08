@@ -11,13 +11,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
     internal static class CodeModelBuilder
     {
-        public static async Task<IEnumerable<GeneratedObject>> BuildObjectModel(
+        public static async Task<IEnumerable<GeneratedObject>> BuildObjectModelAsync(
             IEnumerable<SObjectDescription> sObjects,
             DesignTimeAuthentication authentication,
             GeneratedService generatedService,
             ConnectedServiceLogger logger)
         {
-            IEnumerable<SObjectDescription> sObjectsWithDetails = await MetadataLoader.LoadObjectDetails(sObjects, authentication);
+            IEnumerable<SObjectDescription> sObjectsWithDetails = await MetadataLoader.LoadObjectDetailsAsync(sObjects, authentication);
 
             IEnumerable<GeneratedObject> generatedObjects = sObjectsWithDetails
                 .Select(o => new GeneratedObject()

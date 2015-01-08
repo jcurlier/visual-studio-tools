@@ -164,7 +164,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     // Existing identity w/no access token
                     try
                     {
-                        await AuthenticationHelper.RefreshAccessToken(this.Authentication);
+                        await AuthenticationHelper.RefreshAccessTokenAsync(this.Authentication);
                     }
                     catch (ForceException ex)
                     {
@@ -239,7 +239,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             }
         }
 
-        public async Task<bool> RetrieveAuthenticationFromRedirect(Uri uri)
+        public async Task<bool> RetrieveAuthenticationFromRedirectAsync(Uri uri)
         {
             bool authenticationFound = false;
 
@@ -257,7 +257,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 try
                 {
                     string id = DesignTimeAuthenticationViewModel.RetrieveParameterValue(parameters, "id=");
-                    await this.RetrieveIdInfo(id);
+                    await this.RetrieveIdInfoAsync(id);
                 }
                 catch (Exception)
                 {
@@ -295,7 +295,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             return paramValue == null ? null : HttpUtility.UrlDecode(paramValue.Substring(parameterName.Length));
         }
 
-        private async Task RetrieveIdInfo(string id)
+        private async Task RetrieveIdInfoAsync(string id)
         {
             // Note: Expired AccessTokens are not handled here because the Id request is made as part of the authentication response handler.
             HttpClient httpClient = new HttpClient();

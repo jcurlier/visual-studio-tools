@@ -13,7 +13,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
     internal static class ConnectedAppHelper
     {
-        public static async Task CreateConnectedApp(
+        public static async Task CreateConnectedAppAsync(
             SalesforceConnectedServiceInstance salesforceInstance,
             ConnectedServiceLogger logger,
             Project project)
@@ -24,15 +24,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 metadataService.SessionHeaderValue = new SessionHeader();
                 metadataService.SessionHeaderValue.sessionId = salesforceInstance.DesignTimeAuthentication.AccessToken;
 
-                await AuthenticationHelper.ExecuteSalesforceRequest<SoapHeaderException>(
+                await AuthenticationHelper.ExecuteSalesforceRequestAsync<SoapHeaderException>(
                     salesforceInstance.DesignTimeAuthentication,
-                    async () => await ConnectedAppHelper.CreateConnectedApp(salesforceInstance, metadataService, logger, project),
+                    async () => await ConnectedAppHelper.CreateConnectedAppAsync(salesforceInstance, metadataService, logger, project),
                     (e) => e.Message.StartsWith("INVALID_SESSION_ID", StringComparison.OrdinalIgnoreCase),
                     () => metadataService.SessionHeaderValue.sessionId = salesforceInstance.DesignTimeAuthentication.AccessToken);
             }
         }
 
-        private static async Task CreateConnectedApp(
+        private static async Task CreateConnectedAppAsync(
             SalesforceConnectedServiceInstance salesforceInstance,
             MetadataService metadataService,
             ConnectedServiceLogger logger,

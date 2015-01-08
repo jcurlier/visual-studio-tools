@@ -59,15 +59,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 this.allObjectsCategory.Children = null;
                 this.ErrorMessage = null;
                 this.lastDesignTimeAuthentication = authentication;
-                this.loadObjectsTask = this.LoadObjects(authentication);
+                this.loadObjectsTask = this.LoadObjectsAsync(authentication);
             }
         }
 
-        private async Task LoadObjects(DesignTimeAuthentication authentication)
+        private async Task LoadObjectsAsync(DesignTimeAuthentication authentication)
         {
             try
             {
-                IEnumerable<SObjectDescription> objects = await MetadataLoader.LoadObjects(authentication);
+                IEnumerable<SObjectDescription> objects = await MetadataLoader.LoadObjectsAsync(authentication);
                 this.allObjectsCategory.Children = objects
                     .Select(o => new ObjectPickerObject(this.allObjectsCategory, o.Name) { State = o })
                     .ToArray();
@@ -87,7 +87,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         /// <summary>
         /// Waits for the RefreshObjects task to complete if it is not already completed.  While waiting a busy indicator will be displayed.
         /// </summary>
-        private async Task WaitOnRefreshObjects()
+        private async Task WaitOnRefreshObjectsAsync()
         {
             if (this.loadObjectsTask != null && (!this.loadObjectsTask.IsCompleted || this.loadObjectsTask.IsFaulted))
             {
@@ -115,7 +115,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         public override async Task<NavigationEnabledState> OnPageEnteringAsync(WizardEnteringArgs args)
         {
-            await this.WaitOnRefreshObjects();
+            await this.WaitOnRefreshObjectsAsync();
 
             return await base.OnPageEnteringAsync(args);
         }
