@@ -6,7 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
+
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
@@ -39,7 +44,23 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 
         public TelemetryHelper()
         {
-            isOptedIn = TelemetryHelper.InitializeIsOptedIn();
+            this.isOptedIn = TelemetryHelper.InitializeIsOptedIn();
+
+            if (this.isOptedIn)
+            {
+                // attempt to track anonymous user data 
+                string userName = System.Environment.UserName;
+                string fqdnName = TelemetryHelper.GetFQDN();
+
+                string uniqueUserRaw = string.Join("@", userName, fqdnName).ToLowerInvariant();
+                string safeUserId = TelemetryHelper.GetHashSha256(uniqueUserRaw);
+
+                string userDnsDomain = TelemetryHelper.GetUserDnsDomain();
+                string safeDomain = TelemetryHelper.GetHashSha256(userDnsDomain);
+
+                this.TelemetryClient.Context.User.Id = safeUserId;
+                this.TelemetryClient.Context.User.AccountId = safeDomain;
+            }
         }
 
         private TelemetryClient TelemetryClient
@@ -188,5 +209,64 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 () => new Dictionary<string, string>() { { TelemetryHelper.HelpLinkUri, page } },
                 null);
         }
+
+        /// <summary>
+        /// Reliably returns a useful string for the fully qualified domain name of the local host
+        /// From http://stackoverflow.com/questions/804700/how-to-find-fqdn-of-local-machine-in-c-net
+        /// </summary>
+        private static string GetFQDN()
+        {
+            string hostName = "unknown.fqdn";
+            try
+            {
+                string domainName = IPGlobalProperties.GetIPGlobalProperties().DomainName;
+                hostName = Dns.GetHostName();
+
+                if (!hostName.EndsWith(domainName))
+                {
+                    hostName += "." + domainName;
+                }
+            }
+            catch (Exception) { }
+            return hostName;
+        }
+
+        /// <summary>
+        /// Perform a 1 way hash of the user's PII (personally identifiable user information)
+        /// We want to be able to track the activity streams of users without being able to determine who they are
+        /// Adapted from http://stackoverflow.com/questions/12416249/hashing-a-string-with-sha256
+        /// Note that we use SHA256CryptoServiceProvider so this code runs on FIPS-140 enforced machines
+        /// </summary>
+        private static string GetHashSha256(string text)
+        {
+            string hashString = string.Empty;
+
+            byte[] bytes = Encoding.UTF8.GetBytes(text);
+            SHA256CryptoServiceProvider hashProvider = new SHA256CryptoServiceProvider();
+            byte[] hash = hashProvider.ComputeHash(bytes);
+            
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
+        }
+
+        /// <summary>
+        /// Attempt to get the logged in user's DNS Domain
+        /// This is to understand organizational usage information
+        /// Two users within the same Windows organization domain ould have identical UserDnsDomain hashes but different userId hashes
+        /// </summary>
+        private static string GetUserDnsDomain()
+        {
+            string returnValue = "(unknown)";
+            try
+            {
+                returnValue = System.Environment.GetEnvironmentVariable("USERDNSDOMAIN");
+            }
+            catch (Exception) { }
+            return returnValue;
+        }
+
     }
 }
