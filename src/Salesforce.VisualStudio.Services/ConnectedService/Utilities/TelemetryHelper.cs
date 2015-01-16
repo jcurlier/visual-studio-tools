@@ -46,21 +46,25 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         {
             this.isOptedIn = TelemetryHelper.InitializeIsOptedIn();
 
-            if (this.isOptedIn)
+            try
             {
-                // attempt to track anonymous user data 
-                string userName = System.Environment.UserName;
-                string fqdnName = TelemetryHelper.GetFQDN();
+                if (this.isOptedIn)
+                {
+                    // attempt to track anonymous user data 
+                    string userName = System.Environment.UserName;
+                    string fqdnName = TelemetryHelper.GetFQDN();
 
-                string uniqueUserRaw = string.Join("@", userName, fqdnName).ToLowerInvariant();
-                string safeUserId = TelemetryHelper.GetHashSha256(uniqueUserRaw);
+                    string uniqueUserRaw = string.Join("@", userName, fqdnName).ToLowerInvariant();
+                    string safeUserId = TelemetryHelper.GetHashSha256(uniqueUserRaw);
 
-                string userDnsDomain = TelemetryHelper.GetUserDnsDomain();
-                string safeDomain = TelemetryHelper.GetHashSha256(userDnsDomain);
+                    string userDnsDomain = TelemetryHelper.GetUserDnsDomain();
+                    string safeDomain = TelemetryHelper.GetHashSha256(userDnsDomain);
 
-                this.TelemetryClient.Context.User.Id = safeUserId;
-                this.TelemetryClient.Context.User.AccountId = safeDomain;
+                    this.TelemetryClient.Context.User.Id = safeUserId;
+                    this.TelemetryClient.Context.User.AccountId = safeDomain;
+                }
             }
+            catch (Exception) { }   // don't let a telemetry failure take down the provider
         }
 
         private TelemetryClient TelemetryClient
@@ -239,12 +243,17 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         /// </summary>
         private static string GetHashSha256(string text)
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                return String.Empty;
+            }
+
             string hashString = string.Empty;
 
             byte[] bytes = Encoding.UTF8.GetBytes(text);
             SHA256CryptoServiceProvider hashProvider = new SHA256CryptoServiceProvider();
             byte[] hash = hashProvider.ComputeHash(bytes);
-            
+
             foreach (byte x in hash)
             {
                 hashString += String.Format("{0:x2}", x);
@@ -255,7 +264,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         /// <summary>
         /// Attempt to get the logged in user's DNS Domain
         /// This is to understand organizational usage information
-        /// Two users within the same Windows organization domain ould have identical UserDnsDomain hashes but different userId hashes
+        /// Two users within the same Windows organization domain would have identical UserDnsDomain hashes but different userId hashes
         /// </summary>
         private static string GetUserDnsDomain()
         {
@@ -263,6 +272,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             try
             {
                 returnValue = System.Environment.GetEnvironmentVariable("USERDNSDOMAIN");
+                if (string.IsNullOrEmpty(returnValue))
+                {
+                    returnValue = "(not set)";
+                }
+
             }
             catch (Exception) { }
             return returnValue;
