@@ -16,52 +16,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         public SalesforceConnectedServiceProvider()
         {
-        }
-
-        public override string Category
-        {
-            get { return Resources.ConnectedServiceProvider_Category; }
-        }
-
-        public override string CreatedBy
-        {
-            get { return Resources.ConnectedServiceProvider_CreatedBy; }
-        }
-
-        public override string Description
-        {
-            get { return Resources.ConnectedServiceProvider_Description; }
-        }
-
-        public override ImageSource Icon
-        {
-            get
-            {
-                if (this.icon == null)
-                {
-                    this.icon = new BitmapImage();
-                    this.icon.BeginInit();
-                    this.icon.UriSource = new Uri("pack://application:,,/" + Assembly.GetAssembly(this.GetType()).ToString() + ";component/ConnectedService/Views/Resources/ProviderIcon.png");
-                    this.icon.EndInit();
-                }
-
-                return this.icon;
-            }
-        }
-
-        public override Uri MoreInfoUri
-        {
-            get { return new Uri(Constants.MoreInfoLink); }
-        }
-
-        public override string Name
-        {
-            get { return Resources.ConnectedServiceProvider_Name; }
-        }
-
-        public override Version Version
-        {
-            get { return typeof(SalesforceConnectedServiceProvider).Assembly.GetName().Version; }
+            this.Category = Resources.ConnectedServiceProvider_Category;
+            this.CreatedBy = Resources.ConnectedServiceProvider_CreatedBy;
+            this.Description = Resources.ConnectedServiceProvider_Description;
+            this.Icon = new BitmapImage(new Uri("pack://application:,,/" + Assembly.GetAssembly(this.GetType()).ToString() + ";component/ConnectedService/Views/Resources/ProviderIcon.png"));
+            this.MoreInfoUri = new Uri(Constants.MoreInfoLink);
+            this.Name = Resources.ConnectedServiceProvider_Name;
+            this.Version = typeof(SalesforceConnectedServiceProvider).Assembly.GetName().Version;
         }
 
         public override Task<ConnectedServiceConfigurator> CreateConfiguratorAsync(ConnectedServiceProviderHost host)

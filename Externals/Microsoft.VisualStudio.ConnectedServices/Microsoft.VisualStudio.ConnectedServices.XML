@@ -65,6 +65,11 @@
             </returns>
             <remarks>
             The Connected Services core will call Dispose() on this instance when the dialog is closed.
+            
+            The Connected Services core only uses the View property on the ConnectedServiceAuthenticator when using the 
+            ConnectedServiceSinglePage option.  However, the other members may be helpful in your single page implementation.
+            For example, the AuthenticationChanged and IsAuthenticated members inform your ConnectedServiceSinglePage class
+            when the user logs in and out, or switches to a different account.
             </remarks>
         </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceViewModelBase">
@@ -139,8 +144,8 @@
         </member>
         <member name="E:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.AuthenticationChanged">
             <summary>
-             An event that signals a change to the current authentication state such as the
-             authenticated user has changed.
+            An event that signals a change to the current authentication state such as the
+            authenticated user has changed.
             </summary>
         </member>
         <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.#ctor">
@@ -162,12 +167,15 @@
         </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.View">
             <summary>
-            Gets or sets the Framework Element that should be displayed to allow the user to authenticate to the service.
+            Gets or sets the Framework Element that should be displayed in the UI to allow the user to authenticate to the service.
             </summary>
+            <remarks>
+            The space available for this view is 192px width X 64px height.
+            </remarks>
         </member>
         <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.OnAuthenticationChanged(Microsoft.VisualStudio.ConnectedServices.AuthenticationChangedEventArgs)">
             <summary>
-            Notifies clients that the Authentication has changed.
+            Raises the AuthenticationChanged event.
             </summary>
             <param name="args">
             The autentication event data.
@@ -339,6 +347,10 @@
             <summary>
             Gets the icon that should be shown when displaying this ConnectedServiceProvider.
             </summary>
+            <remarks>
+            On the 'Add Connected Service' dialog, this Icon is sized to 32x32.  On the 'Configure Connected Service'
+            dialog, this Icon is sized to 64x64.
+            </remarks>
         </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceProvider.CreatedBy">
             <summary>
@@ -884,30 +896,23 @@
         </member>
         <member name="F:Microsoft.VisualStudio.ConnectedServices.LoggerMessageCategory.Information">
             <summary>
-            The message can be shown to the user and is just for information, such as progress
-            information.
+            The message can be shown to the user and is just for information. It is shown in the Output window and in the progress dialog.
             </summary>
         </member>
         <member name="F:Microsoft.VisualStudio.ConnectedServices.LoggerMessageCategory.Debug">
             <summary>
-            The message is only to be used to help debug the application.
+            The message is only to be used to help debug the application. It is shown only in the Output window.
             </summary>
         </member>
         <member name="F:Microsoft.VisualStudio.ConnectedServices.LoggerMessageCategory.Warning">
             <summary>
-            Something non-critical went wrong or the user should be aware of a possible
-            snag, but the operation can continue.
+            Something non-critical went wrong or the user should be aware of a possible issue,
+            but the operation can continue. It is shown in the Output window and in the progress dialog.
             </summary>
         </member>
         <member name="F:Microsoft.VisualStudio.ConnectedServices.LoggerMessageCategory.Error">
             <summary>
-            Something went wrong and the operation can not continue.
-            </summary>
-        </member>
-        <member name="F:Microsoft.VisualStudio.ConnectedServices.LoggerMessageCategory.Status">
-            <summary>
-            This is the current status of a long running operation. This is intended to let the user
-            know the what operation is currently processing.
+            Something went wrong and the operation can not continue. It is shown in the Output window and in the progress dialog.
             </summary>
         </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceLogger">
