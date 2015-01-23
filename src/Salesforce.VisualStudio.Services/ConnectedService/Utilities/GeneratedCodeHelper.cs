@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.ConnectedServices;
 using Microsoft.VisualStudio.TextTemplating;
 using Microsoft.VisualStudio.TextTemplating.VSHost;
+using Salesforce.VisualStudio.Services.ConnectedService.Templates;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,9 +13,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
     internal static class GeneratedCodeHelper
     {
-        private const string CSharpProjectKind = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
-        private const string VBProjectKind = "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}";
-
         private static ITextTemplating TextTemplating
         {
             get { return (ITextTemplating)Shell.Package.GetGlobalService(typeof(STextTemplating)); }
@@ -26,102 +24,51 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             string templateFileName,
             string outputDirectory,
             Func<ITextTemplatingSessionHost, IEnumerable<ITextTemplatingSession>> getSessions,
+            Func<IPreprocessedT4Template> getPreprocessedT4Template,
             Func<ITextTemplatingSession, string> getArtifactName)
         {
-            string usersLanguageFolderName = GeneratedCodeHelper.GetUsersLanguageFolderName(project);
             string templatePath = Path.Combine(
                     RegistryHelper.GetCurrentUsersVisualStudioLocation(),
-                    "Templates\\ConnectedServiceTemplates",
-                    usersLanguageFolderName,
-                    "Salesforce",
+                    "Templates\\ConnectedServiceTemplates\\Visual C#\\Salesforce",
                     templateFileName + ".tt");
             bool useCustomTemplate = File.Exists(templatePath);
 
-            if (!useCustomTemplate)
-            {
-                templatePath = Path.Combine(
-                    Path.GetDirectoryName(typeof(SalesforceConnectedServiceHandler).Assembly.Location),
-                    "ConnectedService\\Templates",
-                    GeneratedCodeHelper.GetLanguageFolderName(project),
-                    templateFileName + ".tt");
-            }
-
             ((SalesforceConnectedServiceInstance)context.ServiceInstance).TelemetryHelper.LogGeneratedCodeData(
-                templateFileName, usersLanguageFolderName, useCustomTemplate);
+                templateFileName, useCustomTemplate);
 
-            string template = File.ReadAllText(templatePath);
             ITextTemplating textTemplating = GeneratedCodeHelper.TextTemplating;
             ITextTemplatingSessionHost sessionHost = (ITextTemplatingSessionHost)textTemplating;
+            Func<ITextTemplatingSession, string> generateText;
+
+            if (useCustomTemplate)
+            {
+                // The current user has a customized template, process and use it.
+                string customTemplate = File.ReadAllText(templatePath);
+                generateText = (session) =>
+                {
+                    sessionHost.Session = session;
+                    return textTemplating.ProcessTemplate(templatePath, customTemplate);
+                };
+            }
+            else
+            {
+                // No customized template exists for the current user, use the preprocessed one for increased performance.
+                IPreprocessedT4Template t4Template = getPreprocessedT4Template();
+                generateText = (session) =>
+                {
+                    t4Template.Session = session;
+                    t4Template.Initialize();
+                    return t4Template.TransformText();
+                };
+            }
 
             foreach (ITextTemplatingSession session in getSessions(sessionHost))
             {
-                sessionHost.Session = session;
-                string content = textTemplating.ProcessTemplate(templatePath, template);
-                string targetPath = Path.Combine(
-                    outputDirectory,
-                    getArtifactName(session) + "." + GeneratedCodeHelper.GetCodeFileExtension(project));
-                await HandlerHelper.AddFileAsync(context, GeneratedCodeHelper.CreateTempFile(content), targetPath);
+                string generatedText = generateText(session);
+                string tempFileName = GeneratedCodeHelper.CreateTempFile(generatedText);
+                string targetPath = Path.Combine(outputDirectory, getArtifactName(session) + ".cs");
+                await HandlerHelper.AddFileAsync(context, tempFileName, targetPath);
             }
-        }
-
-        private static string GetLanguageFolderName(Project project)
-        {
-            string folderName;
-
-            if (project.Kind.Equals(GeneratedCodeHelper.CSharpProjectKind, StringComparison.OrdinalIgnoreCase))
-            {
-                folderName = "CSharp";
-            }
-            else if (project.Kind.Equals(GeneratedCodeHelper.VBProjectKind, StringComparison.OrdinalIgnoreCase))
-            {
-                folderName = "VisualBasic";
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-
-            return folderName;
-        }
-
-        private static string GetUsersLanguageFolderName(Project project)
-        {
-            string folderName;
-
-            if (project.Kind.Equals(GeneratedCodeHelper.CSharpProjectKind, StringComparison.OrdinalIgnoreCase))
-            {
-                folderName = "Visual C#";
-            }
-            else if (project.Kind.Equals(GeneratedCodeHelper.VBProjectKind, StringComparison.OrdinalIgnoreCase))
-            {
-                folderName = "Visual Basic";
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-
-            return folderName;
-        }
-
-        private static string GetCodeFileExtension(Project project)
-        {
-            string extension;
-
-            if (project.Kind.Equals(GeneratedCodeHelper.CSharpProjectKind, StringComparison.OrdinalIgnoreCase))
-            {
-                extension = "cs";
-            }
-            else if (project.Kind.Equals(GeneratedCodeHelper.VBProjectKind, StringComparison.OrdinalIgnoreCase))
-            {
-                extension = "vb";
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-
-            return extension;
         }
 
         private static string CreateTempFile(string contents)

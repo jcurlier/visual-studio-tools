@@ -55,6 +55,25 @@
     <Compile Include="ConnectedService\CodeModel\SObjectChildRelationship.cs" />
     <Compile Include="ConnectedService\Models\ConfigSetting.cs" />
     <Compile Include="ConnectedService\Models\EnvironmentType.cs" />
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.cs" />
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalesforceOAuthRedirectHandler.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceObject.cs" />
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceObject.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalesforceObject.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceService.cs" />
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceService.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalesforceService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\Templates\IPreprocessedT4Template.cs" />
     <Compile Include="ConnectedService\Utilities\HyperlinkHelper.cs" />
     <Compile Include="ConnectedService\Utilities\IVsSqm.cs" />
     <Compile Include="ConnectedService\Utilities\RegistryHelper.cs" />
@@ -126,21 +145,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ConnectedService\Templates\CSharp\SalesforceObject.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SalesforceObject.g.cs</LastGenOutput>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="ConnectedService\Templates\CSharp\SalesforceService.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SalesforceService.g.cs</LastGenOutput>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="ConnectedService\Templates\VisualBasic\SalesforceObject.tt">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="ConnectedService\Templates\VisualBasic\SalesforceOAuthRedirectHandler.tt">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="ConnectedService\Templates\VisualBasic\SalesforceService.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SalesforceOAuthRedirectHandler.g.cs</LastGenOutput>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="ExtensionIcon.png">

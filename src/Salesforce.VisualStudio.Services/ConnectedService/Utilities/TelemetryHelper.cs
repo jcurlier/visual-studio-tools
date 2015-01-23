@@ -32,7 +32,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         // Strings for generated code data
         private const string GeneratedCodeEvent = "SalesforceConnectedService/GeneratedCode";
         private const string GeneratedCodeTemplate = "Template";
-        private const string GeneratedCodeLanguage = "Language";
         private const string GeneratedCodeUsedCustomTemplate = "UsedCustomTemplate";
 
         // Strings for help link clicks
@@ -193,14 +192,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                     });
         }
 
-        public void LogGeneratedCodeData(string template, string language, bool usedCustomTemplate)
+        public void LogGeneratedCodeData(string template, bool usedCustomTemplate)
         {
             this.TrackEvent(
                 TelemetryHelper.GeneratedCodeEvent,
                 () => new Dictionary<string, string>()
                     {
                         { TelemetryHelper.GeneratedCodeTemplate, template },
-                        { TelemetryHelper.GeneratedCodeLanguage, language },
                         { TelemetryHelper.GeneratedCodeUsedCustomTemplate, usedCustomTemplate.ToString() }
                     },
                 null);

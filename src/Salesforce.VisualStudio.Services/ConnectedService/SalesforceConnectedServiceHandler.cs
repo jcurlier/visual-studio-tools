@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TextTemplating;
 using NuGet.VisualStudio;
 using Salesforce.VisualStudio.Services.ConnectedService.CodeModel;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
+using Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp;
 using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 {
     [Export(typeof(ConnectedServiceHandler))]
     [ExportMetadata(Constants.ProviderId, Constants.ProviderIdValue)]
-    [ExportMetadata("AppliesTo", "CSharp | VB")]
+    [ExportMetadata("AppliesTo", "CSharp")]
     internal class SalesforceConnectedServiceHandler : ConnectedServiceHandler
     {
         [Import]
@@ -152,6 +153,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 "SalesforceService",
                 serviceDirectoryName,
                 (host) => SalesforceConnectedServiceHandler.GetServiceT4Sessions(host, generatedService),
+                () => new SalesforceService(),
                 (session) => "SalesforceService");
 
             if (salesforceInstance.RuntimeAuthentication.AuthStrategy == AuthenticationStrategy.WebServerFlow)
@@ -162,6 +164,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                     Constants.OAuthRedirectHandlerTypeName,
                     serviceDirectoryName,
                     (host) => SalesforceConnectedServiceHandler.GetServiceT4Sessions(host, generatedService),
+                    () => new SalesforceOAuthRedirectHandler(),
                     (session) => Constants.OAuthRedirectHandlerTypeName);
             }
 
@@ -181,6 +184,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                     "SalesforceObject",
                     SalesforceConnectedServiceHandler.GetModelsDirectoryName(salesforceInstance.GeneratedArtifactSuffix),
                     (host) => SalesforceConnectedServiceHandler.GetObjectT4Sessions(host, generatedObjects),
+                    () => new SalesforceObject(),
                     (session) => ((GeneratedObject)session["generatedObject"]).Model.Name);
             }
         }

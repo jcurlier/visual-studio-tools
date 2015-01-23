@@ -19,7 +19,7 @@
         </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConfigHelper.Configuration">
             <summary>
-            The Configuration object that can be used to inspect the configuration settings.
+            Gets the Configuration object that can be used to inspect the configuration settings.
             </summary>
         </member>
         <member name="M:Microsoft.VisualStudio.ConnectedServices.ConfigHelper.IsPrefixUsedInAppSettings(System.String)">
