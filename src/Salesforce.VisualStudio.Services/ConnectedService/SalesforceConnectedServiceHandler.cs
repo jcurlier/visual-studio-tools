@@ -20,7 +20,10 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 {
     [Export(typeof(ConnectedServiceHandler))]
     [ExportMetadata(Constants.ProviderId, Constants.ProviderIdValue)]
-    [ExportMetadata("AppliesTo", "CSharp")]
+    // Support the following C# projects - Console, WinForms, WPF, Class Libs, ASP.net (pre 5), Windows Services
+    // Exclude the following C# projects - Windows Store, Windows Phone, Universal, Shared Class Libs, ASP.net 5, Silverlight
+    [ExportMetadata("AppliesTo", "CSharp + !WindowsAppContainer + !WindowsPhone + !SharedAssetsProject + !MultiTarget + !ProjectK")]
+    [ExportMetadata("SupportedProjectTypes", "!A1591282-1198-4647-A2B1-27E5FF5F6F3B")]  // Excluding Silverlight
     internal class SalesforceConnectedServiceHandler : ConnectedServiceHandler
     {
         [Import]
