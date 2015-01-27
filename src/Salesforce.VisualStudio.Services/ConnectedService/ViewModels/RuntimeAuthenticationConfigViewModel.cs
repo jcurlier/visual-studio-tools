@@ -1,4 +1,6 @@
-﻿using Salesforce.VisualStudio.Services.ConnectedService.Models;
+﻿using Microsoft.VisualStudio.ConnectedServices;
+using Salesforce.VisualStudio.Services.ConnectedService.Models;
+using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
 using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.ComponentModel;
@@ -11,11 +13,14 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private RuntimeAuthentication runtimeAuthentication;
         private bool isCustomDomain;
         private Func<Uri> getDesignTimeMyDomain;
-        private UserSettings userSettings;
 
-        public RuntimeAuthenticationConfigViewModel(UserSettings userSettings, Func<Uri> getDesignTimeMyDomain)
+        public RuntimeAuthenticationConfigViewModel(
+            ConnectedServiceProviderHost host,
+            TelemetryHelper telemetryHelper,
+            UserSettings userSettings,
+            Func<Uri> getDesignTimeMyDomain)
+            : base(host, telemetryHelper, userSettings)
         {
-            this.userSettings = userSettings;
             this.getDesignTimeMyDomain = getDesignTimeMyDomain;
             this.Title = Resources.RuntimeAuthenticationConfigViewModel_Title;
             this.Description = Resources.RuntimeAuthenticationConfigViewModel_Description;
@@ -80,7 +85,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         this.MyDomainViewModel = new MyDomainViewModel(
                             this.getDesignTimeMyDomain(),
                             myDomainUri => ((WebServerFlowInfo)(this.RuntimeAuthentication)).MyDomain = myDomainUri,
-                            this.userSettings);
+                            this.UserSettings);
                         this.MyDomainViewModel.PropertyChanged += this.MyDomainViewModel_PropertyChanged;
                     }
                     else if (this.MyDomainViewModel != null)

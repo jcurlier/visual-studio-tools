@@ -45,15 +45,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 await SalesforceConnectedServiceHandler.AddGeneratedCodeAsync(context, project, salesforceInstance);
                 await SalesforceConnectedServiceHandler.PresentGettingStartedAsync(context, salesforceInstance);
 
+                salesforceInstance.TelemetryHelper.TrackHandlerSucceededEvent(salesforceInstance);
                 await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddedConnectedService);
             }
             catch (Exception e)
             {
+                salesforceInstance.TelemetryHelper.TrackHandlerFailedEvent(salesforceInstance, e);
                 await context.Logger.WriteMessageAsync(LoggerMessageCategory.Error, Resources.LogMessage_FailedAddingConnectedService, e);
                 throw;
             }
-
-            salesforceInstance.TelemetryHelper.LogInstanceData(salesforceInstance);
         }
 
         private static async Task CreateConnectedAppAsync(ConnectedServiceInstanceContext context, Project project, SalesforceConnectedServiceInstance salesforceInstance)

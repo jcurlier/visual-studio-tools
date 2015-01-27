@@ -1,5 +1,4 @@
-﻿using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
-using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
+﻿using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -17,6 +16,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
             InitializeComponent();
 
             this.DataContext = objectSelectionViewModel;
+        }
+
+        private ObjectSelectionViewModel ObjectSelectionViewModel
+        {
+            get { return (ObjectSelectionViewModel)this.DataContext; }
         }
 
         protected override void OnVisualParentChanged(DependencyObject oldParent)
@@ -58,7 +62,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            HyperlinkHelper.OpenSystemBrowser(e.Uri.AbsoluteUri);
+            this.ObjectSelectionViewModel.NavigateHyperlink(e.Uri);
             e.Handled = true;
         }
     }

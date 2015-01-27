@@ -1,5 +1,4 @@
-﻿using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
-using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
+﻿using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
@@ -17,9 +16,14 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
             this.DataContext = runtimeAuthenticationConfigViewModel;
         }
 
+        private RuntimeAuthenticationConfigViewModel RuntimeAuthenticationConfigViewModel
+        {
+            get { return (RuntimeAuthenticationConfigViewModel)this.DataContext; }
+        }
+
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            HyperlinkHelper.OpenSystemBrowser(e.Uri.AbsoluteUri);
+            this.RuntimeAuthenticationConfigViewModel.NavigateHyperlink(e.Uri);
 
             e.Handled = true;
         }

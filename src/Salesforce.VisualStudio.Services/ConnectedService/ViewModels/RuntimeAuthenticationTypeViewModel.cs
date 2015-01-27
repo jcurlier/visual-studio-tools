@@ -1,4 +1,7 @@
-﻿using Salesforce.VisualStudio.Services.ConnectedService.Views;
+﻿using Microsoft.VisualStudio.ConnectedServices;
+using Salesforce.VisualStudio.Services.ConnectedService.Models;
+using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
+using Salesforce.VisualStudio.Services.ConnectedService.Views;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
@@ -8,7 +11,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         private AuthenticationStrategy runtimeAuthStrategy;
 
-        public RuntimeAuthenticationTypeViewModel()
+        public RuntimeAuthenticationTypeViewModel(ConnectedServiceProviderHost host, TelemetryHelper telemetryHelper, UserSettings userSettings)
+            : base(host, telemetryHelper, userSettings)
         {
             this.runtimeAuthStrategy = AuthenticationStrategy.WebServerFlow;
             this.Title = Resources.RuntimeAuthenticationTypeViewModel_Title;

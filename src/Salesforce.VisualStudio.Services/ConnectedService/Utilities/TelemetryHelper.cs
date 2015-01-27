@@ -1,5 +1,6 @@
 ﻿using Microsoft.ApplicationInsights;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
 using System;
@@ -12,36 +13,35 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 
-
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
     internal class TelemetryHelper
     {
-        // Strings for wizard data
-        private const string WizardFinishedEvent = "SalesforceConnectedService/Finished";
-        private const string InstanceId = "InstanceId";
-        private const string EnvironmentType = "EnvironmentType";
-        private const string RuntimeAuthenticationStrategy = "RuntimeAuthenticationStrategy";
-        private const string UsesCustomDomain = "UsesCustomDomain";
+        // Event Names
+        private const string WizardStartedEventName = "SalesforceConnectedService/WizardStarted";
+        private const string WizardFinishedEventName = "SalesforceConnectedService/WizardFinished";
+        private const string HandlerSucceededEventName = "SalesforceConnectedService/HandlerSucceeded";
+        private const string HandlerFailedEventName = "SalesforceConnectedService/HandlerFailed";
+        private const string CodeGeneratedEventName = "SalesforceConnectedService/CodeGenerated";
+        private const string LinkClickedEventName = "SalesforceConnectedService/LinkClicked";
 
-        // Strings for object data
-        private const string ObjectInformationEvent = "SalesforceConnectedService/ObjectInformation";
-        private const string ObjectSelectedCount = "SelectedCount";
-        private const string ObjectAvailableCount = "AvailableCount";
-
-        // Strings for generated code data
-        private const string GeneratedCodeEvent = "SalesforceConnectedService/GeneratedCode";
-        private const string GeneratedCodeTemplate = "Template";
-        private const string GeneratedCodeUsedCustomTemplate = "UsedCustomTemplate";
-
-        // Strings for help link clicks
-        private const string HelpLinkClickedEvent = "SalesforceConnectedService/LinkClicked";
-        private const string HelpLinkUri = "Uri";
+        // Property/Measurement Names
+        private const string ProjectTypeDataName = "ProjectType";
+        private const string EnvironmentTypeDataName = "EnvironmentType";
+        private const string RuntimeAuthenticationStrategyDataName = "RuntimeAuthenticationStrategy";
+        private const string UsesCustomDomainDataName = "UsesCustomDomain";
+        private const string ObjectSelectedCountDataName = "SelectedCount";
+        private const string ObjectAvailableCountDataName = "AvailableCount";
+        private const string GeneratedCodeTemplateDataName = "Template";
+        private const string GeneratedCodeUsedCustomTemplateDataName = "UsedCustomTemplate";
+        private const string HelpLinkUriDataName = "Uri";
+        private const string ExceptionTypeDataName = "ExceptionType";
+        private const string ExceptionDetailsDataName = "ExceptionDetails";
 
         private bool isOptedIn;
         private TelemetryClient telemetryClient;
 
-        public TelemetryHelper()
+        public TelemetryHelper(IVsHierarchy projectHierarchy)
         {
             this.isOptedIn = TelemetryHelper.InitializeIsOptedIn();
 
@@ -49,7 +49,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             {
                 if (this.isOptedIn)
                 {
-                    // attempt to track anonymous user data 
+                    // Add the anonymous user data to the context.
                     string userName = System.Environment.UserName;
                     string fqdnName = TelemetryHelper.GetFQDN();
 
@@ -61,9 +61,16 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 
                     this.TelemetryClient.Context.User.Id = safeUserId;
                     this.TelemetryClient.Context.User.AccountId = safeDomain;
+
+                    // Add the common properties/measurements to the context.
+                    this.TelemetryClient.Context.Properties.Add(
+                        TelemetryHelper.ProjectTypeDataName, ProjectHelper.GetCapabilities(projectHierarchy));
                 }
             }
-            catch (Exception) { }   // don't let a telemetry failure take down the provider
+            catch (Exception e) // Don't let a telemetry failure take down the provider
+            {
+                Debug.Fail(e.ToString());
+            }
         }
 
         private TelemetryClient TelemetryClient
@@ -111,14 +118,19 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception e) // Don't let a telemetry failure take down the provider
             {
                 Debug.Fail(e.ToString());
             }
+
             return isOptedIn;
         }
 
-        private void TrackEvent(string eventName, Func<Dictionary<string, string>> getProperties, Func<Dictionary<string, double>> getMeasurements)
+        private void TrackEvent(
+            string eventName,
+            SalesforceConnectedServiceInstance salesforceInstance,
+            Action<Dictionary<string, string>> addProperties,
+            Action<Dictionary<string, double>> addMeasurements)
         {
             try
             {
@@ -127,88 +139,111 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                     return;
                 }
 
-                Dictionary<string, string> properties = null;
-                Dictionary<string, double> measurements = null;
-
-                if (getProperties != null)
-                {
-                    properties = getProperties();
-                }
-                if (getMeasurements != null)
-                {
-                    measurements = getMeasurements();
-                }
-
+                Dictionary<string, string> properties = TelemetryHelper.GetProperties(salesforceInstance, addProperties);
+                Dictionary<string, double> measurements = TelemetryHelper.GetMeasurements(salesforceInstance, addMeasurements);
                 this.TelemetryClient.TrackEvent(eventName, properties, measurements);
             }
-            catch (Exception e)
+            catch (Exception e) // Don't let a telemetry failure take down the provider
             {
                 Debug.Fail(e.ToString());
             }
         }
 
-        /// <summary>
-        /// Log data gather from user selections in Wizard.
-        /// </summary>
-        public void LogInstanceData(SalesforceConnectedServiceInstance salesforceInstance)
+        private static Dictionary<string, string> GetProperties(
+            SalesforceConnectedServiceInstance salesforceInstance,
+            Action<Dictionary<string, string>> addProperties)
         {
-            this.TrackEvent(
-                TelemetryHelper.WizardFinishedEvent,
-                () =>
+            Dictionary<string, string> properties = new Dictionary<string, string>();
+
+            if (salesforceInstance != null)
+            {
+                properties.Add(TelemetryHelper.RuntimeAuthenticationStrategyDataName, salesforceInstance.RuntimeAuthentication.AuthStrategy.ToString());
+                properties.Add(TelemetryHelper.EnvironmentTypeDataName, salesforceInstance.DesignTimeAuthentication.EnvironmentType.ToString());
+
+                if (salesforceInstance.RuntimeAuthentication is WebServerFlowInfo)
                 {
-                    Dictionary<string, string> properties = new Dictionary<string, string>();
-                    // Instance id
-                    properties.Add(TelemetryHelper.InstanceId, salesforceInstance.InstanceId);
+                    properties.Add(TelemetryHelper.UsesCustomDomainDataName, ((WebServerFlowInfo)salesforceInstance.RuntimeAuthentication).HasMyDomain.ToString());
+                }
+            }
 
-                    // Environment type
-                    if (salesforceInstance.DesignTimeAuthentication != null)
-                    {
-                        properties.Add(TelemetryHelper.EnvironmentType, salesforceInstance.DesignTimeAuthentication.EnvironmentType.ToString());
-                    }
+            if (addProperties != null)
+            {
+                addProperties(properties);
+            }
 
-                    // Runtime Authentication
-                    properties.Add(TelemetryHelper.RuntimeAuthenticationStrategy, salesforceInstance.RuntimeAuthentication.AuthStrategy.ToString());
-
-                    // Uses custom domain
-                    if (salesforceInstance.RuntimeAuthentication is WebServerFlowInfo)
-                    {
-                        properties.Add(TelemetryHelper.UsesCustomDomain, ((WebServerFlowInfo)salesforceInstance.RuntimeAuthentication).HasMyDomain.ToString());
-                    }
-
-                    return properties;
-                },
-                null);
+            return properties;
         }
 
-        public void LogInstanceObjectData(ObjectSelectionViewModel objectSelectionViewModel)
+        private static Dictionary<string, double> GetMeasurements(
+            SalesforceConnectedServiceInstance salesforceInstance,
+            Action<Dictionary<string, double>> addMeasurements)
+        {
+            Dictionary<string, double> measurements = new Dictionary<string, double>();
+
+            if (salesforceInstance != null)
+            {
+                measurements.Add(TelemetryHelper.ObjectSelectedCountDataName, salesforceInstance.SelectedObjects.Count());
+            }
+
+            if (addMeasurements != null)
+            {
+                addMeasurements(measurements);
+            }
+
+            return measurements;
+        }
+
+        public void TrackWizardStartedEvent()
+        {
+            this.TrackEvent(TelemetryHelper.WizardStartedEventName, null, null, null);
+        }
+
+        public void TrackWizardFinishedEvent(SalesforceConnectedServiceInstance salesforceInstance, ObjectSelectionViewModel objectSelectionViewModel)
         {
             this.TrackEvent(
-                TelemetryHelper.ObjectInformationEvent,
+                TelemetryHelper.WizardFinishedEventName,
+                salesforceInstance,
                 null,
-                () => new Dictionary<string, double>()
-                    {
-                        { TelemetryHelper.ObjectAvailableCount, objectSelectionViewModel.GetAvailableObjectCount() },
-                        { TelemetryHelper.ObjectSelectedCount, objectSelectionViewModel.GetSelectedObjects().Count() }
-                    });
+                (measurements) => measurements.Add(TelemetryHelper.ObjectAvailableCountDataName, objectSelectionViewModel.GetAvailableObjectCount()));
         }
 
-        public void LogGeneratedCodeData(string template, bool usedCustomTemplate)
+        public void TrackHandlerSucceededEvent(SalesforceConnectedServiceInstance salesforceInstance)
+        {
+            this.TrackEvent(TelemetryHelper.HandlerSucceededEventName, salesforceInstance, null, null);
+        }
+
+        public void TrackHandlerFailedEvent(SalesforceConnectedServiceInstance salesforceInstance, Exception e)
         {
             this.TrackEvent(
-                TelemetryHelper.GeneratedCodeEvent,
-                () => new Dictionary<string, string>()
+                TelemetryHelper.HandlerFailedEventName,
+                salesforceInstance,
+                (properties) =>
                     {
-                        { TelemetryHelper.GeneratedCodeTemplate, template },
-                        { TelemetryHelper.GeneratedCodeUsedCustomTemplate, usedCustomTemplate.ToString() }
+                        properties.Add(TelemetryHelper.ExceptionTypeDataName, e.GetType().FullName);
+                        properties.Add(TelemetryHelper.ExceptionDetailsDataName, e.ToString());
                     },
                 null);
         }
 
-        public void LogLinkClickData(string page)
+        public void TrackCodeGeneratedEvent(SalesforceConnectedServiceInstance salesforceInstance, string templateName, bool usedCustomTemplate)
         {
             this.TrackEvent(
-                TelemetryHelper.HelpLinkClickedEvent,
-                () => new Dictionary<string, string>() { { TelemetryHelper.HelpLinkUri, page } },
+                TelemetryHelper.CodeGeneratedEventName,
+                salesforceInstance,
+                (properties) =>
+                    {
+                        properties.Add(TelemetryHelper.GeneratedCodeTemplateDataName, templateName);
+                        properties.Add(TelemetryHelper.GeneratedCodeUsedCustomTemplateDataName, usedCustomTemplate.ToString());
+                    },
+                null);
+        }
+
+        public void TrackLinkClickedEvent(string page)
+        {
+            this.TrackEvent(
+                TelemetryHelper.LinkClickedEventName,
+                null,
+                (properties) => properties.Add(TelemetryHelper.HelpLinkUriDataName, page),
                 null);
         }
 
@@ -229,7 +264,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                     hostName += "." + domainName;
                 }
             }
-            catch (Exception) { }
+            catch (Exception e) // Don't let a failure prevent the gathering of other telemetry.
+            {
+                Debug.Fail(e.ToString());
+            }
+
             return hostName;
         }
 
@@ -274,11 +313,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 {
                     returnValue = "(not set)";
                 }
-
             }
-            catch (Exception) { }
+            catch (Exception e) // Don't let a failure prevent the gathering of other telemetry.
+            {
+                Debug.Fail(e.ToString());
+            }
+
             return returnValue;
         }
-
     }
 }

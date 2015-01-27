@@ -11,14 +11,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         public SalesforceConnectedServiceInstance(
             DesignTimeAuthentication designTimeAuthentication,
             RuntimeAuthentication runtimeAuthentication,
-            IEnumerable<SObjectDescription> selectedObjects)
+            IEnumerable<SObjectDescription> selectedObjects,
+            TelemetryHelper telemetryHelper)
         {
             this.InstanceId = "Salesforce";
             this.Name = Resources.ConnectedServiceInstance_Name;
             this.RuntimeAuthentication = runtimeAuthentication;
             this.DesignTimeAuthentication = designTimeAuthentication;
             this.SelectedObjects = selectedObjects;
-            this.TelemetryHelper = new TelemetryHelper();
+            this.TelemetryHelper = telemetryHelper;
         }
 
         public DesignTimeAuthentication DesignTimeAuthentication { get; private set; }

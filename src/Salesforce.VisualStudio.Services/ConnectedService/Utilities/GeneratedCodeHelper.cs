@@ -33,8 +33,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                     templateFileName + ".tt");
             bool useCustomTemplate = File.Exists(templatePath);
 
-            ((SalesforceConnectedServiceInstance)context.ServiceInstance).TelemetryHelper.LogGeneratedCodeData(
-                templateFileName, useCustomTemplate);
+            SalesforceConnectedServiceInstance salesforceInstance = (SalesforceConnectedServiceInstance)context.ServiceInstance;
+            salesforceInstance.TelemetryHelper.TrackCodeGeneratedEvent(salesforceInstance, templateFileName, useCustomTemplate);
 
             ITextTemplating textTemplating = GeneratedCodeHelper.TextTemplating;
             ITextTemplatingSessionHost sessionHost = (ITextTemplatingSessionHost)textTemplating;

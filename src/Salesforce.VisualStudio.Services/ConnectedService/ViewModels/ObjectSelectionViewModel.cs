@@ -17,13 +17,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private ObjectPickerCategory allObjectsCategory;
         private string errorMessage;
         private DesignTimeAuthentication lastDesignTimeAuthentication;
-        private ConnectedServiceProviderHost host;
         private Task loadObjectsTask;
 
-        public ObjectSelectionViewModel(ConnectedServiceProviderHost host)
+        public ObjectSelectionViewModel(ConnectedServiceProviderHost host, TelemetryHelper telemetryHelper, UserSettings userSettings)
+            : base(host, telemetryHelper, userSettings)
         {
             this.allObjectsCategory = new ObjectPickerCategory(Resources.ObjectSelectionViewModel_AllObjects);
-            this.host = host;
             this.Title = Resources.ObjectSelectionViewModel_Title;
             this.Description = Resources.ObjectSelectionViewModel_Description;
             this.Legend = Resources.ObjectSelectionViewModel_Legend;
@@ -91,7 +90,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             if (this.loadObjectsTask != null && (!this.loadObjectsTask.IsCompleted || this.loadObjectsTask.IsFaulted))
             {
-                using (this.host.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
+                using (this.Host.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
                 {
                     await this.loadObjectsTask;
                 }

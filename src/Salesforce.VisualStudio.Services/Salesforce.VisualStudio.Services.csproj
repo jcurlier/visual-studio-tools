@@ -74,7 +74,6 @@
       <DependentUpon>SalesforceService.tt</DependentUpon>
     </Compile>
     <Compile Include="ConnectedService\Templates\IPreprocessedT4Template.cs" />
-    <Compile Include="ConnectedService\Utilities\HyperlinkHelper.cs" />
     <Compile Include="ConnectedService\Utilities\IVsSqm.cs" />
     <Compile Include="ConnectedService\Utilities\RegistryHelper.cs" />
     <Compile Include="ConnectedService\Utilities\TelemetryHelper.cs" />
@@ -285,6 +284,7 @@
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.12.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0" />

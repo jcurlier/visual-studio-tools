@@ -17,6 +17,22 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             return (Project)projectObject;
         }
 
+        public static string GetCapabilities(IVsHierarchy projectHierarchy)
+        {
+            string capabilities = null;
+
+            object capabilitiesObj;
+            if (ErrorHandler.Succeeded(projectHierarchy.GetProperty(
+                    (uint)VSConstants.VSITEMID.Root,
+                    (int)__VSHPROPID5.VSHPROPID_ProjectCapabilities,
+                    out capabilitiesObj)))
+            {
+                capabilities = capabilitiesObj as string;
+            }
+
+            return capabilities;
+        }
+
         public static string GetProjectNamespace(Project project)
         {
             return project.Properties.Item("DefaultNamespace").Value.ToString();

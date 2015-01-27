@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.ConnectedServices;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
+using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
 using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
 using System;
 using System.ComponentModel;
@@ -15,17 +16,21 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         private RuntimeAuthenticationConfigViewModel runtimeAuthenticationConfigViewModel;
         private ObjectSelectionViewModel objectSelectionViewModel;
         private UserSettings userSettings;
+        private TelemetryHelper telemetryHelper;
 
         public SalesforceConnectedServiceWizard(ConnectedServiceProviderHost host)
         {
+            this.telemetryHelper = new TelemetryHelper(host.ProjectHierarchy);
+            this.telemetryHelper.TrackWizardStartedEvent();
+
             this.userSettings = UserSettings.Load();
-            this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(this.userSettings, host);
+            this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(host, this.telemetryHelper, this.userSettings);
             this.designTimeAuthenticationViewModel.PageLeaving += DesignTimeAuthenticationViewModel_PageLeaving;
-            this.runtimeAuthenticationTypeViewModel = new RuntimeAuthenticationTypeViewModel();
+            this.runtimeAuthenticationTypeViewModel = new RuntimeAuthenticationTypeViewModel(host, this.telemetryHelper, this.userSettings);
             this.runtimeAuthenticationConfigViewModel = new RuntimeAuthenticationConfigViewModel(
-                this.userSettings, () => this.designTimeAuthenticationViewModel.Authentication.MyDomain);
+                host, this.telemetryHelper, this.userSettings, () => this.designTimeAuthenticationViewModel.Authentication.MyDomain);
             this.runtimeAuthenticationConfigViewModel.RuntimeAuthStrategy = this.runtimeAuthenticationTypeViewModel.RuntimeAuthStrategy;
-            this.objectSelectionViewModel = new ObjectSelectionViewModel(host);
+            this.objectSelectionViewModel = new ObjectSelectionViewModel(host, this.telemetryHelper, this.userSettings);
 
             this.Pages.Add(this.designTimeAuthenticationViewModel);
             this.Pages.Add(this.runtimeAuthenticationTypeViewModel);
@@ -45,9 +50,10 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             SalesforceConnectedServiceInstance serviceInstance = new SalesforceConnectedServiceInstance(
                     this.designTimeAuthenticationViewModel.Authentication,
                     this.runtimeAuthenticationConfigViewModel.RuntimeAuthentication,
-                    this.objectSelectionViewModel.GetSelectedObjects());
+                    this.objectSelectionViewModel.GetSelectedObjects(),
+                    this.telemetryHelper);
 
-            serviceInstance.TelemetryHelper.LogInstanceObjectData(this.objectSelectionViewModel);
+            this.telemetryHelper.TrackWizardFinishedEvent(serviceInstance, this.objectSelectionViewModel);
 
             return Task.FromResult<ConnectedServiceInstance>(serviceInstance);
         }
