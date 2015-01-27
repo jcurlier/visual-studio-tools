@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.ConnectedServices;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.SalesforceMetadata;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -14,9 +13,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
     internal static class ConnectedAppHelper
     {
-        public static async Task CreateConnectedApp(
-            ConnectedServiceInstance salesforceInstance,
-            ILogger logger,
+        public static async Task CreateConnectedAppAsync(
+            SalesforceConnectedServiceInstance salesforceInstance,
+            ConnectedServiceLogger logger,
             Project project)
         {
             using (MetadataService metadataService = new MetadataService())
@@ -25,23 +24,18 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 metadataService.SessionHeaderValue = new SessionHeader();
                 metadataService.SessionHeaderValue.sessionId = salesforceInstance.DesignTimeAuthentication.AccessToken;
 
-                await AuthenticationHelper.ExecuteSalesforceRequest<SoapHeaderException>(
+                await AuthenticationHelper.ExecuteSalesforceRequestAsync<SoapHeaderException>(
                     salesforceInstance.DesignTimeAuthentication,
-                    () =>
-                    {
-                        ConnectedAppHelper.CreateConnectedApp(salesforceInstance, metadataService, logger, project);
-                        return Task.FromResult<object>(null);
-                    },
+                    async () => await ConnectedAppHelper.CreateConnectedAppAsync(salesforceInstance, metadataService, logger, project),
                     (e) => e.Message.StartsWith("INVALID_SESSION_ID", StringComparison.OrdinalIgnoreCase),
                     () => metadataService.SessionHeaderValue.sessionId = salesforceInstance.DesignTimeAuthentication.AccessToken);
             }
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
-        private static void CreateConnectedApp(
-            ConnectedServiceInstance salesforceInstance,
+        private static async Task CreateConnectedAppAsync(
+            SalesforceConnectedServiceInstance salesforceInstance,
             MetadataService metadataService,
-            ILogger logger,
+            ConnectedServiceLogger logger,
             Project project)
         {
             ConnectedApp connectedApp = ConnectedAppHelper.ConstructConnectedApp(salesforceInstance, metadataService, project);
@@ -63,9 +57,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 }
                 else
                 {
-                    logger.WriteMessage(LoggerMessageCategory.Error, Resources.LogMessage_FailedReadingConnectedApp);
+                    await logger.WriteMessageAsync(LoggerMessageCategory.Error, Resources.LogMessage_FailedReadingConnectedApp);
 
-                    salesforceInstance.RuntimeAuthentication.ConsumerKey = Constants.ConfigDefaultValue;
+                    salesforceInstance.RuntimeAuthentication.ConsumerKey = Constants.ConfigValue_RequiredDefault;
                 }
             }
         }
@@ -109,7 +103,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         }
 
         private static ConnectedApp ConstructConnectedApp(
-            ConnectedServiceInstance salesforceInstance,
+            SalesforceConnectedServiceInstance salesforceInstance,
             MetadataService metadataService,
             Project project)
         {
@@ -129,25 +123,21 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 ConnectedAppOauthAccessScope.RefreshToken,
             };
 
-            if (salesforceInstance.RuntimeAuthentication is IAuthenticationWithConsumerSecret)
-            {
-                IAuthenticationWithConsumerSecret authWithSecret = (IAuthenticationWithConsumerSecret)salesforceInstance.RuntimeAuthentication;
-                string secret = Guid.NewGuid().ToString("N");
-                authWithSecret.ConsumerSecret = secret;
-                oauthConfig.consumerSecret = secret;
-            }
+            string secret = Guid.NewGuid().ToString("N");
+            salesforceInstance.RuntimeAuthentication.ConsumerSecret = secret;
+            oauthConfig.consumerSecret = secret;
 
             return connectedApp;
         }
 
-        private static string GenerateAppCallbackUrl(ConnectedServiceInstance salesforceInstance, Project project)
+        private static string GenerateAppCallbackUrl(SalesforceConnectedServiceInstance salesforceInstance, Project project)
         {
             string callbackUrl;
             WebServerFlowInfo webServerFlowInfo = salesforceInstance.RuntimeAuthentication as WebServerFlowInfo;
             if (webServerFlowInfo != null)
             {
                 webServerFlowInfo.RedirectUri = new Uri(
-                    String.Format(CultureInfo.InvariantCulture, "/{0}-SalesforceRedirectHandler.axd", salesforceInstance.ConnectedAppName),
+                    String.Format(CultureInfo.InvariantCulture, Constants.OAuthRedirectHandlerPathFormat, salesforceInstance.GeneratedArtifactSuffix),
                     UriKind.Relative);
 
                 string appUriAuthority;

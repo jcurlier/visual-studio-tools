@@ -1,6 +1,5 @@
 ﻿using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
 using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
@@ -11,26 +10,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
     /// </summary>
     internal partial class RuntimeAuthenticationConfigPage : UserControl
     {
-        public RuntimeAuthenticationConfigPage(RuntimeAuthenticationViewModel authenticationViewModel)
+        public RuntimeAuthenticationConfigPage(RuntimeAuthenticationConfigViewModel runtimeAuthenticationConfigViewModel)
         {
             this.InitializeComponent();
 
-            this.DataContext = authenticationViewModel;
-        }
-
-        private RuntimeAuthenticationViewModel RuntimeAuthenticationViewModel
-        {
-            get { return (RuntimeAuthenticationViewModel)this.DataContext; }
-        }
-
-        private void MyDomain_LostFocus(object sender, RoutedEventArgs e)
-        {
-            this.RuntimeAuthenticationViewModel.MyDomainViewModel.IsMyDomainFocused = false;
-        }
-
-        private void MyDomain_GotFocus(object sender, RoutedEventArgs e)
-        {
-            this.RuntimeAuthenticationViewModel.MyDomainViewModel.IsMyDomainFocused = true;
+            this.DataContext = runtimeAuthenticationConfigViewModel;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

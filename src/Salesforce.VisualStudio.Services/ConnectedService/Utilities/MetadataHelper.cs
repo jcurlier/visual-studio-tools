@@ -14,7 +14,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
     /// </summary>
     internal class MetadataLoader
     {
-        public static async Task<IEnumerable<SObjectDescription>> LoadObjects(DesignTimeAuthentication authentication)
+        public static async Task<IEnumerable<SObjectDescription>> LoadObjectsAsync(DesignTimeAuthentication authentication)
         {
             GlobalDescribeResponse describeResponse = await MetadataLoader.GetSalesforceAsync<GlobalDescribeResponse>(
                 "sobjects", authentication);
@@ -22,7 +22,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             return describeResponse.SObjects;
         }
 
-        public static async Task<IEnumerable<SObjectDescription>> LoadObjectDetails(
+        public static async Task<IEnumerable<SObjectDescription>> LoadObjectDetailsAsync(
             IEnumerable<SObjectDescription> sObjects, DesignTimeAuthentication authentication)
         {
             // Note:  There is no batch support with the REST endpoint therefore individual requests must be made.
@@ -36,7 +36,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         private static async Task<T> GetSalesforceAsync<T>(string urlSuffix, DesignTimeAuthentication authentication)
         {
             T result = default(T);
-            await AuthenticationHelper.ExecuteSalesforceRequest<ForceException>(
+            await AuthenticationHelper.ExecuteSalesforceRequestAsync<ForceException>(
                 authentication,
                 async () =>
                 {

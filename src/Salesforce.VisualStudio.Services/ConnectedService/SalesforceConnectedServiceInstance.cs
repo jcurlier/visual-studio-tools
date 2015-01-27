@@ -6,37 +6,19 @@ using System.Collections.Generic;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService
 {
-    internal class ConnectedServiceInstance : IConnectedServiceInstance
+    internal class SalesforceConnectedServiceInstance : ConnectedServiceInstance
     {
-        public ConnectedServiceInstance(
+        public SalesforceConnectedServiceInstance(
             DesignTimeAuthentication designTimeAuthentication,
             RuntimeAuthentication runtimeAuthentication,
             IEnumerable<SObjectDescription> selectedObjects)
         {
+            this.InstanceId = "Salesforce";
+            this.Name = Resources.ConnectedServiceInstance_Name;
             this.RuntimeAuthentication = runtimeAuthentication;
             this.DesignTimeAuthentication = designTimeAuthentication;
             this.SelectedObjects = selectedObjects;
             this.TelemetryHelper = new TelemetryHelper();
-        }
-
-        public string InstanceId
-        {
-            get { return "Salesforce"; }
-        }
-
-        public IReadOnlyDictionary<string, object> Metadata
-        {
-            get { return null; }
-        }
-
-        public string Name
-        {
-            get { return Resources.ConnectedServiceInstance_Name; }
-        }
-
-        public string ProviderId
-        {
-            get { return Constants.ProviderIdValue; }
         }
 
         public DesignTimeAuthentication DesignTimeAuthentication { get; private set; }
@@ -44,6 +26,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         public RuntimeAuthentication RuntimeAuthentication { get; private set; }
 
         public string ConnectedAppName { get; set; }
+
+        public string GeneratedArtifactSuffix { get; set; }
 
         public IEnumerable<SObjectDescription> SelectedObjects { get; private set; }
 

@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="CommonResourceDictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Microsoft.VisualStudio.ConnectedServices.Framework;component/Controls/CommonResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <view:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         </ResourceDictionary>
@@ -28,10 +28,9 @@
                    Text="Which runtime authentication model would you like to use?"
                    Style="{DynamicResource {x:Static vsfx:VsResourceKeys.TextBlockEnvironment122PercentFontSizeStyleKey}}" />
         <Grid Grid.Row="1"
-              Margin="0,0,56,0">
+              Margin="0,0,56,0"
+              KeyboardNavigation.TabNavigation="Once">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -52,24 +51,8 @@
                                Text="User identities are sent from the client, through the middle tier, to Salesforce. If Salesforce is federated with Azure, users will only need to authenticate with their Azure account to access Salesforce services." />
                 </StackPanel>
             </RadioButton>
-            <RadioButton x:Name="ServiceAccountCert_Radio"
-                         Grid.Row="1"
-                         Margin="0,0,0,20"
-                         GroupName="AuthType"
-                         IsChecked="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.DigitalCertificate}}"
-                         AutomationProperties.LabeledBy="{Binding ElementName=ServiceAccountCert_Label}">
-                <StackPanel>
-                    <Label x:Name="ServiceAccountCert_Label"
-                           Target="{Binding ElementName=ServiceAccountCert_Radio}"
-                           Padding="0"
-                           Content="Service account using a digital certificate" />
-                    <TextBlock Margin="0,4,0,0"
-                               TextWrapping="Wrap"
-                               Text="Connections to Salesforce are established with a single identity using a JWT bearer token, a digital certificate, and the identify of a Salesforce user. This option should only be used when your users may not have Salesforce accounts, such as when querying on behalf of customers on a consumer-facing web site." />
-                </StackPanel>
-            </RadioButton>
             <RadioButton x:Name="ServiceAccountPassword_Radio"
-                         Grid.Row="2"
+                         Grid.Row="1"
                          Margin="0,0,0,32"
                          GroupName="AuthType"
                          IsChecked="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.UserNamePassword}}"

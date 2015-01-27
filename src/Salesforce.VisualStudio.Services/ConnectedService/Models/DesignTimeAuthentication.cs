@@ -43,9 +43,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
             set
             {
                 this.userName = value;
-                this.RaisePropertyChanged();
-                this.RaisePropertyChanged(DesignTimeAuthentication.SummaryPropertyName);
-                this.RaisePropertyChanged(DesignTimeAuthentication.IsNewIdentityPropertyName);
+                this.OnNotifyPropertyChanged();
+                this.OnNotifyPropertyChanged(DesignTimeAuthentication.SummaryPropertyName);
+                this.OnNotifyPropertyChanged(DesignTimeAuthentication.IsNewIdentityPropertyName);
             }
         }
 
@@ -55,8 +55,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
             set
             {
                 this.environmentType = value;
-                this.RaisePropertyChanged();
-                this.RaisePropertyChanged(DesignTimeAuthentication.SummaryPropertyName);
+                this.OnNotifyPropertyChanged();
+                this.OnNotifyPropertyChanged(DesignTimeAuthentication.SummaryPropertyName);
             }
         }
 
@@ -66,8 +66,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
             set
             {
                 this.myDomain = value;
-                this.RaisePropertyChanged();
-                this.RaisePropertyChanged(DesignTimeAuthentication.SummaryPropertyName);
+                this.OnNotifyPropertyChanged();
+                this.OnNotifyPropertyChanged(DesignTimeAuthentication.SummaryPropertyName);
             }
         }
 
@@ -77,7 +77,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
             set
             {
                 this.accessToken = value;
-                this.RaisePropertyChanged();
+                this.OnNotifyPropertyChanged();
             }
         }
 
@@ -159,7 +159,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void RaisePropertyChanged([CallerMemberName] string name = "")
+        private void OnNotifyPropertyChanged([CallerMemberName] string name = "")
         {
             if (this.PropertyChanged != null)
             {

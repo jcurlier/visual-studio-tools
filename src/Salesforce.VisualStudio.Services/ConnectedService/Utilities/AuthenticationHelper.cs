@@ -7,7 +7,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
     internal static class AuthenticationHelper
     {
-        public static async Task ExecuteSalesforceRequest<TException>(
+        public static async Task ExecuteSalesforceRequestAsync<TException>(
             DesignTimeAuthentication designTimeAuthentication,
             Func<Task> executeRequest,
             Func<TException, bool> getIsAccessTokenExpired,
@@ -33,7 +33,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 
             if (isAccessTokenExpired)
             {
-                await AuthenticationHelper.RefreshAccessToken(designTimeAuthentication);
+                await AuthenticationHelper.RefreshAccessTokenAsync(designTimeAuthentication);
 
                 if (onRefreshToken != null)
                 {
@@ -44,7 +44,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             }
         }
 
-        public static async Task RefreshAccessToken(DesignTimeAuthentication designTimeAuthentication)
+        public static async Task RefreshAccessTokenAsync(DesignTimeAuthentication designTimeAuthentication)
         {
             AuthenticationClient client = new AuthenticationClient();
             client.AccessToken = designTimeAuthentication.AccessToken;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.ConnectedServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Connected.CredentialStorage;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -90,12 +91,24 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
         public static void AddToTopOfMruList<T>(ObservableCollection<T> mruList, T item)
         {
             int index = mruList.IndexOf(item);
-            if (index > 0)
+            if (index >= 0)
             {
-                // The item is in the MRU list but it is not at the top.
-                mruList.Move(index, 0);
+                // Ensure there aren't any duplicates in the list.
+                for (int i = mruList.Count - 1; i > index; i--)
+                {
+                    if (EqualityComparer<T>.Default.Equals(mruList[i], item))
+                    {
+                        mruList.RemoveAt(i);
+                    }
+                }
+
+                if (index > 0)
+                {
+                    // The item is in the MRU list but it is not at the top.
+                    mruList.Move(index, 0);
+                }
             }
-            else if (index == -1)
+            else
             {
                 // The item is not in the MRU list, make room for it by clearing out the oldest item.
                 while (mruList.Count >= UserSettings.MaxMruEntries)

@@ -165,6 +165,24 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authenticating....
+        /// </summary>
+        internal static string DesignTimeAuthenticationViewModel_AuthenticatingProgress {
+            get {
+                return ResourceManager.GetString("DesignTimeAuthenticationViewModel_AuthenticatingProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a Salesforce environment to authenticate against.
+        /// </summary>
+        internal static string DesignTimeAuthenticationViewModel_Description {
+            get {
+                return ResourceManager.GetString("DesignTimeAuthenticationViewModel_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom....
         /// </summary>
         internal static string DesignTimeAuthenticationViewModel_Environment_Custom {
@@ -192,47 +210,29 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Authenticating....
-        /// </summary>
-        internal static string DesignTimeAuthenticationWizardPage_AuthenticatingProgress {
-            get {
-                return ResourceManager.GetString("DesignTimeAuthenticationWizardPage_AuthenticatingProgress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Choose a Salesforce environment to authenticate against.
-        /// </summary>
-        internal static string DesignTimeAuthenticationWizardPage_Description {
-            get {
-                return ResourceManager.GetString("DesignTimeAuthenticationWizardPage_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Environment.
         /// </summary>
-        internal static string DesignTimeAuthenticationWizardPage_Legend {
+        internal static string DesignTimeAuthenticationViewModel_Legend {
             get {
-                return ResourceManager.GetString("DesignTimeAuthenticationWizardPage_Legend", resourceCulture);
+                return ResourceManager.GetString("DesignTimeAuthenticationViewModel_Legend", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Configure Salesforce for .NET.
         /// </summary>
-        internal static string DesignTimeAuthenticationWizardPage_Title {
+        internal static string DesignTimeAuthenticationViewModel_Title {
             get {
-                return ResourceManager.GetString("DesignTimeAuthenticationWizardPage_Title", resourceCulture);
+                return ResourceManager.GetString("DesignTimeAuthenticationViewModel_Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Unable to authenticate with Salesforce..
         /// </summary>
-        internal static string DesignTimeAuthenticationWizardPage_UnableToAuthenticateUser {
+        internal static string DesignTimeAuthenticationViewModel_UnableToAuthenticateUser {
             get {
-                return ResourceManager.GetString("DesignTimeAuthenticationWizardPage_UnableToAuthenticateUser", resourceCulture);
+                return ResourceManager.GetString("DesignTimeAuthenticationViewModel_UnableToAuthenticateUser", resourceCulture);
             }
         }
         
@@ -381,6 +381,24 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select objects to scaffold models within your application.
+        /// </summary>
+        internal static string ObjectSelectionViewModel_Description {
+            get {
+                return ResourceManager.GetString("ObjectSelectionViewModel_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object Selection.
+        /// </summary>
+        internal static string ObjectSelectionViewModel_Legend {
+            get {
+                return ResourceManager.GetString("ObjectSelectionViewModel_Legend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An unexpected error occurred while retrieving the Salesforce objects.
         ///{0}.
         /// </summary>
@@ -391,38 +409,20 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select objects to scaffold models within your application.
-        /// </summary>
-        internal static string ObjectSelectionWizardPage_Description {
-            get {
-                return ResourceManager.GetString("ObjectSelectionWizardPage_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Object Selection.
-        /// </summary>
-        internal static string ObjectSelectionWizardPage_Legend {
-            get {
-                return ResourceManager.GetString("ObjectSelectionWizardPage_Legend", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Loading Objects....
         /// </summary>
-        internal static string ObjectSelectionWizardPage_LoadingObjectsProgress {
+        internal static string ObjectSelectionViewModel_LoadingObjectsProgress {
             get {
-                return ResourceManager.GetString("ObjectSelectionWizardPage_LoadingObjectsProgress", resourceCulture);
+                return ResourceManager.GetString("ObjectSelectionViewModel_LoadingObjectsProgress", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Configure Salesforce for .NET.
         /// </summary>
-        internal static string ObjectSelectionWizardPage_Title {
+        internal static string ObjectSelectionViewModel_Title {
             get {
-                return ResourceManager.GetString("ObjectSelectionWizardPage_Title", resourceCulture);
+                return ResourceManager.GetString("ObjectSelectionViewModel_Title", resourceCulture);
             }
         }
         
@@ -438,54 +438,54 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         /// <summary>
         ///   Looks up a localized string similar to Choose runtime authentication settings.
         /// </summary>
-        internal static string RuntimeAuthenticationConfigWizardPage_Description {
+        internal static string RuntimeAuthenticationConfigViewModel_Description {
             get {
-                return ResourceManager.GetString("RuntimeAuthenticationConfigWizardPage_Description", resourceCulture);
+                return ResourceManager.GetString("RuntimeAuthenticationConfigViewModel_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Runtime Authentication Config.
         /// </summary>
-        internal static string RuntimeAuthenticationConfigWizardPage_Legend {
+        internal static string RuntimeAuthenticationConfigViewModel_Legend {
             get {
-                return ResourceManager.GetString("RuntimeAuthenticationConfigWizardPage_Legend", resourceCulture);
+                return ResourceManager.GetString("RuntimeAuthenticationConfigViewModel_Legend", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Configure Salesforce for .NET.
         /// </summary>
-        internal static string RuntimeAuthenticationConfigWizardPage_Title {
+        internal static string RuntimeAuthenticationConfigViewModel_Title {
             get {
-                return ResourceManager.GetString("RuntimeAuthenticationConfigWizardPage_Title", resourceCulture);
+                return ResourceManager.GetString("RuntimeAuthenticationConfigViewModel_Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Choose a runtime authentication model.
         /// </summary>
-        internal static string RuntimeAuthenticationTypeWizardPage_Description {
+        internal static string RuntimeAuthenticationTypeViewModel_Description {
             get {
-                return ResourceManager.GetString("RuntimeAuthenticationTypeWizardPage_Description", resourceCulture);
+                return ResourceManager.GetString("RuntimeAuthenticationTypeViewModel_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Runtime Authentication.
         /// </summary>
-        internal static string RuntimeAuthenticationTypeWizardPage_Legend {
+        internal static string RuntimeAuthenticationTypeViewModel_Legend {
             get {
-                return ResourceManager.GetString("RuntimeAuthenticationTypeWizardPage_Legend", resourceCulture);
+                return ResourceManager.GetString("RuntimeAuthenticationTypeViewModel_Legend", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Configure Salesforce for .NET.
         /// </summary>
-        internal static string RuntimeAuthenticationTypeWizardPage_Title {
+        internal static string RuntimeAuthenticationTypeViewModel_Title {
             get {
-                return ResourceManager.GetString("RuntimeAuthenticationTypeWizardPage_Title", resourceCulture);
+                return ResourceManager.GetString("RuntimeAuthenticationTypeViewModel_Title", resourceCulture);
             }
         }
     }

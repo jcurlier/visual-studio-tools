@@ -31,7 +31,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
         {
             try
             {
-                if (await this.AuthenticationViewModel.RetrieveAuthenticationFromRedirect(e.Uri))
+                if (await this.AuthenticationViewModel.RetrieveAuthenticationFromRedirectAsync(e.Uri))
                 {
                     e.Cancel = true;
                     this.Close();

@@ -6,6 +6,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="..\..\Salesforce.props" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -36,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(APPVEYOR)' == 'True'">
+    <DeployExtension>False</DeployExtension>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -51,28 +55,47 @@
     <Compile Include="ConnectedService\CodeModel\SObjectChildRelationship.cs" />
     <Compile Include="ConnectedService\Models\ConfigSetting.cs" />
     <Compile Include="ConnectedService\Models\EnvironmentType.cs" />
-    <Compile Include="ConnectedService\Models\IAuthenticationWithConsumerSecret.cs" />
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.cs" />
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalesforceOAuthRedirectHandler.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceObject.cs" />
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceObject.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalesforceObject.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceService.cs" />
+    <Compile Include="ConnectedService\Templates\CSharp\SalesforceService.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SalesforceService.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\Templates\IPreprocessedT4Template.cs" />
     <Compile Include="ConnectedService\Utilities\HyperlinkHelper.cs" />
     <Compile Include="ConnectedService\Utilities\IVsSqm.cs" />
+    <Compile Include="ConnectedService\Utilities\RegistryHelper.cs" />
     <Compile Include="ConnectedService\Utilities\TelemetryHelper.cs" />
     <Compile Include="ConnectedService\Utilities\ExceptionHelper.cs" />
     <Compile Include="ConnectedService\Utilities\MetadataHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\Environment.cs" />
-    <Compile Include="ConnectedService\ViewModels\IWizardPage.cs" />
     <Compile Include="ConnectedService\ViewModels\MyDomainViewModel.cs" />
-    <Compile Include="ConnectedService\ViewModels\ViewModel.cs" />
-    <Compile Include="ConnectedService\Views\ThemedDialogColors.cs" />
+    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationConfigViewModel.cs" />
+    <Compile Include="ConnectedService\Views\EnvironmentColors.cs" />
+    <Compile Include="ConnectedService\Views\MyDomainControl.xaml.cs">
+      <DependentUpon>MyDomainControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ConnectedService\CodeModel\GeneratedObject.cs" />
     <Compile Include="ConnectedService\CodeModel\GeneratedService.cs" />
     <Compile Include="ConnectedService\CodeModel\GeneratedStorageProperty.cs" />
     <Compile Include="ConnectedService\CodeModel\SObjectDescription.cs" />
     <Compile Include="ConnectedService\CodeModel\SObjectField.cs" />
-    <Compile Include="ConnectedService\Models\ServiceAccount.cs" />
-    <Compile Include="ConnectedService\Models\ServiceAccountWithJWT.cs" />
     <Compile Include="ConnectedService\Models\ServiceAccountWithPassword.cs" />
     <Compile Include="ConnectedService\Models\UserSettings.cs" />
-    <Compile Include="ConnectedService\ConnectedServiceWizardProvider.cs" />
+    <Compile Include="ConnectedService\SalesforceConnectedServiceWizard.cs" />
     <Compile Include="ConnectedService\CodeModel\CodeModelBuilder.cs" />
     <Compile Include="ConnectedService\Utilities\AuthenticationHelper.cs" />
     <Compile Include="ConnectedService\Utilities\ConfigHelperExtensions.cs" />
@@ -80,12 +103,9 @@
     <Compile Include="ConnectedService\Utilities\NamingUtilities.cs" />
     <Compile Include="ConnectedService\Utilities\ProjectHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\ObjectSelectionViewModel.cs" />
-    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationViewModel.cs" />
     <Compile Include="ConnectedService\Views\ObjectSelectionPage.xaml.cs">
       <DependentUpon>ObjectSelectionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationConfigWizardPage.cs" />
-    <Compile Include="ConnectedService\ViewModels\ObjectSelectionWizardPage.cs" />
     <Compile Include="ConnectedService\Views\EnumToVisibilityConverter.cs" />
     <Compile Include="ConnectedService\Views\RuntimeAuthenticationConfigPage.xaml.cs">
       <DependentUpon>RuntimeAuthenticationConfigPage.xaml</DependentUpon>
@@ -96,8 +116,7 @@
     <Compile Include="ConnectedService\Views\DesignTimeAuthenticationPage.xaml.cs">
       <DependentUpon>DesignTimeAuthenticationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationTypeWizardPage.cs" />
-    <Compile Include="ConnectedService\ViewModels\DesignTimeAuthenticationWizardPage.cs" />
+    <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationTypeViewModel.cs" />
     <Compile Include="ConnectedService\Models\WebServerFlowInfo.cs" />
     <Compile Include="ConnectedService\AuthenticationStrategy.cs" />
     <Compile Include="ConnectedService\Utilities\ConnectedAppHelper.cs" />
@@ -109,15 +128,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ConnectedService\ConnectedServiceInstance.cs" />
-    <Compile Include="ConnectedService\ConnectedServiceInstanceHandler.cs" />
-    <Compile Include="ConnectedService\ConnectedServiceProvider.cs" />
+    <Compile Include="ConnectedService\SalesforceConnectedServiceInstance.cs" />
+    <Compile Include="ConnectedService\SalesforceConnectedServiceHandler.cs" />
+    <Compile Include="ConnectedService\SalesforceConnectedServiceProvider.cs" />
     <Compile Include="ConnectedService\ViewModels\DesignTimeAuthenticationViewModel.cs" />
     <Compile Include="ConnectedService\Views\AuthenticateRedirectHost.xaml.cs">
       <DependentUpon>AuthenticateRedirectHost.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConnectedService\Views\EnumToBooleanConverter.cs" />
-    <Compile Include="ConnectedService\ViewModels\WizardPage.cs" />
+    <Compile Include="ConnectedService\ViewModels\SalesforceConnectedServiceWizardPage.cs" />
     <Compile Include="Web References\SalesforceMetadata\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -126,21 +145,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ConnectedService\Templates\CSharp\SalesforceObject.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SalesforceObject.g.cs</LastGenOutput>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="ConnectedService\Templates\CSharp\SalesforceService.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SalesforceService.g.cs</LastGenOutput>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="ConnectedService\Templates\VisualBasic\SalesforceObject.tt">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="ConnectedService\Templates\VisualBasic\SalesforceOAuthRedirectHandler.tt">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="ConnectedService\Templates\VisualBasic\SalesforceService.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SalesforceOAuthRedirectHandler.g.cs</LastGenOutput>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="ExtensionIcon.png">
@@ -316,7 +332,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConnectedService\Views\CommonResourceDictionary.xaml">
+    <Page Include="ConnectedService\Views\MyDomainControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -344,10 +360,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="https://hitnmiss-dev-ed.my.salesforce.com/services/wsdl/metadata">
+    <WebReferenceUrl Include="https://www.salesforce.com/services/wsdl/metadata">
       <UrlBehavior>Static</UrlBehavior>
       <RelPath>Web References\SalesforceMetadata\</RelPath>
-      <UpdateFromURL>https://hitnmiss-dev-ed.my.salesforce.com/services/wsdl/metadata</UpdateFromURL>
+      <UpdateFromURL>https://www.salesforce.com/services/wsdl/metadata</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -368,4 +384,8 @@
     <Error Condition="!Exists('..\..\packages\Microsoft.ApplicationInsights.0.11.0-build11410\tools\net40\Microsoft.ApplicationInsights.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
     <Error Condition="Exists('..\..\packages\Microsoft.ApplicationInsights.0.11.0-build11410\tools\net40\Microsoft.ApplicationInsights.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
   </Target>
+  <Import Project="..\..\Salesforce.targets" />
+  <PropertyGroup>
+    <CompileDependsOn>GenerateAssemblyInfoFile;$(CompileDependsOn)</CompileDependsOn>
+  </PropertyGroup>
 </Project>

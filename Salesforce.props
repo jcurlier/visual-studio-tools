@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- When building from a dev machine, the BuildNumber won't be set, so set it to 0.1 to indicate this is a private build -->
+    <BuildNumber Condition=" '$(BuildNumber)' == '' ">0.1</BuildNumber>
+    <MajorVersion>1.0</MajorVersion>
+    <AssemblyVersion>$(MajorVersion).0.0</AssemblyVersion>
+    <BuildVersion>$(MajorVersion).$(BuildNumber)</BuildVersion>
+  </PropertyGroup>
+</Project>

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.ConnectedServices.Controls;
 using Salesforce.VisualStudio.Services.ConnectedService.CodeModel;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
+using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,20 +12,38 @@ using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal class ObjectSelectionViewModel : ViewModel
+    internal class ObjectSelectionViewModel : SalesforceConnectedServiceWizardPage
     {
         private ObjectPickerCategory allObjectsCategory;
         private string errorMessage;
         private DesignTimeAuthentication lastDesignTimeAuthentication;
-        private IConnectedServiceProviderHost providerHost;
+        private ConnectedServiceProviderHost host;
         private Task loadObjectsTask;
 
-        public ObjectSelectionViewModel(IConnectedServiceProviderHost providerHost)
+        public ObjectSelectionViewModel(ConnectedServiceProviderHost host)
         {
             this.allObjectsCategory = new ObjectPickerCategory(Resources.ObjectSelectionViewModel_AllObjects);
-            this.providerHost = providerHost;
+            this.host = host;
+            this.Title = Resources.ObjectSelectionViewModel_Title;
+            this.Description = Resources.ObjectSelectionViewModel_Description;
+            this.Legend = Resources.ObjectSelectionViewModel_Legend;
+            this.View = new ObjectSelectionPage(this);
         }
 
+        public IEnumerable<ObjectPickerCategory> Categories
+        {
+            get { yield return this.allObjectsCategory; }
+        }
+
+        public string ErrorMessage
+        {
+            get { return this.errorMessage; }
+            set
+            {
+                this.errorMessage = value;
+                this.OnNotifyPropertyChanged();
+            }
+        }
         /// <summary>
         /// Refreshes the objects displayed in the picker asynchronously.  The objects are only refreshed if the specified
         /// authentication is different than the last time the objects were retrieved.
@@ -40,18 +59,19 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 this.allObjectsCategory.Children = null;
                 this.ErrorMessage = null;
                 this.lastDesignTimeAuthentication = authentication;
-                this.loadObjectsTask = this.LoadObjects(authentication);
+                this.loadObjectsTask = this.LoadObjectsAsync(authentication);
             }
         }
 
-        private async Task LoadObjects(DesignTimeAuthentication authentication)
+        private async Task LoadObjectsAsync(DesignTimeAuthentication authentication)
         {
             try
             {
-                IEnumerable<SObjectDescription> objects = await MetadataLoader.LoadObjects(authentication);
+                IEnumerable<SObjectDescription> objects = await MetadataLoader.LoadObjectsAsync(authentication);
                 this.allObjectsCategory.Children = objects
                     .Select(o => new ObjectPickerObject(this.allObjectsCategory, o.Name) { State = o })
                     .ToArray();
+                this.allObjectsCategory.IsSelected = true;
             }
             catch (Exception ex)
             {
@@ -67,11 +87,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         /// <summary>
         /// Waits for the RefreshObjects task to complete if it is not already completed.  While waiting a busy indicator will be displayed.
         /// </summary>
-        public async Task WaitOnRefreshObjects()
+        private async Task WaitOnRefreshObjectsAsync()
         {
             if (this.loadObjectsTask != null && (!this.loadObjectsTask.IsCompleted || this.loadObjectsTask.IsFaulted))
             {
-                using (this.providerHost.StartBusyIndicator(Resources.ObjectSelectionWizardPage_LoadingObjectsProgress))
+                using (this.host.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
                 {
                     await this.loadObjectsTask;
                 }
@@ -83,7 +103,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         public IEnumerable<SObjectDescription> GetSelectedObjects()
         {
             return this.allObjectsCategory.Children
-                .Where(c => c.IsSelected)
+                .Where(c => c.IsChecked)
                 .Select(c => c.State)
                 .Cast<SObjectDescription>();
         }
@@ -93,19 +113,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             return this.allObjectsCategory.Children.Count();
         }
 
-        public IEnumerable<ObjectPickerCategory> Categories
+        public override async Task<NavigationEnabledState> OnPageEnteringAsync(WizardEnteringArgs args)
         {
-            get { yield return this.allObjectsCategory; }
-        }
+            await this.WaitOnRefreshObjectsAsync();
 
-        public string ErrorMessage
-        {
-            get { return this.errorMessage; }
-            set
-            {
-                this.errorMessage = value;
-                this.RaisePropertyChanged();
-            }
+            return await base.OnPageEnteringAsync(args);
         }
     }
 }

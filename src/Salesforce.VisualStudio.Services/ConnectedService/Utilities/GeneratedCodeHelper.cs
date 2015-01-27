@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.ConnectedServices;
 using Microsoft.VisualStudio.TextTemplating;
 using Microsoft.VisualStudio.TextTemplating.VSHost;
+using Salesforce.VisualStudio.Services.ConnectedService.Templates;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,72 +18,57 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             get { return (ITextTemplating)Shell.Package.GetGlobalService(typeof(STextTemplating)); }
         }
 
-        public static async Task AddGeneratedCode(
-            IConnectedServiceInstanceContext context,
+        public static async Task AddGeneratedCodeAsync(
+            ConnectedServiceInstanceContext context,
             Project project,
             string templateFileName,
-            string generatedFilesDirectory,
+            string outputDirectory,
             Func<ITextTemplatingSessionHost, IEnumerable<ITextTemplatingSession>> getSessions,
+            Func<IPreprocessedT4Template> getPreprocessedT4Template,
             Func<ITextTemplatingSession, string> getArtifactName)
         {
             string templatePath = Path.Combine(
-                    Path.GetDirectoryName(typeof(ConnectedServiceInstanceHandler).Assembly.Location),
-                    "ConnectedService\\Templates",
-                    GeneratedCodeHelper.GetTemplateFolderName(project),
+                    RegistryHelper.GetCurrentUsersVisualStudioLocation(),
+                    "Templates\\ConnectedServiceTemplates\\Visual C#\\Salesforce",
                     templateFileName + ".tt");
-            string template = File.ReadAllText(templatePath);
+            bool useCustomTemplate = File.Exists(templatePath);
+
+            ((SalesforceConnectedServiceInstance)context.ServiceInstance).TelemetryHelper.LogGeneratedCodeData(
+                templateFileName, useCustomTemplate);
+
             ITextTemplating textTemplating = GeneratedCodeHelper.TextTemplating;
             ITextTemplatingSessionHost sessionHost = (ITextTemplatingSessionHost)textTemplating;
+            Func<ITextTemplatingSession, string> generateText;
+
+            if (useCustomTemplate)
+            {
+                // The current user has a customized template, process and use it.
+                string customTemplate = File.ReadAllText(templatePath);
+                generateText = (session) =>
+                {
+                    sessionHost.Session = session;
+                    return textTemplating.ProcessTemplate(templatePath, customTemplate);
+                };
+            }
+            else
+            {
+                // No customized template exists for the current user, use the preprocessed one for increased performance.
+                IPreprocessedT4Template t4Template = getPreprocessedT4Template();
+                generateText = (session) =>
+                {
+                    t4Template.Session = session;
+                    t4Template.Initialize();
+                    return t4Template.TransformText();
+                };
+            }
 
             foreach (ITextTemplatingSession session in getSessions(sessionHost))
             {
-                sessionHost.Session = session;
-                string content = textTemplating.ProcessTemplate(templatePath, template);
-                string targetPath = Path.Combine(
-                    generatedFilesDirectory,
-                    getArtifactName(session) + "." + GeneratedCodeHelper.GetCodeFileExtension(project));
-                await HandlerHelper.AddFileAsync(context, GeneratedCodeHelper.CreateTempFile(content), targetPath);
+                string generatedText = generateText(session);
+                string tempFileName = GeneratedCodeHelper.CreateTempFile(generatedText);
+                string targetPath = Path.Combine(outputDirectory, getArtifactName(session) + ".cs");
+                await HandlerHelper.AddFileAsync(context, tempFileName, targetPath);
             }
-        }
-
-        private static string GetTemplateFolderName(Project project)
-        {
-            string extension;
-
-            if (project.Kind.Equals(Constants.CSharpProjectKind, StringComparison.OrdinalIgnoreCase))
-            {
-                extension = Constants.CSharpTemplateFolderName;
-            }
-            else if (project.Kind.Equals(Constants.VBProjectKind, StringComparison.OrdinalIgnoreCase))
-            {
-                extension = Constants.VBTemplateFolderName;
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-
-            return extension;
-        }
-
-        private static string GetCodeFileExtension(Project project)
-        {
-            string extension;
-
-            if (project.Kind.Equals(Constants.CSharpProjectKind, StringComparison.OrdinalIgnoreCase))
-            {
-                extension = Constants.CSharpFileExtensions;
-            }
-            else if (project.Kind.Equals(Constants.VBProjectKind, StringComparison.OrdinalIgnoreCase))
-            {
-                extension = Constants.VBFileExtensions;
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-
-            return extension;
         }
 
         private static string CreateTempFile(string contents)

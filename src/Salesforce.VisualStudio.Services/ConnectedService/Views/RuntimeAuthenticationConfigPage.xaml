@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="CommonResourceDictionary.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Microsoft.VisualStudio.ConnectedServices.Framework;component/Controls/CommonResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <view:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
@@ -33,16 +33,9 @@
                 <CheckBox Name="UseMyDomainCheckBox"
                           Content="Use a custom branded sign in page:"
                           IsChecked="{Binding Path=IsCustomDomain, Mode=OneWayToSource}" />
-                <ComboBox MinWidth="320"
-                          Margin="20,14,130,36"
-                          HorizontalAlignment="Left"
-                          Style="{StaticResource ComboBoxValidationStyle}"
-                          IsEditable="True"
-                          ItemsSource="{Binding Path=UserSettings.MruMyDomains}"
-                          GotFocus="MyDomain_GotFocus"
-                          LostFocus="MyDomain_LostFocus"
-                          Text="{Binding Path=MyDomainViewModel.MyDomain, ValidatesOnNotifyDataErrors=True}"
-                          IsEnabled="{Binding ElementName=UseMyDomainCheckBox, Path=IsChecked}" />
+                <view:MyDomainControl Margin="20,14,130,36"
+                                      DataContext="{Binding MyDomainViewModel}"
+                                      IsEnabled="{Binding ElementName=UseMyDomainCheckBox, Path=IsChecked}" />
                 <TextBlock TextWrapping="Wrap">
                     <Hyperlink NavigateUri="http://developer.salesforce.com/go/VSMyDomain"
                                RequestNavigate="Hyperlink_RequestNavigate">
@@ -50,10 +43,6 @@
                     </Hyperlink>
                 </TextBlock>
             </StackPanel>
-            <TextBlock Grid.Row="1"
-                       TextWrapping="Wrap"
-                       Visibility="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.DigitalCertificate}}"
-                       Text="The configuration for service account using a digital certificate is not complete in this release. You can update the GetForceClient() method in the SalesforceService class as well as specify a CertificatePath and CertificatePassword in the configuration file." />
             <TextBlock Grid.Row="1"
                        TextWrapping="Wrap"
                        Visibility="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.UserNamePassword}}"

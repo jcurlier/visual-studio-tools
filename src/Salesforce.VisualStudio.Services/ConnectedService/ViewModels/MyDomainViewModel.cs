@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Salesforce.VisualStudio.Services.ConnectedService.Models;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
-    internal class MyDomainViewModel : ViewModel, INotifyDataErrorInfo
+    internal class MyDomainViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         private static readonly string[] myDomainError = { Resources.MyDomainViewModel_ErrorMessage };
         private const string MyDomainPropertyName = "MyDomain";
@@ -16,11 +18,14 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private bool hasMyDomainLostFocus;
         private bool hasErrors;
         private Action<Uri> onValidMyDomain;
+        private UserSettings userSettings;
 
-        public MyDomainViewModel(Uri myDomain, Action<Uri> onValidMyDomain)
+        public MyDomainViewModel(Uri myDomain, Action<Uri> onValidMyDomain, UserSettings userSettings)
         {
             this.onValidMyDomain = onValidMyDomain;
             this.MyDomain = myDomain == null ? null : myDomain.ToString();
+            this.userSettings = userSettings;
+
             this.RefreshErrorState();
         }
 
@@ -48,7 +53,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     if (isMyDomainValid != this.isValid)
                     {
                         this.isValid = isMyDomainValid;
-                        this.RaisePropertyChanged(Constants.IsValidPropertyName);
+                        this.OnNotifyPropertyChanged(Constants.IsValidPropertyName);
                     }
 
                     this.RefreshErrorState();
@@ -74,14 +79,29 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             }
         }
 
-        public override bool IsValid
+        public bool IsValid
         {
             get { return this.isValid; }
         }
 
-        public override bool HasErrors
+        public bool HasErrors
         {
             get { return this.hasErrors; }
+        }
+
+        public UserSettings UserSettings
+        {
+            get { return this.userSettings; }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnNotifyPropertyChanged([CallerMemberName] string name = "")
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -120,7 +140,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             if (hasErrorsNewValue != this.hasErrors)
             {
                 this.hasErrors = hasErrorsNewValue;
-                this.RaisePropertyChanged(Constants.HasErrorsPropertyName);
+                this.OnNotifyPropertyChanged(Constants.HasErrorsPropertyName);
                 this.OnErrorsChanged(MyDomainViewModel.MyDomainPropertyName);
             }
         }
