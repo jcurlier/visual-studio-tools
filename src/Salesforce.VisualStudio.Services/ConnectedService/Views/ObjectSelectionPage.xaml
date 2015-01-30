@@ -2,7 +2,7 @@
              x:ClassModifier="internal"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:csfx="clr-namespace:Microsoft.VisualStudio.ConnectedServices.Controls;assembly=Microsoft.VisualStudio.ConnectedServices.Framework"
+             xmlns:view="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.Views"
              xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0">
 
     <UserControl.Resources>
@@ -25,7 +25,7 @@
                    TextWrapping="Wrap"
                    Text="Which Salesforce objects would you like to scaffold?"
                    Style="{DynamicResource {x:Static vsfx:VsResourceKeys.TextBlockEnvironment122PercentFontSizeStyleKey}}" />
-        <csfx:ObjectPicker Grid.Row="1"
+        <view:ObjectPicker Grid.Row="1"
                            Margin="0,10,56,15"
                            Categories="{Binding Categories}"
                            ErrorMessage="{Binding ErrorMessage}" />

@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.ConnectedServices;
-using Microsoft.VisualStudio.ConnectedServices.Controls;
 using Salesforce.VisualStudio.Services.ConnectedService.CodeModel;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.ConnectedService.Utilities;

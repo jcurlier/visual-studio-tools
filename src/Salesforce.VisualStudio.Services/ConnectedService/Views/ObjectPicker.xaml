@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Salesforce.VisualStudio.Services.ConnectedService.Views.ObjectPicker"
+             x:ClassModifier="internal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:view="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.Views"
+             xmlns:viewModel="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.ViewModels"
+             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Microsoft.VisualStudio.ConnectedServices.Framework;component/Controls/CommonResourceDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <view:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <TreeView x:Name="TreeView"
+                  ItemsSource="{Binding Categories, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}">
+            <TreeView.ItemContainerStyle>
+                <Style x:Uid="Style_1" TargetType="TreeViewItem" BasedOn="{StaticResource DefaultTreeViewItemStyle}">
+                    <Setter Property="IsExpanded" Value="True" />
+                    <Setter Property="IsTextSearchEnabled" Value="{Binding IsTextSearchEnabled}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                    <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
+                    <Setter Property="view:VirtualToggleButton.IsVirtualToggleButton" Value="True" />
+                    <Setter Property="view:VirtualToggleButton.IsChecked" Value="{Binding IsChecked}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Visibility, ElementName=StatusMessageTextBlock}" Value="Visible">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type viewModel:ObjectPickerItem}"
+                                          ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding Path=IsChecked}"
+                                  VerticalAlignment="Center"
+                                  Focusable="False" />
+                        <TextBlock Text="{Binding Path=Name}"
+                                   VerticalAlignment="Center"
+                                   Margin="6,0,6,0"
+                                   Focusable="False"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+        <TextBlock x:Name="StatusMessageTextBlock"
+                   Margin="6"
+                   TextWrapping="Wrap"
+                   Text="{Binding ErrorMessage, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource NullVisibilityConverter}}" />
+    </Grid>
+</UserControl>
+

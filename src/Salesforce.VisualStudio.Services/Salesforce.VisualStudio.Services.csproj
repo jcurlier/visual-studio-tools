@@ -81,11 +81,19 @@
     <Compile Include="ConnectedService\Utilities\MetadataHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\Environment.cs" />
     <Compile Include="ConnectedService\ViewModels\MyDomainViewModel.cs" />
+    <Compile Include="ConnectedService\ViewModels\ObjectPickerCategory.cs" />
+    <Compile Include="ConnectedService\ViewModels\ObjectPickerItem.cs" />
+    <Compile Include="ConnectedService\ViewModels\ObjectPickerObject.cs" />
     <Compile Include="ConnectedService\ViewModels\RuntimeAuthenticationConfigViewModel.cs" />
     <Compile Include="ConnectedService\Views\EnvironmentColors.cs" />
     <Compile Include="ConnectedService\Views\MyDomainControl.xaml.cs">
       <DependentUpon>MyDomainControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ConnectedService\Views\NullVisibilityConverter.cs" />
+    <Compile Include="ConnectedService\Views\ObjectPicker.xaml.cs">
+      <DependentUpon>ObjectPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectedService\Views\VirtualToggleButton.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ConnectedService\CodeModel\GeneratedObject.cs" />
     <Compile Include="ConnectedService\CodeModel\GeneratedService.cs" />
@@ -333,6 +341,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConnectedService\Views\MyDomainControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConnectedService\Views\ObjectPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
