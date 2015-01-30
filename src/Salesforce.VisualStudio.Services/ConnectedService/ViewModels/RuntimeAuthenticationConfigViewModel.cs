@@ -52,6 +52,10 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         break;
                     case AuthenticationStrategy.UserNamePassword:
                         this.RuntimeAuthentication = new ServiceAccountWithPassword();
+
+                        // Clear IsCustomDomain to trigger validation to rerun in the case where there are
+                        // errors related to a custom MyDomain.
+                        this.IsCustomDomain = false;
                         break;
                     default:
                         throw new NotImplementedException();

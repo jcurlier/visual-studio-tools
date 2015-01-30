@@ -1,6 +1,7 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.ConnectedServices;
 using Microsoft.VisualStudio.TextTemplating;
+using Microsoft.VisualStudio.Threading;
 using NuGet.VisualStudio;
 using Salesforce.VisualStudio.Services.ConnectedService.CodeModel;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
@@ -15,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Shell = Microsoft.VisualStudio.Shell;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService
 {
@@ -40,6 +42,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 Project project = ProjectHelper.GetProjectFromHierarchy(context.ProjectHierarchy);
                 salesforceInstance.GeneratedArtifactSuffix = SalesforceConnectedServiceHandler.GetGeneratedArtifactSuffix(
                     context, project, salesforceInstance.RuntimeAuthentication.AuthStrategy);
+
+                await TaskScheduler.Default; // Switch to a worker thread to avoid blocking the UI thread (e.g. the progress dialog).
 
                 await SalesforceConnectedServiceHandler.CreateConnectedAppAsync(context, project, salesforceInstance);
                 await SalesforceConnectedServiceHandler.UpdateConfigFileAsync(context, project, salesforceInstance);
@@ -68,6 +72,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         private static async Task UpdateConfigFileAsync(ConnectedServiceInstanceContext context, Project project, SalesforceConnectedServiceInstance salesforceInstance)
         {
+            await Shell.ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); // The EditableConfigHelper must run on the UI thread.
+
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_UpdatingConfigFile);
 
             using (EditableConfigHelper configHelper = new EditableConfigHelper(context.ProjectHierarchy))

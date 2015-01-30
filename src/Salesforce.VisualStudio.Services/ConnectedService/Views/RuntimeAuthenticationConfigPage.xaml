@@ -32,7 +32,7 @@
                         Visibility="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.WebServerFlow}}" >
                 <CheckBox Name="UseMyDomainCheckBox"
                           Content="Use a custom branded sign in page:"
-                          IsChecked="{Binding Path=IsCustomDomain, Mode=OneWayToSource}" />
+                          IsChecked="{Binding Path=IsCustomDomain}" />
                 <view:MyDomainControl Margin="20,14,130,36"
                                       DataContext="{Binding MyDomainViewModel}"
                                       IsEnabled="{Binding ElementName=UseMyDomainCheckBox, Path=IsChecked}" />
