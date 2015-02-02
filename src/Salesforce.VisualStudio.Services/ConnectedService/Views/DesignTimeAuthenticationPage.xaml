@@ -8,10 +8,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Microsoft.VisualStudio.ConnectedServices.Framework;component/Controls/CommonResourceDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
             <view:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" NonVisibleVisibility="Hidden" />
         </ResourceDictionary>
     </UserControl.Resources>
@@ -44,7 +40,7 @@
                       ItemsSource="{Binding Path=AvailableAuthentications}"
                       SelectedItem="{Binding Path=Authentication}"
                       DisplayMemberPath="Summary"
-                      AutomationProperties.LabeledBy="{Binding ElementName=UserAccount_Label}"/>
+                      AutomationProperties.LabeledBy="{Binding ElementName=UserAccount_Label}" />
 
             <StackPanel Grid.Row="3"
                         Margin="0,20,0,20"
@@ -61,7 +57,7 @@
                           ItemsSource="{Binding Path=Environments}"
                           SelectedValuePath="Type"
                           SelectedValue="{Binding Path=Authentication.EnvironmentType}"
-                          AutomationProperties.LabeledBy="{Binding ElementName=Environment_Label}"/>
+                          AutomationProperties.LabeledBy="{Binding ElementName=Environment_Label}" />
             </StackPanel>
             <StackPanel Grid.Row="4"
                         IsEnabled="{Binding Path=Authentication.IsNewIdentity}"

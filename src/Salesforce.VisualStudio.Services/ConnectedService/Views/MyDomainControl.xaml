@@ -2,17 +2,10 @@
              x:ClassModifier="internal"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.Views"
+             xmlns:view="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.Views"
+             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
              MinWidth="320"
              HorizontalAlignment="Left">
-
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Microsoft.VisualStudio.ConnectedServices.Framework;component/Controls/CommonResourceDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
 
     <Grid>
         <ComboBox x:Name="DomainName_Combobox"
@@ -22,7 +15,8 @@
                   LostFocus="MyDomain_LostFocus"
                   Text="{Binding Path=MyDomain, ValidatesOnNotifyDataErrors=True}" >
             <ComboBox.Style>
-                <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource DefaultComboBoxStyle}">
+                <!--TODO:  This should be based on the ThemedDialogComboBoxStyleKey once it is available.-->
+                <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Static vsfx:VsResourceKeys.ComboBoxStyleKey}}">
                     <Setter Property="Validation.ErrorTemplate">
                         <Setter.Value>
                             <ControlTemplate>
@@ -47,7 +41,7 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Left"
                    Margin="2,0,20,0"
-                   Foreground="{DynamicResource {x:Static local:EnvironmentColors.SystemGrayTextBrushKey}}">
+                   Foreground="{DynamicResource {x:Static view:EnvironmentColors.SystemGrayTextBrushKey}}">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="Visibility" Value="Collapsed"/>
