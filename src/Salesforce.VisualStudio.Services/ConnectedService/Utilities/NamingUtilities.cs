@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
-    internal class NamingUtilities
+    internal static class NamingUtilities
     {
         public static string GetUniqueSuffix(Func<string, bool> isSuffixUsed)
         {

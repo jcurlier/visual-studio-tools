@@ -36,7 +36,7 @@
                 {
                     this.isChecked = value;
                     this.parent.UpdateSelectionState();
-                    this.RaisePropertyChanged();
+                    this.OnNotifyPropertyChanged();
                 }
             }
         }

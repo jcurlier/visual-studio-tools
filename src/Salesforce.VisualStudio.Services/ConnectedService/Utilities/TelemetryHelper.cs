@@ -6,6 +6,7 @@ using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -259,7 +260,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 string domainName = IPGlobalProperties.GetIPGlobalProperties().DomainName;
                 hostName = Dns.GetHostName();
 
-                if (!hostName.EndsWith(domainName))
+                if (!hostName.EndsWith(domainName, StringComparison.OrdinalIgnoreCase))
                 {
                     hostName += "." + domainName;
                 }
@@ -288,13 +289,16 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             string hashString = string.Empty;
 
             byte[] bytes = Encoding.UTF8.GetBytes(text);
-            SHA256CryptoServiceProvider hashProvider = new SHA256CryptoServiceProvider();
-            byte[] hash = hashProvider.ComputeHash(bytes);
-
-            foreach (byte x in hash)
+            using (SHA256CryptoServiceProvider hashProvider = new SHA256CryptoServiceProvider())
             {
-                hashString += String.Format("{0:x2}", x);
+                byte[] hash = hashProvider.ComputeHash(bytes);
+
+                foreach (byte x in hash)
+                {
+                    hashString += String.Format(CultureInfo.InvariantCulture, "{0:x2}", x);
+                }
             }
+
             return hashString;
         }
 

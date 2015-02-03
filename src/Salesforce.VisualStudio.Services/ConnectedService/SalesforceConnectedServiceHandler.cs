@@ -48,7 +48,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 await SalesforceConnectedServiceHandler.CreateConnectedAppAsync(context, project, salesforceInstance);
                 await SalesforceConnectedServiceHandler.UpdateConfigFileAsync(context, project, salesforceInstance);
                 await this.AddNuGetPackagesAsync(context, project);
-                await SalesforceConnectedServiceHandler.AddAssemblyReferencesAsync(context, project, salesforceInstance);
+                await SalesforceConnectedServiceHandler.AddAssemblyReferencesAsync(context, salesforceInstance);
                 await SalesforceConnectedServiceHandler.AddGeneratedCodeAsync(context, project, salesforceInstance);
                 await SalesforceConnectedServiceHandler.PresentGettingStartedAsync(context, salesforceInstance);
 
@@ -121,7 +121,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 });
         }
 
-        private static async Task AddAssemblyReferencesAsync(ConnectedServiceInstanceContext context, Project project, SalesforceConnectedServiceInstance salesforceInstance)
+        private static async Task AddAssemblyReferencesAsync(ConnectedServiceInstanceContext context, SalesforceConnectedServiceInstance salesforceInstance)
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingAssemblyReferences);
 
