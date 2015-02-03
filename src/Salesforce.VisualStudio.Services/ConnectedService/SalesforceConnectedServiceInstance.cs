@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService
 {
+    /// <summary>
+    /// A specific instance of a Salesforce service.
+    /// </summary>
     internal class SalesforceConnectedServiceInstance : ConnectedServiceInstance
     {
         public SalesforceConnectedServiceInstance(

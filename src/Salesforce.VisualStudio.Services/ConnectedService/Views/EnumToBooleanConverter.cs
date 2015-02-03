@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Views
 {
+    /// <summary>
+    /// An IValueConverter that handles mapping enum values to Boolean values.
+    /// </summary>
     internal class EnumToBooleanConverter : IValueConverter
     {
         public EnumToBooleanConverter()

@@ -7,6 +7,9 @@ using System.ComponentModel;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
+    /// <summary>
+    /// The view model for the Runtime Authentication Config wizard page.
+    /// </summary>
     internal class RuntimeAuthenticationConfigViewModel : SalesforceConnectedServiceWizardPage
     {
         private MyDomainViewModel myDomainViewModel;

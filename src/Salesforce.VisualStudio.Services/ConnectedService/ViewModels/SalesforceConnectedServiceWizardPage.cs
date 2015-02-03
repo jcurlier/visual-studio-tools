@@ -6,6 +6,9 @@ using System;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
+    /// <summary>
+    /// A common wizard page base class that contains the commonality between all of the Salesforce wizard pages.
+    /// </summary>
     internal abstract class SalesforceConnectedServiceWizardPage : ConnectedServiceWizardPage
     {
         private bool isValid;

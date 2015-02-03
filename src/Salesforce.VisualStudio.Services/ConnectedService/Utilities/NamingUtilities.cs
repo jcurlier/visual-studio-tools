@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
+    /// <summary>
+    /// A utility class for generating unique names within the user's project.
+    /// </summary>
     internal static class NamingUtilities
     {
         public static string GetUniqueSuffix(Func<string, bool> isSuffixUsed)

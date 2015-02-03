@@ -2,6 +2,9 @@
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 {
+    /// <summary>
+    /// The information for configuring the user's project to use the user name/password authentication flow.
+    /// </summary>
     internal class ServiceAccountWithPassword : RuntimeAuthentication
     {
         public ServiceAccountWithPassword()

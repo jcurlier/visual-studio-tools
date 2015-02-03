@@ -19,6 +19,9 @@ using System.Windows;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
+    /// <summary>
+    /// The view model for the Environment (design time authentication) wizard page.
+    /// </summary>
     internal class DesignTimeAuthenticationViewModel : SalesforceConnectedServiceWizardPage
     {
         private MyDomainViewModel myDomainViewModel;

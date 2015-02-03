@@ -4,6 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
+    /// <summary>
+    /// The Salesforce describe metadata for an object.
+    /// </summary>
     [Serializable]
     public class SObjectDescription
     {

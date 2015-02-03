@@ -1,5 +1,8 @@
 ﻿namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 {
+    /// <summary>
+    /// Represents an AppSetting within a web/app config file.
+    /// </summary>
     internal class ConfigSetting
     {
         public ConfigSetting(string key, object value)

@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService
 {
+    /// <summary>
+    /// A ConnectedServiceWizard that provides a wizard that is used to gather various configuration information
+    /// about how the end user would like to configure their project to connect to a Salesforce service.
+    /// </summary>
     internal class SalesforceConnectedServiceWizard : ConnectedServiceWizard
     {
         private DesignTimeAuthenticationViewModel designTimeAuthenticationViewModel;

@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
+    /// <summary>
+    /// The view model for the Object Selection wizard page.
+    /// </summary>
     internal class ObjectSelectionViewModel : SalesforceConnectedServiceWizardPage
     {
         private ObjectPickerCategory allObjectsCategory;

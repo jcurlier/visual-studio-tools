@@ -6,6 +6,9 @@ using System;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
+    /// <summary>
+    /// A utility class for retrieving registry settings.
+    /// </summary>
     internal static class RegistryHelper
     {
         public static string GetCurrentUsersVisualStudioLocation()

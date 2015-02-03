@@ -7,6 +7,9 @@ using System.Windows.Media.Imaging;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService
 {
+    /// <summary>
+    /// A ConnectedServiceProvider that exposes the ability to add a Salesforce service to a project.
+    /// </summary>
     [Export(typeof(ConnectedServiceProvider))]
     [ExportMetadata(Constants.ProviderId, Constants.ProviderIdValue)]
     internal class SalesforceConnectedServiceProvider : ConnectedServiceProvider

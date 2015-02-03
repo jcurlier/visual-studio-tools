@@ -3,6 +3,9 @@ using System.Threading;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
+    /// <summary>
+    /// A utility class for working with exceptions.
+    /// </summary>
     internal static class ExceptionHelper
     {
         /// <summary>

@@ -4,6 +4,9 @@ using System.CodeDom.Compiler;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Views
 {
+    /// <summary>
+    /// A generated class that provides a way to get access to the keys that can be used to retrieve the VS environment colors.
+    /// </summary>
     [GeneratedCode("VSThemeEditor", "1.0")]
     internal class EnvironmentColors
     {

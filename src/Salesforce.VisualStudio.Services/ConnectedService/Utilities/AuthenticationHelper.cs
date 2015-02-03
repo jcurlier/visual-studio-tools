@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
+    /// <summary>
+    /// A utility class that handles the authentication (e.g. access/refresh tokens) when making requests to Salesforce.
+    /// </summary>
     internal static class AuthenticationHelper
     {
         public static async Task ExecuteSalesforceRequestAsync<TException>(

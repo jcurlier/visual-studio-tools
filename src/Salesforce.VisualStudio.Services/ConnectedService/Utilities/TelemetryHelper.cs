@@ -16,6 +16,9 @@ using System.Text;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
+    /// <summary>
+    /// A utility class for gathering and logging telemetry data.
+    /// </summary>
     internal class TelemetryHelper
     {
         // Event Names

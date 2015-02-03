@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 {
+    /// <summary>
+    /// The information for configuring the user's project to use the web server authentication flow.
+    /// </summary>
     internal class WebServerFlowInfo : RuntimeAuthentication
     {
         public WebServerFlowInfo()

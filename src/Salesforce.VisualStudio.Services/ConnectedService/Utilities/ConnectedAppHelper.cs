@@ -11,6 +11,9 @@ using System.Web.Services.Protocols;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
+    /// <summary>
+    /// A utility class that creates and configures Salesforce Connected Apps.
+    /// </summary>
     internal static class ConnectedAppHelper
     {
         public static async Task CreateConnectedAppAsync(

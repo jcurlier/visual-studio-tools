@@ -11,6 +11,9 @@ using Shell = Microsoft.VisualStudio.Shell;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
+    /// <summary>
+    /// A utility class that invokes the code generators to produce the scaffolded code that is added to the user's project.
+    /// </summary>
     internal static class GeneratedCodeHelper
     {
         private static ITextTemplating TextTemplating

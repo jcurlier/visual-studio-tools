@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
+    /// <summary>
+    /// Represents a Salesforce object to generate code for.
+    /// </summary>
     [Serializable]
     public sealed class GeneratedObject
     {

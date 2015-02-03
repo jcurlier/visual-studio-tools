@@ -2,6 +2,9 @@
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
+    /// <summary>
+    /// The Salesforce describe metadata for a relationship between objects.
+    /// </summary>
     [Serializable]
     public class SObjectChildRelationship
     {

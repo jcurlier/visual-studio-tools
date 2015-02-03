@@ -2,6 +2,9 @@
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
+    /// <summary>
+    /// Represents a storage property on a Salesforce object to generate code for.
+    /// </summary>
     [Serializable]
     public sealed class GeneratedStorageProperty
     {

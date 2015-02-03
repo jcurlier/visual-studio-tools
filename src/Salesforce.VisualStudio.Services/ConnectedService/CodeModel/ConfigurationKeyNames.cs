@@ -4,6 +4,9 @@ using System.Globalization;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
+    /// <summary>
+    /// Provides access to the key names of the AppSettings stored in the config file for the Salesforce service.
+    /// </summary>
     [Serializable]
     public class ConfigurationKeyNames
     {

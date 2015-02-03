@@ -5,6 +5,9 @@ using Salesforce.VisualStudio.Services.ConnectedService.Views;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
+    /// <summary>
+    /// The view model for the Runtime Authentication wizard page.
+    /// </summary>
     internal class RuntimeAuthenticationTypeViewModel : SalesforceConnectedServiceWizardPage
     {
         public const string RuntimeAuthStrategyPropertyName = "RuntimeAuthStrategy";

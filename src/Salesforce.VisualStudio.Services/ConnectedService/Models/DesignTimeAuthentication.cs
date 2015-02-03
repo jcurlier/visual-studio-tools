@@ -6,6 +6,11 @@ using System.Runtime.Serialization;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 {
+    /// <summary>
+    /// The information for how to authenticate with Salesforce at design time.  This authentication information is used
+    /// during the Connected Service experience to retrieve the available objects as well as create/configure a Connected
+    /// App within Salesforce.
+    /// </summary>
     [DataContract]
     internal class DesignTimeAuthentication : IEquatable<DesignTimeAuthentication>, INotifyPropertyChanged
     {

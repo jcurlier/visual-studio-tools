@@ -7,6 +7,10 @@ using System.Runtime.CompilerServices;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
+    /// <summary>
+    /// The view model for the My Domain configuration that is used by the design time authentication
+    /// as well as web server runtime authentication flow.
+    /// </summary>
     internal class MyDomainViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         private static readonly string[] myDomainError = { Resources.MyDomainViewModel_ErrorMessage };

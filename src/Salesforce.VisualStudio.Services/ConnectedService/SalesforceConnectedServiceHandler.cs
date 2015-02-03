@@ -20,6 +20,11 @@ using Shell = Microsoft.VisualStudio.Shell;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService
 {
+    /// <summary>
+    /// A ConnectedServiceHandler that is responsible for configuring a project (adding NuGet packages, assembly references,
+    /// generated code, config settings, etc.) so that it can be used to connect to a Salesforce service.  The handler also
+    /// creates a Connected App within Salesforce for this project.
+    /// </summary>
     [Export(typeof(ConnectedServiceHandler))]
     [ExportMetadata(Constants.ProviderId, Constants.ProviderIdValue)]
     // Support the following C# projects - Console, WinForms, WPF, Class Libs, ASP.net (pre 5), Windows Services

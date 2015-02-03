@@ -5,6 +5,9 @@ using System.Windows.Data;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Views
 {
+    /// <summary>
+    /// An IValueConverter that handles mapping enum values to Visibility values.
+    /// </summary>
     internal class EnumToVisibilityConverter : IValueConverter
     {
         public EnumToVisibilityConverter()

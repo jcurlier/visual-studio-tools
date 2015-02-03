@@ -1,4 +1,5 @@
-﻿#pragma warning disable 3001
+﻿// This files contains the interfaces used to interop with the VS SQM COM components.
+#pragma warning disable 3001
 
 using System;
 using System.Runtime.InteropServices;

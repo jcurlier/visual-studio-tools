@@ -2,6 +2,9 @@
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
+    /// <summary>
+    /// The view model for a particular Salesforce Environment.
+    /// </summary>
     internal class Environment
     {
         public Environment()

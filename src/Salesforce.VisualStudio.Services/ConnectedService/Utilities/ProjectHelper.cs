@@ -4,6 +4,9 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 {
+    /// <summary>
+    /// A utility class for working with VS projects (e.g. retrieving settings from).
+    /// </summary>
     internal static class ProjectHelper
     {
         public static Project GetProjectFromHierarchy(IVsHierarchy projectHierarchy)

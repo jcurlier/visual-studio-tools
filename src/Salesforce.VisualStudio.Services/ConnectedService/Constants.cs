@@ -1,5 +1,8 @@
 ﻿namespace Salesforce.VisualStudio.Services.ConnectedService
 {
+    /// <summary>
+    /// Miscellaneous constants that are used across the Salesforce connected service implementation.
+    /// </summary>
     internal static class Constants
     {
         public const string ConfigKeyFormat = "Salesforce{0}:{1}";

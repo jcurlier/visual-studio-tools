@@ -2,6 +2,9 @@
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
+    /// <summary>
+    /// The Salesforce describe metadata for a pick list.
+    /// </summary>
     [Serializable]
     public class SObjectPickListValue
     {

@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
+    /// <summary>
+    /// A class that builds the code model classes that are accessible from within the T4 templates.  The code model
+    /// classes contain the state that determines the contextual content of the generated code.
+    /// </summary>
     internal static class CodeModelBuilder
     {
         public static async Task<IEnumerable<GeneratedObject>> BuildObjectModelAsync(

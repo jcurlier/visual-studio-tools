@@ -3,6 +3,10 @@ using System.Globalization;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 {
+    /// <summary>
+    /// A base class used to store the common information for configuring the user's project to use
+    /// a particular authentication flow.
+    /// </summary>
     internal abstract class RuntimeAuthentication
     {
         protected RuntimeAuthentication()

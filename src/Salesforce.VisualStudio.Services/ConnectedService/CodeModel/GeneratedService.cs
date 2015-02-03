@@ -2,6 +2,9 @@
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
+    /// <summary>
+    /// Represents a Salesforce service to generate code for.
+    /// </summary>
     [Serializable]
     public sealed class GeneratedService
     {
