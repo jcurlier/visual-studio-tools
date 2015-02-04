@@ -16,7 +16,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
+    #line 1 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class SalesforceOAuthRedirectHandler : SalesforceOAuthRedirectHandlerBase
     {
@@ -31,73 +31,39 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp
                     ".Threading.Tasks;\r\nusing System.Web;\r\nusing System.Web.SessionState;\r\n\r\nnamespac" +
                     "e ");
             
-            #line 16 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
+            #line 16 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ServiceNamespace));
             
             #line default
             #line hidden
-            this.Write(@"
-{
-    public class SalesforceOAuthRedirectHandler : HttpTaskAsyncHandler, IRequiresSessionState
-    {
-        public override bool IsReusable
-        {
-            get { return true; }
-        }
-
-        public override async Task ProcessRequestAsync(HttpContext context)
-        {
-            AuthenticationClient authenticationClient = new AuthenticationClient();
-
-            string state = HttpUtility.UrlDecode(context.Request.QueryString[""state""]);
-
-            // Get the access and refresh tokens from the Salesforce authorization server, and store them
-            // on the session object.
-            await authenticationClient.WebServerAsync(
-                SalesforceService.GetAppSetting(""");
+            this.Write("\r\n{\r\n    /// <summary>\r\n    /// An HttpTaskAsyncHandler that is used to handle th" +
+                    "e OAuth callback when making an authentication request to Salesforce.\r\n    /// T" +
+                    "his handler is responsible for retrieving the access token from the authorizatio" +
+                    "n code Salesforce hands back\r\n    /// on a successful authentication request.\r\n " +
+                    "   /// </summary>\r\n    public class SalesforceOAuthRedirectHandler : HttpTaskAsy" +
+                    "ncHandler, IRequiresSessionState\r\n    {\r\n        /// <summary>\r\n        /// Gets" +
+                    " a value that indicates whether the task handler class instance can be reused fo" +
+                    "r another\r\n        /// asynchronous task.\r\n        /// </summary>\r\n        publi" +
+                    "c override bool IsReusable\r\n        {\r\n            get { return true; }\r\n       " +
+                    " }\r\n\r\n        /// <summary>\r\n        /// Processes the authentication callback f" +
+                    "rom Salesforce.\r\n        /// </summary>\r\n        /// <param name=\"context\">The H" +
+                    "TTP context.</param>\r\n        /// <returns>The asynchronous task.</returns>\r\n   " +
+                    "     public override async Task ProcessRequestAsync(HttpContext context)\r\n      " +
+                    "  {\r\n            await SalesforceService.AcquireTokenByAuthorizationCodeAsync(\r\n" +
+                    "                context.Request.QueryString[\"code\"],\r\n                Salesforce" +
+                    "OAuthRedirectHandler.GetAbsoluteRedirectUri());\r\n\r\n            string state = Ht" +
+                    "tpUtility.UrlDecode(context.Request.QueryString[\"state\"]);\r\n            string r" +
+                    "edirectUrl = state == null ? \"~/\" : state;\r\n            context.Response.Redirec" +
+                    "t(redirectUrl, false);\r\n        }\r\n\r\n        /// <summary>\r\n        /// Gets the" +
+                    " Salesforce authorization URL.  The optional target parameter allows the app to " +
+                    "redirect to\r\n        /// a specified page after authorization; if the parameter " +
+                    "is not specified, the app redirects to the current\r\n        /// request\'s URL.\r\n" +
+                    "        /// </summary>\r\n        /// <returns>The Salesforce authorization URL.</" +
+                    "returns>\r\n        public static string GetAuthorizationUrl(string targetUri = nu" +
+                    "ll)\r\n        {\r\n            return Common.FormatAuthUrl(\r\n                 Sales" +
+                    "forceService.GetAppSetting(\"");
             
-            #line 34 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.ConsumerKey));
-            
-            #line default
-            #line hidden
-            this.Write("\"),\r\n                SalesforceService.GetAppSetting(\"");
-            
-            #line 35 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.ConsumerSecret));
-            
-            #line default
-            #line hidden
-            this.Write("\"),\r\n                SalesforceOAuthRedirectHandler.GetAbsoluteRedirectUri(),\r\n  " +
-                    "              context.Request.QueryString[\"code\"],\r\n                SalesforceSe" +
-                    "rvice.GetAppSetting(\"");
-            
-            #line 38 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.Domain));
-            
-            #line default
-            #line hidden
-            this.Write(@""") + ""/services/oauth2/token"");
-
-            context.Session[""AccessToken""] = authenticationClient.AccessToken;
-            context.Session[""RefreshToken""] = authenticationClient.RefreshToken;
-            context.Session[""InstanceUrl""] = authenticationClient.InstanceUrl;
-
-            string redirectUrl = state == null ? ""~/"" : state;
-            context.Response.Redirect(redirectUrl, false);
-        }
-
-        /// <summary>
-        /// Returns a Salesforce authorization URL.  The optional target parameter allows the app to redirect to 
-        /// a specified page after authorization; if the parameter is not specified, the app redirects to the current 
-        /// request's URL.
-        /// </summary>
-        public static string GetAuthorizationUrl(string targetUri = null)
-        {
-            return Common.FormatAuthUrl(
-                 SalesforceService.GetAppSetting(""");
-            
-            #line 56 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
+            #line 59 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.Domain));
             
             #line default
@@ -105,7 +71,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp
             this.Write("\") + \"/services/oauth2/authorize\",\r\n                 ResponseTypes.Code,\r\n       " +
                     "          SalesforceService.GetAppSetting(\"");
             
-            #line 58 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
+            #line 61 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.ConsumerKey));
             
             #line default
@@ -117,12 +83,17 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp
                  HttpUtility.UrlEncode(string.IsNullOrEmpty(targetUri) ? HttpContext.Current.Request.Url.AbsoluteUri : targetUri));
         }
 
+        /// <summary>
+        /// Gets the absolute Uri to redirect to after Salesforce has completed authenticating a user.  This is the Uri
+        /// to this handler.
+        /// </summary>
+        /// <returns>The absolute redirect Uri.</returns>
         private static string GetAbsoluteRedirectUri()
         {
             Uri redirectUri;
             Uri.TryCreate(SalesforceService.GetAppSetting(""");
             
-            #line 68 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
+            #line 76 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.RedirectUri));
             
             #line default
@@ -144,7 +115,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
+        #line 1 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.tt"
 
 private global::Salesforce.VisualStudio.Services.ConnectedService.CodeModel.GeneratedService _generatedServiceField;
 

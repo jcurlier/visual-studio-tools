@@ -17,7 +17,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+    #line 1 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class SalesforceService : SalesforceServiceBase
     {
@@ -27,11 +27,30 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using Salesforce.Common;\r\nusing Salesforce.Force;\r\nusing System;\r\nusing System.Co" +
-                    "llections.Generic;\r\nusing System.Configuration;\r\nusing System.Globalization;\r\nus" +
-                    "ing System.Linq;\r\nusing System.Text;\r\nusing System.Threading.Tasks;\r\n");
+            this.Write("using Salesforce.Common;\r\n");
             
-            #line 16 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 8 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+
+    if (generatedService.AuthenticationStrategy == AuthenticationStrategy.WebServerFlow)
+    {
+
+            
+            #line default
+            #line hidden
+            this.Write("using Salesforce.Common.Models;\r\n");
+            
+            #line 13 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+
+    }
+
+            
+            #line default
+            #line hidden
+            this.Write("using Salesforce.Force;\r\nusing System;\r\nusing System.Collections.Generic;\r\nusing " +
+                    "System.Configuration;\r\nusing System.Globalization;\r\nusing System.Linq;\r\nusing Sy" +
+                    "stem.Text;\r\nusing System.Threading.Tasks;\r\n");
+            
+            #line 24 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
 
     if (generatedService.AuthenticationStrategy == AuthenticationStrategy.WebServerFlow)
     {
@@ -41,7 +60,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp
             #line hidden
             this.Write("using System.Web;\r\n");
             
-            #line 21 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 29 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
 
     }
 
@@ -50,154 +69,239 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp
             #line hidden
             this.Write("\r\nnamespace ");
             
-            #line 25 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 33 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ServiceNamespace));
             
             #line default
             #line hidden
-            this.Write(@"
-{
-    public class SalesforceService
-    {
-        public SalesforceService()
-        {
-            this.AuthenticationClient = new AuthenticationClient();
-        }
-
-        public AuthenticationClient AuthenticationClient { get; private set; }
-
-");
+            this.Write("\r\n{\r\n    /// <summary>\r\n    /// Provides methods to interact with a Salesforce se" +
+                    "rvice.\r\n    /// </summary>\r\n    public static class SalesforceService\r\n    {\r\n");
             
-            #line 36 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 40 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
 
-    if (generatedService.AuthenticationStrategy == AuthenticationStrategy.WebServerFlow)
+    if (generatedService.AuthenticationStrategy == AuthenticationStrategy.UserNamePassword)
     {
 
             
             #line default
             #line hidden
-            this.Write(@"        public ForceClient GetWebServerForceClient()
-        {
-            if (!SalesforceService.IsAuthenticated())
-            {
-                throw new InvalidOperationException(""The user must be logged in to get a ForceClient."");
-            }
-
-            // Retrieve the access token and instance URL from the session object, which were set in the SalesforceOAuthRedirectHandler.
-            this.AuthenticationClient.AccessToken = HttpContext.Current.Session[""AccessToken""] as string;
-            this.AuthenticationClient.InstanceUrl = HttpContext.Current.Session[""InstanceUrl""] as string;
-");
-            
-            #line 50 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
-
-    }
-    else
-    {
-
-            
-            #line default
-            #line hidden
-            this.Write(@"        public async Task<ForceClient> GetUserNamePasswordForceClientAsync()
+            this.Write(@"        /// <summary>
+        /// Gets a ForceClient that has been authenticated using the UserName, Password, and SecurityToken settings
+        /// specified in the config file.
+        /// </summary>
+        /// <returns>The authenticated ForceClient.</returns>
+        public static async Task<ForceClient> GetUserNamePasswordForceClientAsync()
         {
 #error Update the config file with the connected app's UserName, Password and SecurityToken. For more information, see the Next Steps section of the Getting Started documentation.
 
-            await this.AuthenticationClient.UsernamePasswordAsync(
-                SalesforceService.GetAppSetting(""");
+            using (AuthenticationClient authenticationClient = new AuthenticationClient())
+            {
+                await authenticationClient.UsernamePasswordAsync(
+                    SalesforceService.GetAppSetting(""");
             
-            #line 60 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 56 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.ConsumerKey));
             
             #line default
             #line hidden
-            this.Write("\"),\r\n                SalesforceService.GetAppSetting(\"");
+            this.Write("\"),\r\n                    SalesforceService.GetAppSetting(\"");
             
-            #line 61 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 57 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.ConsumerSecret));
             
             #line default
             #line hidden
-            this.Write("\"),\r\n                SalesforceService.GetAppSetting(\"");
+            this.Write("\"),\r\n                    SalesforceService.GetAppSetting(\"");
             
-            #line 62 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 58 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.UserName));
             
             #line default
             #line hidden
-            this.Write("\"),\r\n                SalesforceService.GetAppSetting(\"");
+            this.Write("\"),\r\n                    SalesforceService.GetAppSetting(\"");
             
-            #line 63 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 59 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.Password));
             
             #line default
             #line hidden
             this.Write("\") + SalesforceService.GetAppSetting(\"");
             
-            #line 63 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 59 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.SecurityToken));
             
             #line default
             #line hidden
-            this.Write("\", true),\r\n                SalesforceService.GetAppSetting(\"");
+            this.Write("\", true),\r\n                    SalesforceService.GetAppSetting(\"");
             
-            #line 64 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 60 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.Domain));
             
             #line default
             #line hidden
-            this.Write("\") + \"/services/oauth2/token\");\r\n");
+            this.Write(@""") + ""/services/oauth2/token"");
+
+                return new ForceClient(
+                    authenticationClient.InstanceUrl,
+                    authenticationClient.AccessToken,
+                    authenticationClient.ApiVersion);
+            }
+        }
+
+");
             
-            #line 65 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 69 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
 
     }
+    else if (generatedService.AuthenticationStrategy == AuthenticationStrategy.WebServerFlow)
+    {
 
             
             #line default
             #line hidden
-            this.Write(@"
-            return new ForceClient(
-                this.AuthenticationClient.InstanceUrl,
-                this.AuthenticationClient.AccessToken,
-                this.AuthenticationClient.ApiVersion);
+            this.Write("        private static string TokenCacheKey = \"SalesforceToken\";\r\n\r\n        /// <" +
+                    "summary>\r\n        /// Makes a request to the Salesforce client, wrapping the spe" +
+                    "cified logic with the code necessary to handle authentication.\r\n        /// </su" +
+                    "mmary>\r\n        /// <typeparam name=\"T\">The type of value returned from the requ" +
+                    "est.</typeparam>\r\n        /// <param name=\"request\">The request to make on the S" +
+                    "alesforce client.</param>\r\n        /// <exception cref=\"InvalidOperationExceptio" +
+                    "n\">The current user is not authenticated.</exception>\r\n        /// <returns>The " +
+                    "value returned by the request.</returns>\r\n        public static async Task<T> Ma" +
+                    "keAuthenticatedClientRequestAsync<T>(Func<ForceClient, Task<T>> request)\r\n      " +
+                    "  {\r\n            bool done = false;\r\n            bool refreshedToken = false;\r\n " +
+                    "           T result = default(T);\r\n\r\n            do\r\n            {\r\n            " +
+                    "    // 1. Get the token from the cache\r\n                SalesforceToken salesfor" +
+                    "ceToken = HttpContext.Current.Session[SalesforceService.TokenCacheKey] as Salesf" +
+                    "orceToken;\r\n\r\n                // 2. If no token is available, redirect to author" +
+                    "ize\r\n                if (salesforceToken == null)\r\n                {\r\n          " +
+                    "          // This exception message should be used to trigger the sign-in UI\r\n  " +
+                    "                  throw new InvalidOperationException(\"AuthorizationRequired\");\r" +
+                    "\n                }\r\n\r\n                // Initialize the ForceClient\r\n           " +
+                    "     ForceClient forceClient = salesforceToken.GetForceClient();\r\n\r\n            " +
+                    "    try\r\n                {\r\n                    // 3. Invoke the request with th" +
+                    "e acquired token\r\n                    result = await request(forceClient);\r\n    " +
+                    "                done = true;\r\n                }\r\n                catch (ForceExc" +
+                    "eption e)\r\n                {\r\n                    // If message is \"Session expi" +
+                    "red or invalid\", the access token is invalid, so eat the\r\n                    //" +
+                    " exception and fall through to try to update it using the refresh token.\r\n      " +
+                    "              if (e.Message != \"Session expired or invalid\")\r\n                  " +
+                    "  {\r\n                        throw;\r\n                    }\r\n\r\n                  " +
+                    "  if (refreshedToken)\r\n                    {\r\n                        // The acc" +
+                    "ess token is invalid and was already refreshed once, give up and\r\n              " +
+                    "          // re-throw the exception.\r\n                        throw;\r\n          " +
+                    "          }\r\n                }\r\n\r\n                // 4. If the token is invalid," +
+                    " attempt to acquire a new access token from the refresh token\r\n                i" +
+                    "f (!done)\r\n                {\r\n                    await SalesforceService.Acquir" +
+                    "eAccessTokenFromRefreshTokenAsync(salesforceToken);\r\n                    refresh" +
+                    "edToken = true;\r\n                }\r\n\r\n            } while (!done);\r\n\r\n          " +
+                    "  return result;\r\n        }\r\n\r\n        /// <summary>\r\n        /// Gets a Salesfo" +
+                    "rce token from an authorization code and adds it to the cache.\r\n        /// </su" +
+                    "mmary>\r\n        /// <param name=\"authorizationCode\">The code that was returned t" +
+                    "o the OAuth callback.</param>\r\n        /// <param name=\"redirectUri\">The redirec" +
+                    "t URI that was used to acquire the code.</param>\r\n        /// <returns>The async" +
+                    "hronous task.</returns>\r\n        public static async Task AcquireTokenByAuthoriz" +
+                    "ationCodeAsync(string authorizationCode, string redirectUri)\r\n        {\r\n       " +
+                    "     using (AuthenticationClient authenticationClient = new AuthenticationClient" +
+                    "())\r\n            {\r\n                await authenticationClient.WebServerAsync(\r\n" +
+                    "                    SalesforceService.GetAppSetting(\"");
+            
+            #line 150 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.ConsumerKey));
+            
+            #line default
+            #line hidden
+            this.Write("\"),\r\n                    SalesforceService.GetAppSetting(\"");
+            
+            #line 151 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.ConsumerSecret));
+            
+            #line default
+            #line hidden
+            this.Write("\"),\r\n                    redirectUri,\r\n                    authorizationCode,\r\n  " +
+                    "                  SalesforceService.GetAppSetting(\"");
+            
+            #line 154 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.Domain));
+            
+            #line default
+            #line hidden
+            this.Write(@""") + ""/services/oauth2/token"");
+
+                SalesforceToken salesforceToken = new SalesforceToken(authenticationClient);
+
+                // Add the new token to the cache
+                HttpContext.Current.Session[SalesforceService.TokenCacheKey] = salesforceToken;
+            }
         }
 
         /// <summary>
-        /// Checks if the user is currently authenticated with a Salesforce AccessToken.
+        /// Gets a Salesforce token based on the refresh token and adds it to the cache.
         /// </summary>
-        public static bool IsAuthenticated()
+        /// <param name=""salesforceToken"">The Salesforce token that contains the refresh token to use.</param>
+        /// <returns>The asynchronous task.</returns>
+        private static async Task AcquireAccessTokenFromRefreshTokenAsync(SalesforceToken salesforceToken)
         {
+            // Remove the old token from the cache
+            HttpContext.Current.Session[SalesforceService.TokenCacheKey] = null;
+
+            try
+            {
+                using (AuthenticationClient authenticationClient = salesforceToken.GetAuthenticationClient())
+                {
+                    // Attempt to refresh the token
+                    await authenticationClient.TokenRefreshAsync(
+                        SalesforceService.GetAppSetting(""");
+            
+            #line 179 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.ConsumerKey));
+            
+            #line default
+            #line hidden
+            this.Write("\"),\r\n                        salesforceToken.RefreshToken,\r\n                     " +
+                    "   string.Empty,\r\n                        SalesforceService.GetAppSetting(\"");
+            
+            #line 182 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(generatedService.ConfigurationKeyNames.Domain));
+            
+            #line default
+            #line hidden
+            this.Write(@""") + ""/services/oauth2/token"");
+
+                    salesforceToken = new SalesforceToken(authenticationClient);
+
+                    // Add the new token to the cache
+                    HttpContext.Current.Session[SalesforceService.TokenCacheKey] = salesforceToken;
+                }
+            }
+            catch (ForceException e)
+            {
+                // InvalidGrant means that the refresh token is invalid.
+                // Just return in that case, so re-authorization can occur.
+                if (e.Error != Error.InvalidGrant)
+                {
+                    throw;
+                }
+            }
+        }
+
 ");
             
-            #line 80 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
-
-    if (generatedService.AuthenticationStrategy == AuthenticationStrategy.WebServerFlow)
-    {
-
-            
-            #line default
-            #line hidden
-            this.Write("            return HttpContext.Current.Session[\"AccessToken\"] != null;\r\n");
-            
-            #line 85 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
-
-    }
-    else
-    {
-
-            
-            #line default
-            #line hidden
-            this.Write("            throw new InvalidOperationException(\"IsAuthenticated not implemented " +
-                    "for Authentication flows beyond Web Server Flow at this time\");\r\n");
-            
-            #line 91 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+            #line 201 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
 
     }
 
             
             #line default
             #line hidden
-            this.Write(@"        }
-
+            this.Write(@"        /// <summary>
+        /// Gets the value of the AppSetting with the specified name from the config file.
+        /// </summary>
+        /// <param name=""name"">The name of the AppSetting to retrieve.</param>
+        /// <param name=""isOptional"">A Boolean value indicating whether or not the AppSetting is considered optional.</param>
+        /// <exception cref=""InvalidOperationException"">If isOptional is set to false and the AppSetting is not found.</exception>
+        /// <returns>
+        /// The value of the AppSetting if found.  If isOptional is set to true and the AppSetting is not found, null is returned.
+        /// </returns>
         internal static string GetAppSetting(string name, bool isOptional = false)
         {
             string setting = ConfigurationManager.AppSettings[name];
@@ -213,12 +317,67 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Templates.CSharp
 
             return setting;
         }
+");
+            
+            #line 228 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+
+    if (generatedService.AuthenticationStrategy == AuthenticationStrategy.WebServerFlow)
+    {
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\n        /// <summary>\r\n        /// Represents a Salesforce authentication token" +
+                    ".\r\n        /// </summary>\r\n        private class SalesforceToken\r\n        {\r\n   " +
+                    "         /// <summary>\r\n            /// Gets or sets the access token that can b" +
+                    "e used to make authenticated Salesforce service requests.\r\n            /// </sum" +
+                    "mary>\r\n            public string AccessToken { get; set; }\r\n\r\n            /// <s" +
+                    "ummary>\r\n            /// Gets or sets the refresh token that can be used to obta" +
+                    "in a new access token.\r\n            /// </summary>\r\n            public string Re" +
+                    "freshToken { get; set; }\r\n\r\n            /// <summary>\r\n            /// Gets or s" +
+                    "ets the Salesforce Service Url that was used to obtain this token.\r\n            " +
+                    "/// </summary>\r\n            public string InstanceUrl { get; set; }\r\n\r\n         " +
+                    "   /// <summary>\r\n            /// Gets or sets the Salesforce API version that t" +
+                    "his token is valid for.\r\n            /// </summary>\r\n            public string A" +
+                    "piVersion { get; set; }\r\n\r\n            /// <summary>\r\n            /// Initialize" +
+                    "s a Salesforce token using an existing AuthenticationClient.\r\n            /// </" +
+                    "summary>\r\n            /// <param name=\"authenticationClient\">The AuthenticationC" +
+                    "lient from which to initialize the token.</param>\r\n            /// <exception cr" +
+                    "ef=\"ArgumentNullException\">authenticationClient is null.</exception>\r\n          " +
+                    "  public SalesforceToken(AuthenticationClient authenticationClient)\r\n           " +
+                    " {\r\n                if (authenticationClient == null)\r\n                {\r\n      " +
+                    "              throw new ArgumentNullException(\"authenticationClient\");\r\n        " +
+                    "        }\r\n\r\n                this.AccessToken = authenticationClient.AccessToken" +
+                    ";\r\n                this.RefreshToken = authenticationClient.RefreshToken;\r\n     " +
+                    "           this.InstanceUrl = authenticationClient.InstanceUrl;\r\n               " +
+                    " this.ApiVersion = authenticationClient.ApiVersion;\r\n            }\r\n\r\n          " +
+                    "  /// <summary>\r\n            /// Get the AuthenticationClient from the Salesforc" +
+                    "e token.\r\n            /// </summary>\r\n            /// <returns>The new Authentic" +
+                    "ationClient.</returns>\r\n            public AuthenticationClient GetAuthenticatio" +
+                    "nClient()\r\n            {\r\n                AuthenticationClient authenticationCli" +
+                    "ent = new AuthenticationClient();\r\n                authenticationClient.AccessTo" +
+                    "ken = this.AccessToken;\r\n                authenticationClient.RefreshToken = thi" +
+                    "s.RefreshToken;\r\n                authenticationClient.InstanceUrl = this.Instanc" +
+                    "eUrl;\r\n                authenticationClient.ApiVersion = this.ApiVersion;\r\n\r\n   " +
+                    "             return authenticationClient;\r\n            }\r\n\r\n            /// <sum" +
+                    "mary>\r\n            /// Get a ForceClient based on the Salesforce token.\r\n       " +
+                    "     /// </summary>\r\n            /// <returns>The new ForceClient.</returns>\r\n  " +
+                    "          public ForceClient GetForceClient()\r\n            {\r\n                re" +
+                    "turn new ForceClient(this.InstanceUrl, this.AccessToken, this.ApiVersion);\r\n    " +
+                    "        }\r\n        }\r\n");
+            
+            #line 300 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+
     }
-}");
+
+            
+            #line default
+            #line hidden
+            this.Write("    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "C:\Repos\visual-studio-tools4\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
+        #line 1 "C:\Repos\visual-studio-tools5\src\Salesforce.VisualStudio.Services\ConnectedService\Templates\CSharp\SalesforceService.tt"
 
 private global::Salesforce.VisualStudio.Services.ConnectedService.CodeModel.GeneratedService _generatedServiceField;
 
