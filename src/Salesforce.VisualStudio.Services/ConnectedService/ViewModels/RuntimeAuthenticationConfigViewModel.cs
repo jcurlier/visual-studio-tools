@@ -18,11 +18,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private Func<Uri> getDesignTimeMyDomain;
 
         public RuntimeAuthenticationConfigViewModel(
-            ConnectedServiceProviderHost host,
-            TelemetryHelper telemetryHelper,
-            UserSettings userSettings,
+            ConnectedServiceWizard wizard,
             Func<Uri> getDesignTimeMyDomain)
-            : base(host, telemetryHelper, userSettings)
+            : base(wizard)
         {
             this.getDesignTimeMyDomain = getDesignTimeMyDomain;
             this.Title = Resources.RuntimeAuthenticationConfigViewModel_Title;
@@ -39,7 +37,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 this.myDomainViewModel = value;
                 this.CalculateIsValid();
                 this.CalculateHasErrors();
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -64,7 +62,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         throw new NotImplementedException();
                 }
 
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -74,7 +72,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             private set
             {
                 this.runtimeAuthentication = value;
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -92,7 +90,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         this.MyDomainViewModel = new MyDomainViewModel(
                             this.getDesignTimeMyDomain(),
                             myDomainUri => ((WebServerFlowInfo)(this.RuntimeAuthentication)).MyDomain = myDomainUri,
-                            this.UserSettings);
+                            this.Wizard.UserSettings);
                         this.MyDomainViewModel.PropertyChanged += this.MyDomainViewModel_PropertyChanged;
                     }
                     else if (this.MyDomainViewModel != null)
@@ -101,18 +99,18 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         this.MyDomainViewModel = null;
                     }
 
-                    this.OnNotifyPropertyChanged();
+                    this.OnPropertyChanged();
                 }
             }
         }
 
         private void MyDomainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == Constants.IsValidPropertyName)
+            if (e.PropertyName == nameof(MyDomainViewModel.IsValid))
             {
                 this.CalculateIsValid();
             }
-            else if (e.PropertyName == Constants.HasErrorsPropertyName)
+            else if (e.PropertyName == nameof(MyDomainViewModel.HasErrors))
             {
                 this.CalculateHasErrors();
             }

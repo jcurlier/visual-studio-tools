@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.ConnectedServices;
-using Microsoft.VisualStudio.Shell;
+﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Connected.CredentialStorage;
+using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;

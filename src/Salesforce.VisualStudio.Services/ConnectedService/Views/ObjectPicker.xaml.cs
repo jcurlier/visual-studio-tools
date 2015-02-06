@@ -16,7 +16,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
         /// The DependencyProperty for the ObjectPicker.Categories property.
         /// </summary>
         public static readonly DependencyProperty CategoriesProperty = DependencyProperty.Register(
-            "Categories",
+            nameof(ObjectPicker.Categories),
             typeof(IEnumerable<ObjectPickerCategory>),
             typeof(ObjectPicker),
             new PropertyMetadata(null));
@@ -25,7 +25,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
         /// The DependencyProperty for the ObjectPicker.ErrorMessage property.
         /// </summary>
         public static readonly DependencyProperty ErrorMessageProperty = DependencyProperty.Register(
-            "ErrorMessage",
+            nameof(ObjectPicker.ErrorMessage),
             typeof(string),
             typeof(ObjectPicker),
             new PropertyMetadata(null));
@@ -43,8 +43,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
         /// </summary>
         public IEnumerable<ObjectPickerCategory> Categories
         {
-            get { return (IEnumerable<ObjectPickerCategory>)this.GetValue(CategoriesProperty); }
-            set { this.SetValue(CategoriesProperty, value); }
+            get { return (IEnumerable<ObjectPickerCategory>)this.GetValue(ObjectPicker.CategoriesProperty); }
+            set { this.SetValue(ObjectPicker.CategoriesProperty, value); }
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
         /// </summary>
         public string ErrorMessage
         {
-            get { return (string)this.GetValue(ErrorMessageProperty); }
-            set { this.SetValue(ErrorMessageProperty, value); }
+            get { return (string)this.GetValue(ObjectPicker.ErrorMessageProperty); }
+            set { this.SetValue(ObjectPicker.ErrorMessageProperty, value); }
         }
     }
 }

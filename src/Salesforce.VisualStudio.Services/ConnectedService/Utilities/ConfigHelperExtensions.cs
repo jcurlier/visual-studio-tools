@@ -12,7 +12,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
     {
         private const string WebServerSectionName = "system.webServer";
 
-        public static bool IsHandlerNameUsed(this ConfigHelper configHelper, string handlerName)
+        public static bool IsHandlerNameUsed(this XmlConfigHelper configHelper, string handlerName)
         {
             ConfigurationSection webServerSection = configHelper.Configuration.GetSection(ConfigHelperExtensions.WebServerSectionName);
             if (webServerSection == null)
@@ -33,7 +33,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 .Any(addElement => addElement.Attribute("name").Value == handlerName);
         }
 
-        public static void RegisterRedirectHandler(this EditableConfigHelper configHelper, string name, string redirectHandlerPath, string fullTypeName)
+        public static void RegisterRedirectHandler(this EditableXmlConfigHelper configHelper, string name, string redirectHandlerPath, string fullTypeName)
         {
             // Because the "system.webServer" ConfigurationSection is an IgnoreSection, it must be modified
             // using the raw XML.

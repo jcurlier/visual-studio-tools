@@ -49,7 +49,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             set
             {
                 this.isSelected = value;
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -78,7 +78,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         /// <param name="name">
         /// The name of the property that changed.
         /// </param>
-        protected void OnNotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (this.PropertyChanged != null)
             {

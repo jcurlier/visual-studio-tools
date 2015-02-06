@@ -21,20 +21,22 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         private ObjectSelectionViewModel objectSelectionViewModel;
         private UserSettings userSettings;
         private TelemetryHelper telemetryHelper;
+        private ConnectedServiceProviderHost host;
 
         public SalesforceConnectedServiceWizard(ConnectedServiceProviderHost host)
         {
+            this.host = host;
             this.telemetryHelper = new TelemetryHelper(host.ProjectHierarchy);
             this.telemetryHelper.TrackWizardStartedEvent();
 
             this.userSettings = UserSettings.Load();
-            this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(host, this.telemetryHelper, this.userSettings);
+            this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(this);
             this.designTimeAuthenticationViewModel.PageLeaving += DesignTimeAuthenticationViewModel_PageLeaving;
-            this.runtimeAuthenticationTypeViewModel = new RuntimeAuthenticationTypeViewModel(host, this.telemetryHelper, this.userSettings);
+            this.runtimeAuthenticationTypeViewModel = new RuntimeAuthenticationTypeViewModel(this);
             this.runtimeAuthenticationConfigViewModel = new RuntimeAuthenticationConfigViewModel(
-                host, this.telemetryHelper, this.userSettings, () => this.designTimeAuthenticationViewModel.Authentication.MyDomain);
+                this, () => this.designTimeAuthenticationViewModel.Authentication.MyDomain);
             this.runtimeAuthenticationConfigViewModel.RuntimeAuthStrategy = this.runtimeAuthenticationTypeViewModel.RuntimeAuthStrategy;
-            this.objectSelectionViewModel = new ObjectSelectionViewModel(host, this.telemetryHelper, this.userSettings);
+            this.objectSelectionViewModel = new ObjectSelectionViewModel(this);
 
             this.Pages.Add(this.designTimeAuthenticationViewModel);
             this.Pages.Add(this.runtimeAuthenticationTypeViewModel);
@@ -45,6 +47,21 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             {
                 page.PropertyChanged += this.PageViewModel_PropertyChanged;
             }
+        }
+
+        public ConnectedServiceProviderHost Host
+        {
+            get { return this.host; }
+        }
+
+        public TelemetryHelper TelemetryHelper
+        {
+            get { return this.telemetryHelper; }
+        }
+
+        public UserSettings UserSettings
+        {
+            get { return this.userSettings; }
         }
 
         public override Task<ConnectedServiceInstance> GetFinishedServiceInstanceAsync()
@@ -71,7 +88,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         private void PageViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == Constants.IsValidPropertyName)
+            if (e.PropertyName == nameof(SalesforceConnectedServiceWizardPage.IsValid))
             {
                 SalesforceConnectedServiceWizardPage senderPage = (SalesforceConnectedServiceWizardPage)sender;
                 int invalidPageIndex = this.Pages.IndexOf(senderPage);
@@ -89,18 +106,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                     }
                 }
 
-                this.RefreshFinishButtonState();
+                this.IsFinishEnabled = this.Pages.Cast<SalesforceConnectedServiceWizardPage>().All(p => p.IsValid);
             }
-            else if (sender is RuntimeAuthenticationTypeViewModel && e.PropertyName == RuntimeAuthenticationTypeViewModel.RuntimeAuthStrategyPropertyName)
+            else if (sender is RuntimeAuthenticationTypeViewModel && e.PropertyName == nameof(RuntimeAuthenticationTypeViewModel.RuntimeAuthStrategy))
             {
                 this.runtimeAuthenticationConfigViewModel.RuntimeAuthStrategy = this.runtimeAuthenticationTypeViewModel.RuntimeAuthStrategy;
             }
-        }
-
-        private void RefreshFinishButtonState()
-        {
-            bool isFinishedEnabled = this.Pages.Cast<SalesforceConnectedServiceWizardPage>().All(p => p.IsValid);
-            this.OnEnableNavigation(new NavigationEnabledState(null, null, isFinishedEnabled));
         }
     }
 }

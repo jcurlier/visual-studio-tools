@@ -12,17 +12,17 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
     internal abstract class SalesforceConnectedServiceWizardPage : ConnectedServiceWizardPage
     {
         private bool isValid;
-        private TelemetryHelper telemetryHelper;
 
-        protected SalesforceConnectedServiceWizardPage(ConnectedServiceProviderHost host, TelemetryHelper telemetryHelper, UserSettings userSettings)
+        protected SalesforceConnectedServiceWizardPage(ConnectedServiceWizard wizard)
+            : base(wizard)
         {
-            this.Host = host;
             this.isValid = true;
-            this.telemetryHelper = telemetryHelper;
-            this.UserSettings = userSettings;
         }
 
-        protected ConnectedServiceProviderHost Host { get; private set; }
+        public new SalesforceConnectedServiceWizard Wizard
+        {
+            get { return (SalesforceConnectedServiceWizard)base.Wizard; }
+        }
 
         public bool IsValid
         {
@@ -32,19 +32,17 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 if (this.isValid != value)
                 {
                     this.isValid = value;
-                    this.OnNotifyPropertyChanged();
+                    this.OnPropertyChanged();
                 }
             }
         }
-
-        protected UserSettings UserSettings { get; private set; }
 
         public void NavigateHyperlink(Uri uri)
         {
             string page = uri.AbsoluteUri;
             VsShellUtilities.OpenSystemBrowser(page);
 
-            this.telemetryHelper.TrackLinkClickedEvent(page);
+            this.Wizard.TelemetryHelper.TrackLinkClickedEvent(page);
         }
     }
 }

@@ -79,6 +79,7 @@
     <Compile Include="ConnectedService\Utilities\TelemetryHelper.cs" />
     <Compile Include="ConnectedService\Utilities\ExceptionHelper.cs" />
     <Compile Include="ConnectedService\Utilities\MetadataHelper.cs" />
+    <Compile Include="ConnectedService\Utilities\UserSettingsHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\Environment.cs" />
     <Compile Include="ConnectedService\ViewModels\MyDomainViewModel.cs" />
     <Compile Include="ConnectedService\ViewModels\ObjectPickerCategory.cs" />
@@ -280,9 +281,6 @@
     <Reference Include="Microsoft.VisualStudio.ConnectedServices">
       <HintPath>..\..\Externals\Microsoft.VisualStudio.ConnectedServices\Microsoft.VisualStudio.ConnectedServices.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.ConnectedServices.Framework">
-      <HintPath>..\..\Externals\Microsoft.VisualStudio.ConnectedServices\Microsoft.VisualStudio.ConnectedServices.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
     <Reference Include="Microsoft.VisualStudio.Shell.14.0">

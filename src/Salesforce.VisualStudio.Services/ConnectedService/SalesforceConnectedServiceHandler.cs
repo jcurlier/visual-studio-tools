@@ -36,7 +36,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         [Import]
         internal IVsPackageInstaller PackageInstaller { get; set; }
 
-        public override async Task AddServiceInstanceAsync(ConnectedServiceInstanceContext context, CancellationToken ct)
+        public override async Task<AddServiceInstanceResult> AddServiceInstanceAsync(ConnectedServiceInstanceContext context, CancellationToken ct)
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingConnectedService);
 
@@ -55,15 +55,18 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 await this.AddNuGetPackagesAsync(context, project);
                 await SalesforceConnectedServiceHandler.AddAssemblyReferencesAsync(context, salesforceInstance);
                 await SalesforceConnectedServiceHandler.AddGeneratedCodeAsync(context, project, salesforceInstance);
-                await SalesforceConnectedServiceHandler.PresentGettingStartedAsync(context, salesforceInstance);
 
                 salesforceInstance.TelemetryHelper.TrackHandlerSucceededEvent(salesforceInstance);
                 await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddedConnectedService);
+
+                AddServiceInstanceResult result = new AddServiceInstanceResult(
+                    SalesforceConnectedServiceHandler.GetServiceInstanceName(salesforceInstance.GeneratedArtifactSuffix),
+                    new Uri(Constants.NextStepsUrl));
+                return result;
             }
             catch (Exception e)
             {
                 salesforceInstance.TelemetryHelper.TrackHandlerFailedEvent(salesforceInstance, e);
-                await context.Logger.WriteMessageAsync(LoggerMessageCategory.Error, Resources.LogMessage_FailedAddingConnectedService, e);
                 throw;
             }
         }
@@ -81,7 +84,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_UpdatingConfigFile);
 
-            using (EditableConfigHelper configHelper = new EditableConfigHelper(context.ProjectHierarchy))
+            using (EditableXmlConfigHelper configHelper = context.HandlerHelper.CreateEditableXmlConfigHelper())
             {
                 foreach (ConfigSetting configSetting in salesforceInstance.RuntimeAuthentication.GetConfigSettings(salesforceInstance.ConnectedAppName))
                 {
@@ -143,7 +146,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingAssemblyReference, assemblyPath);
 
-            HandlerHelper.AddAssemblyReference(context, assemblyPath);
+            context.HandlerHelper.AddAssemblyReference(assemblyPath);
         }
 
         private static async Task AddGeneratedCodeAsync(ConnectedServiceInstanceContext context, Project project, SalesforceConnectedServiceInstance salesforceInstance)
@@ -225,7 +228,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         private static string GetServiceDirectoryName(ConnectedServiceInstanceContext context, string generatedArtifactSuffix)
         {
             return Path.Combine(
-                HandlerHelper.GetServiceArtifactsRootFolder(context),
+                context.HandlerHelper.GetServiceArtifactsRootFolder(),
                 SalesforceConnectedServiceHandler.GetServiceInstanceName(generatedArtifactSuffix));
         }
 
@@ -257,23 +260,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 + SalesforceConnectedServiceHandler.GetServiceInstanceName(generatedArtifactSuffix);
         }
 
-        private static async Task PresentGettingStartedAsync(ConnectedServiceInstanceContext context, SalesforceConnectedServiceInstance salesforceInstance)
-        {
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_PresentingGettingStarted);
-
-            await HandlerHelper.AddGettingStartedAsync(
-                context,
-                SalesforceConnectedServiceHandler.GetServiceInstanceName(salesforceInstance.GeneratedArtifactSuffix),
-                new Uri(Constants.NextStepsUrl));
-        }
-
         /// <summary>
         /// Returns a suffix for the generated artifacts which guarantees that they don't conflict with any 
         /// existing artifacts in the project.
         /// </summary>
         private static string GetGeneratedArtifactSuffix(ConnectedServiceInstanceContext context, Project project, AuthenticationStrategy authStrategy)
         {
-            using (ConfigHelper configHelper = new ConfigHelper(context.ProjectHierarchy))
+            using (XmlConfigHelper configHelper = context.HandlerHelper.CreateReadOnlyXmlConfigHelper())
             {
                 return NamingUtilities.GetUniqueSuffix(suffix =>
                     configHelper.IsPrefixUsedInAppSettings(ConfigurationKeyNames.GetQualifiedKeyName(string.Empty, suffix))

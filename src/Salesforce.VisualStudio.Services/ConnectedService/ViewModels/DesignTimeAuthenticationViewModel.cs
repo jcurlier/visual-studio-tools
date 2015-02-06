@@ -29,8 +29,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private Environment[] environments;
         private bool isFirstUse;
 
-        public DesignTimeAuthenticationViewModel(ConnectedServiceProviderHost host, TelemetryHelper telemetryHelper, UserSettings userSettings)
-            : base(host, telemetryHelper, userSettings)
+        public DesignTimeAuthenticationViewModel(ConnectedServiceWizard wizard)
+            : base(wizard)
         {
             this.isFirstUse = true;
 
@@ -94,7 +94,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 this.myDomainViewModel = value;
                 this.CalculateIsValid();
                 this.CalculateHasErrors();
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -112,7 +112,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
                     this.authentication = value;
                     this.authentication.PropertyChanged += this.Authentication_PropertyChanged;
-                    this.OnNotifyPropertyChanged();
+                    this.OnPropertyChanged();
                     this.InitializeMyDomainViewModel();
                 }
             }
@@ -127,25 +127,28 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         public event EventHandler<EventArgs> PageLeaving;
 
-        public override Task<NavigationEnabledState> OnPageEnteringAsync(WizardEnteringArgs args)
+        public override async Task OnPageEnteringAsync(WizardEnteringArgs args)
         {
-            this.AvailableAuthentications = this.UserSettings.MruDesignTimeAuthentications.Union(
+            await base.OnPageEnteringAsync(args);
+
+            this.AvailableAuthentications = this.Wizard.UserSettings.MruDesignTimeAuthentications.Union(
                 new DesignTimeAuthentication[] { new DesignTimeAuthentication() });
             this.Authentication = this.AvailableAuthentications.First();
-            this.OnNotifyPropertyChanged("AvailableAuthentications");
+            this.OnPropertyChanged(nameof(DesignTimeAuthenticationViewModel.AvailableAuthentications));
 
-            // If this is the first use of the page, default the finish button to be enabled.
-            bool? isFinishEnabled = this.isFirstUse ? true : (bool?)null;
-            this.isFirstUse = false;
-
-            return Task.FromResult(new NavigationEnabledState(null, null, isFinishEnabled));
+            if (this.isFirstUse)
+            {
+                // If this is the first use of the page, default the finish button to be enabled.
+                this.Wizard.IsFinishEnabled = true;
+                this.isFirstUse = false;
+            }
         }
 
         public override async Task<WizardNavigationResult> OnPageLeavingAsync(WizardLeavingArgs args)
         {
             WizardNavigationResult result;
 
-            using (this.Host.StartBusyIndicator(Resources.DesignTimeAuthenticationViewModel_AuthenticatingProgress))
+            using (this.Wizard.Host.StartBusyIndicator(Resources.DesignTimeAuthenticationViewModel_AuthenticatingProgress))
             {
                 string error = null;
 
@@ -156,7 +159,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
                     if (error == null && this.Authentication.EnvironmentType == EnvironmentType.Custom)
                     {
-                        UserSettings.AddToTopOfMruList(this.UserSettings.MruMyDomains, this.Authentication.MyDomain.ToString());
+                        UserSettings.AddToTopOfMruList(this.Wizard.UserSettings.MruMyDomains, this.Authentication.MyDomain.ToString());
                     }
                 }
                 else if (this.Authentication.AccessToken == null)
@@ -183,7 +186,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
                 if (error == null)
                 {
-                    UserSettings.AddToTopOfMruList(this.UserSettings.MruDesignTimeAuthentications, this.Authentication);
+                    UserSettings.AddToTopOfMruList(this.Wizard.UserSettings.MruDesignTimeAuthentications, this.Authentication);
                     result = WizardNavigationResult.Success;
 
                     if (this.PageLeaving != null)
@@ -234,7 +237,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 this.MyDomainViewModel = new MyDomainViewModel(
                     this.Authentication.MyDomain,
                     myDomainUri => this.Authentication.MyDomain = myDomainUri,
-                    this.UserSettings);
+                    this.Wizard.UserSettings);
                 this.MyDomainViewModel.PropertyChanged += this.MyDomainViewModel_PropertyChanged;
             }
         }
@@ -318,11 +321,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         private void MyDomainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == Constants.IsValidPropertyName)
+            if (e.PropertyName == nameof(MyDomainViewModel.IsValid))
             {
                 this.CalculateIsValid();
             }
-            else if (e.PropertyName == Constants.HasErrorsPropertyName)
+            else if (e.PropertyName == nameof(MyDomainViewModel.HasErrors))
             {
                 this.CalculateHasErrors();
             }
@@ -340,7 +343,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         private void Authentication_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == DesignTimeAuthentication.EnvironmentTypePropertyName)
+            if (e.PropertyName == nameof(DesignTimeAuthentication.EnvironmentType))
             {
                 this.InitializeMyDomainViewModel();
             }

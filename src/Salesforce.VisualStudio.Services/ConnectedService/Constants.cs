@@ -41,8 +41,5 @@
         public const string MoreInfoLink = "http://developer.salesforce.com/go/VSMoreInfo";
 
         public const string VisualStudioConnectedAppClientId = "3MVG9JZ_r.QzrS7gAjO9uCs2VkFkrvkiZiv9w9fBwzt4ds5YE4fN9VVa.3oTwr7KJKk.BZiPNekIw.d_yEVle";
-
-        public const string HasErrorsPropertyName = "HasErrors";
-        public const string IsValidPropertyName = "IsValid";
     }
 }

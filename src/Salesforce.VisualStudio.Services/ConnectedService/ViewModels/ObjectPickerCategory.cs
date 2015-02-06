@@ -32,7 +32,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             set
             {
                 this.children = value;
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
                 this.UpdateSelectionState();
             }
         }
@@ -75,7 +75,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         /// </summary>
         public void UpdateSelectionState()
         {
-            this.OnNotifyPropertyChanged("IsChecked");
+            this.OnPropertyChanged(nameof(ObjectPickerCategory.IsChecked));
         }
     }
 }

@@ -318,29 +318,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to add the Salesforce connected service to the project - {0}.
-        /// </summary>
-        internal static string LogMessage_FailedAddingConnectedService {
-            get {
-                return ResourceManager.GetString("LogMessage_FailedAddingConnectedService", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Failed to read the connected app that was just created; the ConsumerKey AppSetting in the config file will need to be specified.&quot;.
         /// </summary>
         internal static string LogMessage_FailedReadingConnectedApp {
             get {
                 return ResourceManager.GetString("LogMessage_FailedReadingConnectedApp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Navigating to the getting started web page..
-        /// </summary>
-        internal static string LogMessage_PresentingGettingStarted {
-            get {
-                return ResourceManager.GetString("LogMessage_PresentingGettingStarted", resourceCulture);
             }
         }
         
@@ -486,6 +468,26 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         internal static string RuntimeAuthenticationTypeViewModel_Title {
             get {
                 return ResourceManager.GetString("RuntimeAuthenticationTypeViewModel_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed loading the {0} user settings.
+        ///{1}.
+        /// </summary>
+        internal static string UserSettingsHelper_FailedLoading {
+            get {
+                return ResourceManager.GetString("UserSettingsHelper_FailedLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed saving the {0} user settings.
+        ///{1}.
+        /// </summary>
+        internal static string UserSettingsHelper_FailedSaving {
+            get {
+                return ResourceManager.GetString("UserSettingsHelper_FailedSaving", resourceCulture);
             }
         }
     }

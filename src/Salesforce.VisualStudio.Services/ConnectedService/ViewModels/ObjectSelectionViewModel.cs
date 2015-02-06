@@ -21,14 +21,19 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private DesignTimeAuthentication lastDesignTimeAuthentication;
         private Task loadObjectsTask;
 
-        public ObjectSelectionViewModel(ConnectedServiceProviderHost host, TelemetryHelper telemetryHelper, UserSettings userSettings)
-            : base(host, telemetryHelper, userSettings)
+        public ObjectSelectionViewModel(ConnectedServiceWizard wizard)
+            : base(wizard)
         {
             this.allObjectsCategory = new ObjectPickerCategory(Resources.ObjectSelectionViewModel_AllObjects);
             this.Title = Resources.ObjectSelectionViewModel_Title;
             this.Description = Resources.ObjectSelectionViewModel_Description;
             this.Legend = Resources.ObjectSelectionViewModel_Legend;
             this.View = new ObjectSelectionPage(this);
+
+            // Because the ObjectPicker is a scrollable control itself, the page's scrollbar functionality
+            // needs to be disabled in order to force the control to be sized within the page and thus
+            // show scrollbars.
+            this.DisableScrollbars = true;
         }
 
         public IEnumerable<ObjectPickerCategory> Categories
@@ -42,7 +47,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             set
             {
                 this.errorMessage = value;
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
         /// <summary>
@@ -92,7 +97,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             if (this.loadObjectsTask != null && (!this.loadObjectsTask.IsCompleted || this.loadObjectsTask.IsFaulted))
             {
-                using (this.Host.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
+                using (this.Wizard.Host.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
                 {
                     await this.loadObjectsTask;
                 }
@@ -114,11 +119,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             return this.allObjectsCategory.Children.Count();
         }
 
-        public override async Task<NavigationEnabledState> OnPageEnteringAsync(WizardEnteringArgs args)
+        public override async Task OnPageEnteringAsync(WizardEnteringArgs args)
         {
             await this.WaitOnRefreshObjectsAsync();
 
-            return await base.OnPageEnteringAsync(args);
+            await base.OnPageEnteringAsync(args);
         }
     }
 }

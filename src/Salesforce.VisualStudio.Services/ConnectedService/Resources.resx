@@ -213,15 +213,8 @@ Details:  {0}</value>
   <data name="LogMessage_CreatingConnectedApp" xml:space="preserve">
     <value>Creating the connected app within Salesforce.</value>
   </data>
-  <data name="LogMessage_FailedAddingConnectedService" xml:space="preserve">
-    <value>Failed to add the Salesforce connected service to the project - {0}</value>
-    <comment>{0} = Exception details</comment>
-  </data>
   <data name="LogMessage_FailedReadingConnectedApp" xml:space="preserve">
     <value>Failed to read the connected app that was just created; the ConsumerKey AppSetting in the config file will need to be specified."</value>
-  </data>
-  <data name="LogMessage_PresentingGettingStarted" xml:space="preserve">
-    <value>Navigating to the getting started web page.</value>
   </data>
   <data name="LogMessage_UpdatingConfigFile" xml:space="preserve">
     <value>Adding settings to the project's config file.</value>
@@ -278,5 +271,17 @@ Response:  {1}</value>
   </data>
   <data name="ObjectSelectionViewModel_LoadingObjectsProgress" xml:space="preserve">
     <value>Loading Objects...</value>
+  </data>
+  <data name="UserSettingsHelper_FailedLoading" xml:space="preserve">
+    <value>Failed loading the {0} user settings.
+{1}</value>
+    <comment>{0} = user settings filename
+{1} = exception details</comment>
+  </data>
+  <data name="UserSettingsHelper_FailedSaving" xml:space="preserve">
+    <value>Failed saving the {0} user settings.
+{1}</value>
+    <comment>{0} = user settings filename
+{1} = exception details</comment>
   </data>
 </root>
