@@ -16,6 +16,7 @@ init:
 
 install:
   - cmd: powershell -ExecutionPolicy Bypass scripts\Appveyor-Install.ps1
+  - set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 
 before_build:
   - nuget restore
