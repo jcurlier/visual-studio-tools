@@ -56,9 +56,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             else
             {
                 // No customized template exists for the current user, use the preprocessed one for increased performance.
-                IPreprocessedT4Template t4Template = getPreprocessedT4Template();
                 generateText = (session) =>
                 {
+                    IPreprocessedT4Template t4Template = getPreprocessedT4Template();
                     t4Template.Session = session;
                     t4Template.Initialize();
                     return t4Template.TransformText();
