@@ -2,7 +2,7 @@
 version: 1.0.{build}
 
 # Dev14 is required to build (os actually means VM image)
-os: Visual Studio 2015 Preview
+os: Visual Studio 2015 CTP
 
 # set up the build number (last two numbers).  this has to happen before
 # we do anything else because it's the only time we can set environment
@@ -16,6 +16,7 @@ init:
 
 install:
   - cmd: powershell -ExecutionPolicy Bypass scripts\Appveyor-Install.ps1
+  - set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 
 before_build:
   - nuget restore
