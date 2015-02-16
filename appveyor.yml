@@ -8,6 +8,7 @@ os: Visual Studio 2015 CTP
 # we do anything else because it's the only time we can set environment
 # variables.
 init:
+  - git config --global core.autocrlf true
   - ps: $year = (Get-Date -Format 'yyyy').Substring(3,1)
   - ps: $day = Get-Date -Format 'MMdd'
   - ps: $buildVersion = $year + $day + '.' + $env:APPVEYOR_BUILD_NUMBER

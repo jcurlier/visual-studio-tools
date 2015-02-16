@@ -1,12 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22310.1
+VisualStudioVersion = 14.0.22602.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Salesforce.VisualStudio.Services", "src\Salesforce.VisualStudio.Services\Salesforce.VisualStudio.Services.csproj", "{3ED4219C-57C9-4682-8F8E-017E3838965D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{927E75FC-7A1C-47E1-BAD9-68DB3C99CFA5}"
 	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+		LICENSE = LICENSE
+		README.md = README.md
 		Salesforce.props = Salesforce.props
 		Salesforce.targets = Salesforce.targets
 	EndProjectSection
