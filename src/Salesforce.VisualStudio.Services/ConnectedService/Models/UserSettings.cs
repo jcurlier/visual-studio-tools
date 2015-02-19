@@ -46,7 +46,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 
         public static UserSettings Load()
         {
-            return UserSettingsHelper.Load<UserSettings>(Constants.ProviderIdValue, UserSettings.Name, UserSettings.OnLoaded) ?? new UserSettings();
+            return UserSettingsHelper.Load<UserSettings>(Constants.ProviderId, UserSettings.Name, UserSettings.OnLoaded) ?? new UserSettings();
         }
 
         private static void OnLoaded(UserSettings userSettings)
@@ -71,7 +71,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 
         public void Save()
         {
-            UserSettingsHelper.Save(this, Constants.ProviderIdValue, UserSettings.Name, this.OnSaved);
+            UserSettingsHelper.Save(this, Constants.ProviderId, UserSettings.Name, this.OnSaved);
         }
 
         private void OnSaved()

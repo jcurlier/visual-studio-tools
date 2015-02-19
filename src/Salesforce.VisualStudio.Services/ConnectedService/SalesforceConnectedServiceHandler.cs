@@ -25,18 +25,18 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
     /// generated code, config settings, etc.) so that it can be used to connect to a Salesforce service.  The handler also
     /// creates a Connected App within Salesforce for this project.
     /// </summary>
-    [Export(typeof(ConnectedServiceHandler))]
-    [ExportMetadata(Constants.ProviderId, Constants.ProviderIdValue)]
     // Support the following C# projects - Console, WinForms, WPF, Class Libs, ASP.net (pre 5), Windows Services
     // Exclude the following C# projects - Windows Store, Windows Phone, Universal, Shared Class Libs, ASP.net 5, Silverlight
-    [ExportMetadata("AppliesTo", "CSharp + !WindowsAppContainer + !WindowsPhone + !SharedAssetsProject + !MultiTarget + !ProjectK")]
-    [ExportMetadata("SupportedProjectTypes", "!A1591282-1198-4647-A2B1-27E5FF5F6F3B")]  // Excluding Silverlight
+    [ConnectedServiceHandlerExport(
+        Constants.ProviderId,
+        AppliesTo = "CSharp + !WindowsAppContainer + !WindowsPhone + !SharedAssetsProject + !MultiTarget + !ProjectK",
+        SupportedProjectTypes = "!A1591282-1198-4647-A2B1-27E5FF5F6F3B" /* Excluding Silverlight */)]
     internal class SalesforceConnectedServiceHandler : ConnectedServiceHandler
     {
         [Import]
         internal IVsPackageInstaller PackageInstaller { get; set; }
 
-        public override async Task<AddServiceInstanceResult> AddServiceInstanceAsync(ConnectedServiceInstanceContext context, CancellationToken ct)
+        public override async Task<AddServiceInstanceResult> AddServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingConnectedService);
 
@@ -71,20 +71,20 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             }
         }
 
-        private static async Task CreateConnectedAppAsync(ConnectedServiceInstanceContext context, Project project, SalesforceConnectedServiceInstance salesforceInstance)
+        private static async Task CreateConnectedAppAsync(ConnectedServiceHandlerContext context, Project project, SalesforceConnectedServiceInstance salesforceInstance)
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_CreatingConnectedApp);
 
             await ConnectedAppHelper.CreateConnectedAppAsync(salesforceInstance, context.Logger, project);
         }
 
-        private static async Task UpdateConfigFileAsync(ConnectedServiceInstanceContext context, Project project, SalesforceConnectedServiceInstance salesforceInstance)
+        private static async Task UpdateConfigFileAsync(ConnectedServiceHandlerContext context, Project project, SalesforceConnectedServiceInstance salesforceInstance)
         {
             await Shell.ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); // The EditableConfigHelper must run on the UI thread.
 
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_UpdatingConfigFile);
 
-            using (EditableXmlConfigHelper configHelper = context.HandlerHelper.CreateEditableXmlConfigHelper())
+            using (EditableXmlConfigHelper configHelper = context.CreateEditableXmlConfigHelper())
             {
                 foreach (ConfigSetting configSetting in salesforceInstance.RuntimeAuthentication.GetConfigSettings(salesforceInstance.ConnectedAppName))
                 {
@@ -108,7 +108,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             }
         }
 
-        private async Task AddNuGetPackagesAsync(ConnectedServiceInstanceContext context, Project project)
+        private async Task AddNuGetPackagesAsync(ConnectedServiceHandlerContext context, Project project)
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingNuGetPackages);
 
@@ -129,7 +129,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 });
         }
 
-        private static async Task AddAssemblyReferencesAsync(ConnectedServiceInstanceContext context, SalesforceConnectedServiceInstance salesforceInstance)
+        private static async Task AddAssemblyReferencesAsync(ConnectedServiceHandlerContext context, SalesforceConnectedServiceInstance salesforceInstance)
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingAssemblyReferences);
 
@@ -142,14 +142,14 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             }
         }
 
-        private static async Task AddAssemblyReferenceAsync(ConnectedServiceInstanceContext context, string assemblyPath)
+        private static async Task AddAssemblyReferenceAsync(ConnectedServiceHandlerContext context, string assemblyPath)
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingAssemblyReference, assemblyPath);
 
             context.HandlerHelper.AddAssemblyReference(assemblyPath);
         }
 
-        private static async Task AddGeneratedCodeAsync(ConnectedServiceInstanceContext context, Project project, SalesforceConnectedServiceInstance salesforceInstance)
+        private static async Task AddGeneratedCodeAsync(ConnectedServiceHandlerContext context, Project project, SalesforceConnectedServiceInstance salesforceInstance)
         {
             await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingGeneratedCode);
 
@@ -225,7 +225,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             }
         }
 
-        private static string GetServiceDirectoryName(ConnectedServiceInstanceContext context, string generatedArtifactSuffix)
+        private static string GetServiceDirectoryName(ConnectedServiceHandlerContext context, string generatedArtifactSuffix)
         {
             return Path.Combine(
                 context.HandlerHelper.GetServiceArtifactsRootFolder(),
@@ -264,9 +264,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         /// Returns a suffix for the generated artifacts which guarantees that they don't conflict with any 
         /// existing artifacts in the project.
         /// </summary>
-        private static string GetGeneratedArtifactSuffix(ConnectedServiceInstanceContext context, Project project, AuthenticationStrategy authStrategy)
+        private static string GetGeneratedArtifactSuffix(ConnectedServiceHandlerContext context, Project project, AuthenticationStrategy authStrategy)
         {
-            using (XmlConfigHelper configHelper = context.HandlerHelper.CreateReadOnlyXmlConfigHelper())
+            using (XmlConfigHelper configHelper = context.CreateReadOnlyXmlConfigHelper())
             {
                 return NamingUtilities.GetUniqueSuffix(suffix =>
                     configHelper.IsPrefixUsedInAppSettings(ConfigurationKeyNames.GetQualifiedKeyName(string.Empty, suffix))
@@ -276,7 +276,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             }
         }
 
-        private static bool IsSuffixUsedInGeneratedFilesDirectories(ConnectedServiceInstanceContext context, string generatedArtifactSuffix, Project project)
+        private static bool IsSuffixUsedInGeneratedFilesDirectories(ConnectedServiceHandlerContext context, string generatedArtifactSuffix, Project project)
         {
             string projectDir = Path.GetDirectoryName(project.FullName);
             Debug.Assert(!String.IsNullOrEmpty(projectDir));  // How can we not have a project path?

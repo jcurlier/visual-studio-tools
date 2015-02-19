@@ -21,12 +21,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
         private ObjectSelectionViewModel objectSelectionViewModel;
         private UserSettings userSettings;
         private TelemetryHelper telemetryHelper;
-        private ConnectedServiceProviderHost host;
+        private ConnectedServiceProviderContext context;
 
-        public SalesforceConnectedServiceWizard(ConnectedServiceProviderHost host)
+        public SalesforceConnectedServiceWizard(ConnectedServiceProviderContext context)
         {
-            this.host = host;
-            this.telemetryHelper = new TelemetryHelper(host.ProjectHierarchy);
+            this.context = context;
+            this.telemetryHelper = new TelemetryHelper(context.ProjectHierarchy);
             this.telemetryHelper.TrackWizardStartedEvent();
 
             this.userSettings = UserSettings.Load();
@@ -49,9 +49,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             }
         }
 
-        public ConnectedServiceProviderHost Host
+        public ConnectedServiceProviderContext Context
         {
-            get { return this.host; }
+            get { return this.context; }
         }
 
         public TelemetryHelper TelemetryHelper

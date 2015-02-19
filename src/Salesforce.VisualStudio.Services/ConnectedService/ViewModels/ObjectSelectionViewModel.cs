@@ -97,7 +97,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             if (this.loadObjectsTask != null && (!this.loadObjectsTask.IsCompleted || this.loadObjectsTask.IsFaulted))
             {
-                using (this.Wizard.Host.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
+                using (this.Wizard.Context.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
                 {
                     await this.loadObjectsTask;
                 }

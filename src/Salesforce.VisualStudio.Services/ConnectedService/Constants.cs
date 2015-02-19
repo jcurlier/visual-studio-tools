@@ -18,8 +18,9 @@
         public const string ConfigValue_RequiredDefault = "RequiredValue";
         public const string ConfigValue_OptionalDefault = "OptionalValue";
 
-        public const string ProviderId = "ProviderId";
-        public const string ProviderIdValue = "SalesforceConnectedService";
+        // Core Connected Services relies on this id for the Salesforce breadcrumb functionality it provides.
+        // Changing it here would break that functionality.
+        public const string ProviderId = "SalesforceConnectedService";
 
         public const string SalesforceApiVersion = "32.0";
         public const string SalesforceApiVersionWithPrefix = "v32.0";

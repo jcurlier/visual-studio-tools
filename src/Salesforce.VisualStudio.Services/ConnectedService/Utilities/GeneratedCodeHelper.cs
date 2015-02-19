@@ -22,7 +22,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         }
 
         public static async Task AddGeneratedCodeAsync(
-            ConnectedServiceInstanceContext context,
+            ConnectedServiceHandlerContext context,
             Project project,
             string templateFileName,
             string outputDirectory,

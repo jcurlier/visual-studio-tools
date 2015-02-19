@@ -148,7 +148,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             WizardNavigationResult result;
 
-            using (this.Wizard.Host.StartBusyIndicator(Resources.DesignTimeAuthenticationViewModel_AuthenticatingProgress))
+            using (this.Wizard.Context.StartBusyIndicator(Resources.DesignTimeAuthenticationViewModel_AuthenticatingProgress))
             {
                 string error = null;
 
