@@ -30,10 +30,10 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             this.Legend = Resources.ObjectSelectionViewModel_Legend;
             this.View = new ObjectSelectionPage(this);
 
-            // Because the ObjectPicker is a scrollable control itself, the page's scrollbar functionality
+            // Because the ObjectPicker is a scrollable control itself, the page's scroll bar functionality
             // needs to be disabled in order to force the control to be sized within the page and thus
-            // show scrollbars.
-            this.DisableScrollbars = true;
+            // show scroll bars.
+            this.DisableScrollBars = true;
         }
 
         public IEnumerable<ObjectPickerCategory> Categories

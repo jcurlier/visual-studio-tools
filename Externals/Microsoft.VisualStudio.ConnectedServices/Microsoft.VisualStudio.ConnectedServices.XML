@@ -1186,7 +1186,7 @@
             <summary>
             Add the specified file to the project after doing token replacement.
             </summary>
-            <param name="filename">
+            <param name="fileName">
             The file to copy and add to the project.
             </param>
             <param name="targetPath">
@@ -1359,15 +1359,15 @@
             Gets or sets the description of the page that is shown at the top of the wizard when the page is active.
             </summary>
         </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceWizardPage.DisableScrollbars">
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceWizardPage.DisableScrollBars">
             <summary>
-            Gets or sets a value indicating whether or not the default scrollbar functionality for the page should be disabled.
+            Gets or sets a value indicating whether or not the default scroll bar functionality for the page should be disabled.
             </summary>
             <remarks>
-            The default scrollbar functionality is to automatically add a vertical scrollbar if the vertical content is too large
+            The default scroll bar functionality is to automatically add a vertical scroll bar if the vertical content is too large
             to fit in the available vertical space.
             
-            If the default scrollbar functionality is disabled, the desired scrollbar functionality must be handled within the page's
+            If the default scroll bar functionality is disabled, the desired scroll bar functionality must be handled within the page's
             View control.
             </remarks>
         </member>
