@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.ConnectedServices;
+using Microsoft.VisualStudio.LanguageServices;
 using System;
+using System.ComponentModel.Composition;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -9,9 +11,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
     /// <summary>
     /// A ConnectedServiceProvider that exposes the ability to add a Salesforce service to a project.
     /// </summary>
-    [ConnectedServiceProviderExport(Constants.ProviderId)]
+    [ConnectedServiceProviderExport(Constants.ProviderId, SupportsUpdate = true)]
     internal class SalesforceConnectedServiceProvider : ConnectedServiceProvider
     {
+        [Import]
+        internal VisualStudioWorkspace VisualStudioWorkspace { get; private set; }
+
         public SalesforceConnectedServiceProvider()
         {
             this.Category = Resources.ConnectedServiceProvider_Category;
@@ -25,7 +30,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         public override Task<ConnectedServiceConfigurator> CreateConfiguratorAsync(ConnectedServiceProviderContext context)
         {
-            ConnectedServiceConfigurator wizard = new SalesforceConnectedServiceWizard(context);
+            ConnectedServiceConfigurator wizard = new SalesforceConnectedServiceWizard(context, this.VisualStudioWorkspace);
 
             return Task.FromResult(wizard);
         }

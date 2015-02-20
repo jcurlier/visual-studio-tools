@@ -9,6 +9,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
     public abstract class ObjectPickerItem : INotifyPropertyChanged
     {
         private bool isTextSearchEnabled;
+        private bool isEnabled;
         private bool isSelected;
         private string name;
 
@@ -30,6 +31,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             this.isTextSearchEnabled = isTextSearchEnabled;
             this.name = name;
+            this.isEnabled = true;
         }
 
         /// <summary>
@@ -38,6 +40,19 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         public bool IsTextSearchEnabled
         {
             get { return this.isTextSearchEnabled; }
+        }
+
+        /// <summary>
+        /// Gets a Boolean value which indicates whether the item is enabled.
+        /// </summary>
+        public bool IsEnabled
+        {
+            get { return this.isEnabled; }
+            set
+            {
+                this.isEnabled = value;
+                this.OnPropertyChanged();
+            }
         }
 
         /// <summary>

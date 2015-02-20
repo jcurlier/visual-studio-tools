@@ -29,7 +29,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private Environment[] environments;
         private bool isFirstUse;
 
-        public DesignTimeAuthenticationViewModel(ConnectedServiceWizard wizard)
+        public DesignTimeAuthenticationViewModel(SalesforceConnectedServiceWizard wizard)
             : base(wizard)
         {
             this.isFirstUse = true;

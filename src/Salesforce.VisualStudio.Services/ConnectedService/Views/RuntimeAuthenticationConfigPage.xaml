@@ -4,11 +4,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:view="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.Views"
              xmlns:core="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService"
-             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0">
+             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
+             xmlns:vsui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <view:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+            <vsui:IfElseConverter x:Key="NotConverter" FalseValue="True" TrueValue="False" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -26,12 +28,14 @@
                        Style="{DynamicResource {x:Static vsfx:VsResourceKeys.TextBlockEnvironment122PercentFontSizeStyleKey}}" />
             <StackPanel Grid.Row="1"
                         Visibility="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.WebServerFlow}}" >
-                <CheckBox Name="UseMyDomainCheckBox"
-                          Content="Use a custom branded sign in page:"
-                          IsChecked="{Binding Path=IsCustomDomain}" />
-                <view:MyDomainControl Margin="20,14,130,36"
-                                      DataContext="{Binding MyDomainViewModel}"
-                                      IsEnabled="{Binding ElementName=UseMyDomainCheckBox, Path=IsChecked}" />
+                <StackPanel IsEnabled="{Binding Wizard.Context.IsUpdating, Converter={StaticResource NotConverter}}">
+                    <CheckBox Name="UseMyDomainCheckBox"
+                              Content="Use a custom branded sign in page:"
+                              IsChecked="{Binding Path=IsCustomDomain}" />
+                    <view:MyDomainControl Margin="20,14,130,36"
+                                          DataContext="{Binding MyDomainViewModel}"
+                                          IsEnabled="{Binding ElementName=UseMyDomainCheckBox, Path=IsChecked}" />
+                </StackPanel>
                 <TextBlock TextWrapping="Wrap">
                     <Hyperlink NavigateUri="http://developer.salesforce.com/go/VSMyDomain"
                                RequestNavigate="Hyperlink_RequestNavigate">

@@ -11,30 +11,26 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
     /// </summary>
     internal class SalesforceConnectedServiceInstance : ConnectedServiceInstance
     {
-        public SalesforceConnectedServiceInstance(
-            DesignTimeAuthentication designTimeAuthentication,
-            RuntimeAuthentication runtimeAuthentication,
-            IEnumerable<SObjectDescription> selectedObjects,
-            TelemetryHelper telemetryHelper)
+        public SalesforceConnectedServiceInstance()
         {
             this.InstanceId = "Salesforce";
             this.Name = Resources.ConnectedServiceInstance_Name;
-            this.RuntimeAuthentication = runtimeAuthentication;
-            this.DesignTimeAuthentication = designTimeAuthentication;
-            this.SelectedObjects = selectedObjects;
-            this.TelemetryHelper = telemetryHelper;
         }
-
-        public DesignTimeAuthentication DesignTimeAuthentication { get; private set; }
-
-        public RuntimeAuthentication RuntimeAuthentication { get; private set; }
 
         public string ConnectedAppName { get; set; }
 
-        public string GeneratedArtifactSuffix { get; set; }
+        public DesignerData DesignerData { get; set; }
 
-        public IEnumerable<SObjectDescription> SelectedObjects { get; private set; }
+        public DesignTimeAuthentication DesignTimeAuthentication { get; set; }
 
-        public TelemetryHelper TelemetryHelper { get; private set; }
+        public RuntimeAuthentication RuntimeAuthentication { get; set; }
+
+        /// <summary>
+        /// Gets the objects that were selected by the end user to be scaffolded.  In the Update flow,
+        /// this is only the new objects selected.
+        /// </summary>
+        public IEnumerable<SObjectDescription> SelectedObjects { get; set; }
+
+        public TelemetryHelper TelemetryHelper { get; set; }
     }
 }

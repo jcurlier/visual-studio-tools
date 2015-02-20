@@ -336,11 +336,29 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Successfully updated the Salesforce connected service within the project..
+        /// </summary>
+        internal static string LogMessage_UpdatedConnectedService {
+            get {
+                return ResourceManager.GetString("LogMessage_UpdatedConnectedService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adding settings to the project&apos;s config file..
         /// </summary>
         internal static string LogMessage_UpdatingConfigFile {
             get {
                 return ResourceManager.GetString("LogMessage_UpdatingConfigFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating the Salesforce connected service within the project..
+        /// </summary>
+        internal static string LogMessage_UpdatingConnectedService {
+            get {
+                return ResourceManager.GetString("LogMessage_UpdatingConnectedService", resourceCulture);
             }
         }
         

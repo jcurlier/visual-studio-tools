@@ -60,7 +60,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 }
                 else
                 {
-                    await logger.WriteMessageAsync(LoggerMessageCategory.Error, Resources.LogMessage_FailedReadingConnectedApp);
+                    await logger.WriteMessageAsync(LoggerMessageCategory.Warning, Resources.LogMessage_FailedReadingConnectedApp);
 
                     salesforceInstance.RuntimeAuthentication.ConsumerKey = Constants.ConfigValue_RequiredDefault;
                 }
@@ -140,7 +140,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             if (webServerFlowInfo != null)
             {
                 webServerFlowInfo.RedirectUri = new Uri(
-                    String.Format(CultureInfo.InvariantCulture, Constants.OAuthRedirectHandlerPathFormat, salesforceInstance.GeneratedArtifactSuffix),
+                    String.Format(CultureInfo.InvariantCulture, Constants.OAuthRedirectHandlerPathFormat, salesforceInstance.DesignerData.ServiceName),
                     UriKind.Relative);
 
                 string appUriAuthority;

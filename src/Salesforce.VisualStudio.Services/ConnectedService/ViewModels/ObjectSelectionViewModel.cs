@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.ConnectedServices;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.VisualStudio.ConnectedServices;
 using Salesforce.VisualStudio.Services.ConnectedService.CodeModel;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
@@ -6,6 +7,7 @@ using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +23,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private DesignTimeAuthentication lastDesignTimeAuthentication;
         private Task loadObjectsTask;
 
-        public ObjectSelectionViewModel(ConnectedServiceWizard wizard)
+        public ObjectSelectionViewModel(SalesforceConnectedServiceWizard wizard)
             : base(wizard)
         {
             this.allObjectsCategory = new ObjectPickerCategory(Resources.ObjectSelectionViewModel_AllObjects);
@@ -78,6 +80,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     .Select(o => new ObjectPickerObject(this.allObjectsCategory, o.Name) { State = o })
                     .ToArray();
                 this.allObjectsCategory.IsSelected = true;
+
+                if (this.Wizard.Context.IsUpdating)
+                {
+                    await this.InitializeObjectSelectionState(this.allObjectsCategory.Children);
+                }
             }
             catch (Exception ex)
             {
@@ -87,6 +94,38 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 }
 
                 this.ErrorMessage = String.Format(CultureInfo.CurrentCulture, Resources.ObjectSelectionViewModel_LoadingError, ex);
+            }
+        }
+
+        /// <summary>
+        /// Initialize the selection state of the objects in the object picker based on which objects have been previously
+        /// scaffolded.
+        /// </summary>
+        private async Task InitializeObjectSelectionState(IEnumerable<ObjectPickerObject> children)
+        {
+            Project project = CodeAnalysisHelper.GetProject(this.Wizard.Context.ProjectHierarchy, this.Wizard.VisualStudioWorkspace);
+            Compilation compilation = await project?.GetCompilationAsync();
+            if (compilation != null)
+            {
+                string modelsNamespaceName =
+                    ProjectHelper.GetProjectNamespace(ProjectHelper.GetProjectFromHierarchy(this.Wizard.Context.ProjectHierarchy)) 
+                    + Type.Delimiter 
+                    + this.Wizard.DesignerData.GetDefaultedModelsHintPath().Replace(Path.DirectorySeparatorChar, Type.Delimiter);
+                INamespaceSymbol modelsNamespace = CodeAnalysisHelper.GetNamespace(modelsNamespaceName, compilation);
+                if (modelsNamespace != null)
+                {
+                    foreach (INamedTypeSymbol type in modelsNamespace.GetTypeMembers())
+                    {
+                        // Types are matched only on type name, it is hard to do much more because users are free to change
+                        // the scaffolded code in a number of ways.
+                        ObjectPickerObject pickerObject = children.FirstOrDefault(c => c.Name == type.Name);
+                        if (pickerObject != null)
+                        {
+                            pickerObject.IsChecked = true;
+                            pickerObject.IsEnabled = false;
+                        }
+                    }
+                }
             }
         }
 
@@ -106,10 +145,14 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             this.loadObjectsTask = null;
         }
 
+        /// <summary>
+        /// Gets the objects that were selected by the user.  In the case of update, only the objects that were
+        /// selected during update are returned.
+        /// </summary>
         public IEnumerable<SObjectDescription> GetSelectedObjects()
         {
             return this.allObjectsCategory.Children
-                .Where(c => c.IsChecked)
+                .Where(c => c.IsChecked && c.IsEnabled)
                 .Select(c => c.State)
                 .Cast<SObjectDescription>();
         }

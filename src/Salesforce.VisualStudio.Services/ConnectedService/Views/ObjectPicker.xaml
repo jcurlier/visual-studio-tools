@@ -34,10 +34,10 @@
                 <HierarchicalDataTemplate DataType="{x:Type viewModel:ObjectPickerItem}"
                                           ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding Path=IsChecked}"
+                        <CheckBox IsChecked="{Binding IsChecked}"
+                                  IsEnabled="{Binding IsEnabled}"
                                   VerticalAlignment="Center"
                                   Focusable="False">
-
                             <!--TODO:  The ThemedDialogCheckBoxStyle, which is set as the default style for CheckBoxes within
                             Connected Services, currently causes regressions with spacing and the ternary selection state of the 
                             CheckBoxes.  When that style is fixed, remove this workaround.-->

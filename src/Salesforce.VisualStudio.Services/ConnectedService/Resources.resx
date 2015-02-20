@@ -284,4 +284,10 @@ Response:  {1}</value>
     <comment>{0} = user settings filename
 {1} = exception details</comment>
   </data>
+  <data name="LogMessage_UpdatedConnectedService" xml:space="preserve">
+    <value>Successfully updated the Salesforce connected service within the project.</value>
+  </data>
+  <data name="LogMessage_UpdatingConnectedService" xml:space="preserve">
+    <value>Updating the Salesforce connected service within the project.</value>
+  </data>
 </root>

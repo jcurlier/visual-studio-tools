@@ -1,6 +1,6 @@
 ﻿using Microsoft.ApplicationInsights;
+using Microsoft.VisualStudio.ConnectedServices;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
 using System;
@@ -24,13 +24,16 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         // Event Names
         private const string WizardStartedEventName = "SalesforceConnectedService/WizardStarted";
         private const string WizardFinishedEventName = "SalesforceConnectedService/WizardFinished";
-        private const string HandlerSucceededEventName = "SalesforceConnectedService/HandlerSucceeded";
-        private const string HandlerFailedEventName = "SalesforceConnectedService/HandlerFailed";
+        private const string AddServiceSucceededEventName = "SalesforceConnectedService/AddServiceSucceeded";
+        private const string AddServiceFailedEventName = "SalesforceConnectedService/AddServiceFailed";
+        private const string UpdateServiceSucceededEventName = "SalesforceConnectedService/UpdateServiceSucceeded";
+        private const string UpdateServiceFailedEventName = "SalesforceConnectedService/UpdateServiceFailed";
         private const string CodeGeneratedEventName = "SalesforceConnectedService/CodeGenerated";
         private const string LinkClickedEventName = "SalesforceConnectedService/LinkClicked";
 
         // Property/Measurement Names
         private const string ProjectTypeDataName = "ProjectType";
+        private const string IsUpdatingName = "IsUpdating";
         private const string EnvironmentTypeDataName = "EnvironmentType";
         private const string RuntimeAuthenticationStrategyDataName = "RuntimeAuthenticationStrategy";
         private const string UsesCustomDomainDataName = "UsesCustomDomain";
@@ -45,7 +48,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         private bool isOptedIn;
         private TelemetryClient telemetryClient;
 
-        public TelemetryHelper(IVsHierarchy projectHierarchy)
+        public TelemetryHelper(ConnectedServiceProviderContext context)
         {
             this.isOptedIn = TelemetryHelper.InitializeIsOptedIn();
 
@@ -68,7 +71,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 
                     // Add the common properties/measurements to the context.
                     this.TelemetryClient.Context.Properties.Add(
-                        TelemetryHelper.ProjectTypeDataName, ProjectHelper.GetCapabilities(projectHierarchy));
+                        TelemetryHelper.ProjectTypeDataName, ProjectHelper.GetCapabilities(context.ProjectHierarchy));
+                    this.TelemetryClient.Context.Properties.Add(
+                        TelemetryHelper.IsUpdatingName, context.IsUpdating.ToString());
                 }
             }
             catch (Exception e) // Don't let a telemetry failure take down the provider
@@ -211,21 +216,36 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 (measurements) => measurements.Add(TelemetryHelper.ObjectAvailableCountDataName, objectSelectionViewModel.GetAvailableObjectCount()));
         }
 
-        public void TrackHandlerSucceededEvent(SalesforceConnectedServiceInstance salesforceInstance)
+        public void TrackAddServiceSucceededEvent(SalesforceConnectedServiceInstance salesforceInstance)
         {
-            this.TrackEvent(TelemetryHelper.HandlerSucceededEventName, salesforceInstance, null, null);
+            this.TrackEvent(TelemetryHelper.AddServiceSucceededEventName, salesforceInstance, null, null);
         }
 
-        public void TrackHandlerFailedEvent(SalesforceConnectedServiceInstance salesforceInstance, Exception e)
+        public void TrackAddServiceFailedEvent(SalesforceConnectedServiceInstance salesforceInstance, Exception e)
+        {
+            this.TrackFailedEvent(TelemetryHelper.AddServiceFailedEventName, salesforceInstance, e);
+        }
+
+        public void TrackUpdateServiceSucceededEvent(SalesforceConnectedServiceInstance salesforceInstance)
+        {
+            this.TrackEvent(TelemetryHelper.UpdateServiceSucceededEventName, salesforceInstance, null, null);
+        }
+
+        public void TrackUpdateServiceFailedEvent(SalesforceConnectedServiceInstance salesforceInstance, Exception e)
+        {
+            this.TrackFailedEvent(TelemetryHelper.UpdateServiceFailedEventName, salesforceInstance, e);
+        }
+
+        public void TrackFailedEvent(string eventName, SalesforceConnectedServiceInstance salesforceInstance, Exception e)
         {
             this.TrackEvent(
-                TelemetryHelper.HandlerFailedEventName,
+                eventName,
                 salesforceInstance,
                 (properties) =>
-                    {
-                        properties.Add(TelemetryHelper.ExceptionTypeDataName, e.GetType().FullName);
-                        properties.Add(TelemetryHelper.ExceptionDetailsDataName, e.ToString());
-                    },
+                {
+                    properties.Add(TelemetryHelper.ExceptionTypeDataName, e.GetType().FullName);
+                    properties.Add(TelemetryHelper.ExceptionDetailsDataName, e.ToString());
+                },
                 null);
         }
 

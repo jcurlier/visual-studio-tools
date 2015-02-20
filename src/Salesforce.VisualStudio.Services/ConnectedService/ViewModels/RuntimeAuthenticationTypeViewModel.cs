@@ -12,7 +12,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
     {
         private AuthenticationStrategy runtimeAuthStrategy;
 
-        public RuntimeAuthenticationTypeViewModel(ConnectedServiceWizard wizard)
+        public RuntimeAuthenticationTypeViewModel(SalesforceConnectedServiceWizard wizard)
             : base(wizard)
         {
             this.runtimeAuthStrategy = AuthenticationStrategy.WebServerFlow;

@@ -5,8 +5,6 @@
     /// </summary>
     internal static class Constants
     {
-        public const string ConfigKeyFormat = "Salesforce{0}:{1}";
-
         public const string ConfigKey_ConsumerKey = "ConsumerKey";
         public const string ConfigKey_ConsumerSecret = "ConsumerSecret";
         public const string ConfigKey_Domain = "Domain";
@@ -29,8 +27,8 @@
         public const string ModelsName = "Models";
 
         public const string OAuthRedirectHandlerTypeName = "SalesforceOAuthRedirectHandler";
-        public const string OAuthRedirectHandlerNameFormat = "Salesforce{0}OAuthRedirectHandler";
-        public const string OAuthRedirectHandlerPathFormat = "/Salesforce{0}OAuthRedirectHandler.axd";
+        public const string OAuthRedirectHandlerNameFormat = "{0}OAuthRedirectHandler";
+        public const string OAuthRedirectHandlerPathFormat = "/{0}OAuthRedirectHandler.axd";
 
         public const string Metadata_ConnectedAppType = "ConnectedApp";
 
