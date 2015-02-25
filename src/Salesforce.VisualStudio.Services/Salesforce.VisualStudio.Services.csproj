@@ -79,7 +79,7 @@
     <Compile Include="ConnectedService\Utilities\TelemetryHelper.cs" />
     <Compile Include="ConnectedService\Utilities\ExceptionHelper.cs" />
     <Compile Include="ConnectedService\Utilities\MetadataHelper.cs" />
-    <Compile Include="ConnectedService\Utilities\UserSettingsHelper.cs" />
+    <Compile Include="ConnectedService\Utilities\UserSettingsPersistenceHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\Environment.cs" />
     <Compile Include="ConnectedService\ViewModels\MyDomainViewModel.cs" />
     <Compile Include="ConnectedService\ViewModels\ObjectPickerCategory.cs" />

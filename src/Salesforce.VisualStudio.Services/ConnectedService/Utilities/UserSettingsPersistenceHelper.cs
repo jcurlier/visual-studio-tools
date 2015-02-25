@@ -1,7 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
+﻿using Microsoft.VisualStudio.ConnectedServices;
 using System;
-using System.Globalization;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Runtime.Serialization;
@@ -12,49 +10,22 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
     /// <summary>
     /// Provides methods for loading and saving user settings from isolated storage.
     /// </summary>
-    public static class UserSettingsHelper
+    internal static class UserSettingsPersistenceHelper
     {
         /// <summary>
         /// Saves user settings to isolated storage.  The data is stored with the user's roaming profile.
         /// </summary>
-        /// <param name="userSettings">
-        /// The user settings to be saved.  A DataContractSerializer is used to store the data, so this object must
-        /// specify a System.Runtime.Serialization.DataContractAttribute.
-        /// </param>
-        /// <param name="providerId">
-        /// The ProviderId of the Connected Service Provider invoking this method.
-        /// </param>
-        /// <param name="name">
-        /// A unique name for the user settings being saved.  If an isolated storage file for the current user exists 
-        /// for the specified providerId and name, it will be overwritten with the specified userSettings.
-        /// </param>
-        /// <param name="onSaved">
-        /// An optional delegate which, if specified, will be executed immediately after a successful save operation.
-        /// </param>
         /// <remarks>
         /// Non-critical exceptions are handled by writing an error message in the output window.
         /// </remarks>
-        public static void Save(object userSettings, string providerId, string name, Action onSaved = null)
+        public static void Save(object userSettings, string providerId, string name, Action onSaved, ConnectedServiceLogger logger)
         {
-            if (userSettings == null)
-            {
-                throw new ArgumentNullException(nameof(userSettings));
-            }
-            if (providerId == null)
-            {
-                throw new ArgumentNullException(nameof(providerId));
-            }
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
+            string fileName = UserSettingsPersistenceHelper.GetStorageFileName(providerId, name);
 
-            string fileName = UserSettingsHelper.GetStorageFileName(providerId, name);
-
-            UserSettingsHelper.ExecuteNoncriticalOperation(
+            UserSettingsPersistenceHelper.ExecuteNoncriticalOperation(
                 () =>
                 {
-                    using (IsolatedStorageFile file = UserSettingsHelper.GetIsolatedStorageFile())
+                    using (IsolatedStorageFile file = UserSettingsPersistenceHelper.GetIsolatedStorageFile())
                     {
                         IsolatedStorageFileStream stream = null;
                         try
@@ -85,6 +56,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                         onSaved();
                     }
                 },
+                logger,
                 Resources.UserSettingsHelper_FailedSaving,
                 fileName);
         }
@@ -92,44 +64,19 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         /// <summary>
         /// Loads user settings from isolated storage.
         /// </summary>
-        /// <typeparam name="T">
-        /// The type of the userSettings to load.  A DataContractSerializer is used to store the data, so this 
-        /// type must specify a System.Runtime.Serialization.DataContractAttribute.
-        /// </typeparam>
-        /// <param name="providerId">
-        /// The ProviderId of the Connected Service Provider invoking this method.
-        /// </param>
-        /// <param name="name">
-        /// The name of the user settings to be loaded.
-        /// </param>
-        /// <param name="onLoaded">
-        /// An optional delegate which, if specified, will be executed immediately after a successful load operation.
-        /// </param>
-        /// <returns>
-        /// The specified user settings if they exist; else returns null.
-        /// </returns>
         /// <remarks>
         /// Non-critical exceptions are handled by writing an error message in the output window and 
         /// returning null.
         /// </remarks>
-        public static T Load<T>(string providerId, string name, Action<T> onLoaded = null) where T : class
+        public static T Load<T>(string providerId, string name, Action<T> onLoaded, ConnectedServiceLogger logger) where T : class
         {
-            if (providerId == null)
-            {
-                throw new ArgumentNullException(nameof(providerId));
-            }
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            string fileName = UserSettingsHelper.GetStorageFileName(providerId, name);
+            string fileName = UserSettingsPersistenceHelper.GetStorageFileName(providerId, name);
             T result = null;
 
-            UserSettingsHelper.ExecuteNoncriticalOperation(
+            UserSettingsPersistenceHelper.ExecuteNoncriticalOperation(
                 () =>
                 {
-                    using (IsolatedStorageFile file = UserSettingsHelper.GetIsolatedStorageFile())
+                    using (IsolatedStorageFile file = UserSettingsPersistenceHelper.GetIsolatedStorageFile())
                     {
                         if (file.FileExists(fileName))
                         {
@@ -160,6 +107,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                         }
                     }
                 },
+                logger,
                 Resources.UserSettingsHelper_FailedLoading,
                 fileName);
 
@@ -179,6 +127,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 
         private static void ExecuteNoncriticalOperation(
             Action operation,
+            ConnectedServiceLogger logger,
             string failureMessage,
             string failureMessageArg)
         {
@@ -193,19 +142,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                     throw;
                 }
 
-                UserSettingsHelper.WriteOutputWindowMessage(failureMessage, failureMessageArg, ex);
-            }
-        }
-
-        private static void WriteOutputWindowMessage(string format, params object[] args)
-        {
-            IVsOutputWindowPane outputPane = ServiceProvider.GlobalProvider.GetService(typeof(SVsGeneralOutputWindowPane)) as IVsOutputWindowPane;
-            if (outputPane != null)
-            {
-                // Write out the message. If it fails, do nothing.
-                outputPane.Activate();
-                string msg = string.Format(CultureInfo.CurrentCulture, format, args);
-                outputPane.OutputStringThreadSafe(msg);
+                logger.WriteMessageAsync(LoggerMessageCategory.Warning, failureMessage, failureMessageArg, ex);
             }
         }
     }

@@ -29,7 +29,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             this.telemetryHelper = new TelemetryHelper(context.ProjectHierarchy);
             this.telemetryHelper.TrackWizardStartedEvent();
 
-            this.userSettings = UserSettings.Load();
+            this.userSettings = UserSettings.Load(context.Logger);
             this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(this);
             this.designTimeAuthenticationViewModel.PageLeaving += DesignTimeAuthenticationViewModel_PageLeaving;
             this.runtimeAuthenticationTypeViewModel = new RuntimeAuthenticationTypeViewModel(this);

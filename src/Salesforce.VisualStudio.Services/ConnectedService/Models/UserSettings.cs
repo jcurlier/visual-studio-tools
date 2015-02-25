@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using Microsoft.VisualStudio.ConnectedServices;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Connected.CredentialStorage;
 using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
 using System.Collections.Generic;
@@ -16,8 +17,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
         private const int MaxMruEntries = 10;
 
         private IVsCredentialStorageService credentialService;
+        private ConnectedServiceLogger logger;
 
-        public UserSettings()
+        private UserSettings()
         {
             this.MruDesignTimeAuthentications = new ObservableCollection<DesignTimeAuthentication>();
             this.MruMyDomains = new ObservableCollection<string>();
@@ -44,9 +46,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
             }
         }
 
-        public static UserSettings Load()
+        public static UserSettings Load(ConnectedServiceLogger logger)
         {
-            return UserSettingsHelper.Load<UserSettings>(Constants.ProviderId, UserSettings.Name, UserSettings.OnLoaded) ?? new UserSettings();
+            UserSettings userSettings = UserSettingsPersistenceHelper.Load<UserSettings>(
+                Constants.ProviderId, UserSettings.Name, UserSettings.OnLoaded, logger) ?? new UserSettings();
+            userSettings.logger = logger;
+
+            return userSettings;
         }
 
         private static void OnLoaded(UserSettings userSettings)
@@ -71,7 +77,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 
         public void Save()
         {
-            UserSettingsHelper.Save(this, Constants.ProviderId, UserSettings.Name, this.OnSaved);
+            UserSettingsPersistenceHelper.Save(this, Constants.ProviderId, UserSettings.Name, this.OnSaved, this.logger);
         }
 
         private void OnSaved()

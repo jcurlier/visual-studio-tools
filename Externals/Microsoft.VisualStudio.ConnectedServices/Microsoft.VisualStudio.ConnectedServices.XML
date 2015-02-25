@@ -42,6 +42,13 @@
             Gets the project's IVsHierarchy that the current Connected Service dialog is operating on.
             </summary>
         </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceContext.Logger">
+            <summary>
+            Gets a logger that can be used to write any messages to the caller. This will include
+            warnings of steps that did not succeed but can be fixed by the end user or errors
+            that caused the operation to fail.
+            </summary>
+        </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceContext.IsUpdating">
             <summary>
             Gets a value that indicates whether a connected service is being updated.
@@ -601,13 +608,6 @@
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceHandlerContext.ServiceInstance">
             <summary>
             Gets the instance of the service to add to the project.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceHandlerContext.Logger">
-            <summary>
-            Gets a logger that can be used to write any messages to the caller. This will include
-            warnings of steps that did not succeed but can be fixed by the end user or errors
-            that caused the operation to fail.
             </summary>
         </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceHandlerContext.HandlerHelper">
@@ -1203,7 +1203,7 @@
         <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceHandlerHelper.GetServiceArtifactsRootFolder">
             <summary>
             Gets the name of the root folder to place the service related artifacts in.  Typcially each provider
-            instance should create its own subfolder under this root folder.
+            will create its own subfolder under this root folder.
             </summary>
             <returns>
             The name of the root folder.

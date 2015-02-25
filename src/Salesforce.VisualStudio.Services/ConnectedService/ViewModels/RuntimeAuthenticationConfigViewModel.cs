@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.ConnectedServices;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
-using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
 using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
@@ -102,6 +102,16 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     this.OnPropertyChanged();
                 }
             }
+        }
+
+        public override Task<WizardNavigationResult> OnPageLeavingAsync(WizardLeavingArgs args)
+        {
+            if (this.IsCustomDomain && this.MyDomainViewModel.IsValid)
+            {
+                UserSettings.AddToTopOfMruList(this.Wizard.UserSettings.MruMyDomains, this.MyDomainViewModel.MyDomain.ToString());
+            }
+
+            return base.OnPageLeavingAsync(args);
         }
 
         private void MyDomainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
