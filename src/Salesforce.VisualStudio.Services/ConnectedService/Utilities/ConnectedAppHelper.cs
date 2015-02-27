@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.ConnectedServices;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.SalesforceMetadata;
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -49,7 +48,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                    .Select(e => e.message)
                    .Aggregate((w, n) => w + "\r\n" + n);
 
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.ConnectedAppHelper_FailedToCreateConnectedApp, errorMessages));
+                throw new InvalidOperationException(Resources.ConnectedAppHelper_FailedToCreateConnectedApp.FormatCurrentCulture(errorMessages));
             }
             else
             {
@@ -71,7 +70,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         {
             string validAppName = ConnectedAppHelper.MakeValidConnectedAppName(project.Name);
 
-            string appNameSuffix = NamingUtilities.GetUniqueSuffix(suffix =>
+            string appNameSuffix = GeneralUtilities.GetUniqueSuffix(suffix =>
                 ConnectedAppHelper.GetConnectedAppByName(validAppName + suffix, metadataService) != null);
 
             return validAppName + appNameSuffix;
@@ -140,7 +139,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             if (webServerFlowInfo != null)
             {
                 webServerFlowInfo.RedirectUri = new Uri(
-                    String.Format(CultureInfo.InvariantCulture, Constants.OAuthRedirectHandlerPathFormat, salesforceInstance.DesignerData.ServiceName),
+                    Constants.OAuthRedirectHandlerPathFormat.FormatInvariantCulture(salesforceInstance.DesignerData.ServiceName),
                     UriKind.Relative);
 
                 string appUriAuthority;

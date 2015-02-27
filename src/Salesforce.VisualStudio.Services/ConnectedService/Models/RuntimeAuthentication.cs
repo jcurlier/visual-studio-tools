@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
+using System.Collections.Generic;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 {
@@ -26,7 +26,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
             settings.Add(new ConfigSetting(
                 Constants.ConfigKey_ConsumerKey,
                 this.ConsumerKey,
-                string.Format(CultureInfo.CurrentCulture, Resources.RuntimeAuthentication_ConsumerKeyComment, connectedAppName)));
+                Resources.RuntimeAuthentication_ConsumerKeyComment.FormatCurrentCulture(connectedAppName)));
             settings.Add(new ConfigSetting(Constants.ConfigKey_ConsumerSecret, this.ConsumerSecret));
 
             return settings;

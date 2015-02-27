@@ -290,4 +290,8 @@ Response:  {1}</value>
   <data name="LogMessage_UpdatingConnectedService" xml:space="preserve">
     <value>Updating the Salesforce connected service within the project.</value>
   </data>
+  <data name="LogMessage_InvalidModelsHintPath" xml:space="preserve">
+    <value>The ModelsHintPath '{0}' specified in ConnectedService.json is invalid.</value>
+    <comment>{0} = the path that is invalid</comment>
+  </data>
 </root>

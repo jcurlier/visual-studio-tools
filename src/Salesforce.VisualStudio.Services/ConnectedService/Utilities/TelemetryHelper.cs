@@ -6,7 +6,6 @@ using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -318,7 +317,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 
                 foreach (byte x in hash)
                 {
-                    hashString += String.Format(CultureInfo.InvariantCulture, "{0:x2}", x);
+                    hashString += "{0:x2}".FormatInvariantCulture(x);
                 }
             }
 

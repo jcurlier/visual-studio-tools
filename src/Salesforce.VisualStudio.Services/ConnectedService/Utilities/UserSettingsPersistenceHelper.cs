@@ -137,7 +137,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             }
             catch (Exception ex)
             {
-                if (ExceptionHelper.IsCriticalException(ex))
+                if (GeneralUtilities.IsCriticalException(ex))
                 {
                     throw;
                 }

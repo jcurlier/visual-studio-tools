@@ -79,7 +79,7 @@
     <Compile Include="ConnectedService\Utilities\IVsSqm.cs" />
     <Compile Include="ConnectedService\Utilities\RegistryHelper.cs" />
     <Compile Include="ConnectedService\Utilities\TelemetryHelper.cs" />
-    <Compile Include="ConnectedService\Utilities\ExceptionHelper.cs" />
+    <Compile Include="ConnectedService\Utilities\GeneralUtilities.cs" />
     <Compile Include="ConnectedService\Utilities\MetadataHelper.cs" />
     <Compile Include="ConnectedService\Utilities\UserSettingsPersistenceHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\Environment.cs" />
@@ -110,7 +110,6 @@
     <Compile Include="ConnectedService\Utilities\AuthenticationHelper.cs" />
     <Compile Include="ConnectedService\Utilities\ConfigHelperExtensions.cs" />
     <Compile Include="ConnectedService\Utilities\GeneratedCodeHelper.cs" />
-    <Compile Include="ConnectedService\Utilities\NamingUtilities.cs" />
     <Compile Include="ConnectedService\Utilities\ProjectHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\ObjectSelectionViewModel.cs" />
     <Compile Include="ConnectedService\Views\ObjectSelectionPage.xaml.cs">

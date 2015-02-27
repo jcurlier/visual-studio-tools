@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
+using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
@@ -136,13 +136,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
                     switch (this.EnvironmentType)
                     {
                         case EnvironmentType.Production:
-                            result = string.Format(CultureInfo.CurrentCulture, Resources.DesignTimeAuthentication_Summary_Production, this.UserName);
+                            result = Resources.DesignTimeAuthentication_Summary_Production.FormatCurrentCulture(this.UserName);
                             break;
                         case EnvironmentType.Sandbox:
-                            result = string.Format(CultureInfo.CurrentCulture, Resources.DesignTimeAuthentication_Summary_Sandbox, this.UserName);
+                            result = Resources.DesignTimeAuthentication_Summary_Sandbox.FormatCurrentCulture(this.UserName);
                             break;
                         case EnvironmentType.Custom:
-                            result = string.Format(CultureInfo.CurrentCulture, Resources.DesignTimeAuthentication_Summary_Custom, this.UserName, this.MyDomain);
+                            result = Resources.DesignTimeAuthentication_Summary_Custom.FormatCurrentCulture(this.UserName, this.MyDomain);
                             break;
                         default:
                             throw new NotSupportedException();

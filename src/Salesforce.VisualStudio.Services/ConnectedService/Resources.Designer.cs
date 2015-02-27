@@ -327,6 +327,15 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The ModelsHintPath &apos;{0}&apos; specified in ConnectedService.json is invalid..
+        /// </summary>
+        internal static string LogMessage_InvalidModelsHintPath {
+            get {
+                return ResourceManager.GetString("LogMessage_InvalidModelsHintPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No CLR type found for the Salesforce soap type &apos;{0}&apos; used on the &apos;{1}.{2}&apos; property..
         /// </summary>
         internal static string LogMessage_UnsupportedSoapType {

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
+using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
@@ -60,7 +60,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 
         internal static string GetQualifiedKeyName(string keyName, string serviceName)
         {
-            return String.Format(CultureInfo.InvariantCulture, "{0}:{1}", serviceName, keyName);
+            return "{0}:{1}".FormatInvariantCulture(serviceName, keyName);
         }
     }
 }

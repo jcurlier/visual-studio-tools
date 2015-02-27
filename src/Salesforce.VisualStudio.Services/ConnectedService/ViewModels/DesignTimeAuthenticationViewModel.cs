@@ -8,7 +8,6 @@ using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -67,19 +66,14 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             get
             {
-                string relativeUri = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "/services/oauth2/authorize?response_type=token&client_id={0}&redirect_uri={1}&display=popup",
-                    HttpUtility.UrlEncode(Constants.VisualStudioConnectedAppClientId),
-                    HttpUtility.UrlEncode(this.RedirectUrl.ToString()));
+                string relativeUri = "/services/oauth2/authorize?response_type=token&client_id={0}&redirect_uri={1}&display=popup"
+                    .FormatInvariantCulture(
+                        HttpUtility.UrlEncode(Constants.VisualStudioConnectedAppClientId),
+                        HttpUtility.UrlEncode(this.RedirectUrl.ToString()));
 
                 if (!this.Authentication.IsNewIdentity)
                 {
-                    relativeUri = string.Format(
-                        CultureInfo.InvariantCulture,
-                        "{0}&login_hint={1}",
-                        relativeUri,
-                        this.Authentication.UserName);
+                    relativeUri = "{0}&login_hint={1}".FormatInvariantCulture(relativeUri, this.Authentication.UserName);
                 }
 
                 return new Uri(this.Authentication.Domain, relativeUri);
@@ -315,7 +309,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             else
             {
                 throw new InvalidOperationException(
-                    String.Format(CultureInfo.CurrentCulture, Resources.AuthenticationHelper_UnableToConnectToSalesforce, request, response));
+                    Resources.AuthenticationHelper_UnableToConnectToSalesforce.FormatCurrentCulture(request, response));
             }
         }
 
