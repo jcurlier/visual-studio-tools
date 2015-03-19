@@ -18,7 +18,7 @@
 
         // Core Connected Services relies on this id for the Salesforce breadcrumb functionality it provides.
         // Changing it here would break that functionality.
-        public const string ProviderId = "SalesforceConnectedService";
+        public const string ProviderId = "Salesforce.ForceDotCom";
 
         public const string SalesforceApiVersion = "32.0";
         public const string SalesforceApiVersionWithPrefix = "v32.0";
