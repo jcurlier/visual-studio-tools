@@ -17,10 +17,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private bool isCustomDomain;
         private Func<Uri> getDesignTimeMyDomain;
 
-        public RuntimeAuthenticationConfigViewModel(
-            SalesforceConnectedServiceWizard wizard,
-            Func<Uri> getDesignTimeMyDomain)
-            : base(wizard)
+        public RuntimeAuthenticationConfigViewModel(Func<Uri> getDesignTimeMyDomain)
         {
             this.getDesignTimeMyDomain = getDesignTimeMyDomain;
             this.Title = Resources.RuntimeAuthenticationConfigViewModel_Title;

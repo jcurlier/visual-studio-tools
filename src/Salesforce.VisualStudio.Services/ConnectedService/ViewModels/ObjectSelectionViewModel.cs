@@ -22,8 +22,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private DesignTimeAuthentication lastDesignTimeAuthentication;
         private Task loadObjectsTask;
 
-        public ObjectSelectionViewModel(SalesforceConnectedServiceWizard wizard)
-            : base(wizard)
+        public ObjectSelectionViewModel()
         {
             this.allObjectsCategory = new ObjectPickerCategory(Resources.ObjectSelectionViewModel_AllObjects);
             this.Title = Resources.ObjectSelectionViewModel_Title;

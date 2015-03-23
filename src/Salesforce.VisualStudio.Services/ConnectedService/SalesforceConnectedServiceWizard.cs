@@ -101,13 +101,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         private void InitializePages()
         {
-            this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel(this);
+            this.designTimeAuthenticationViewModel = new DesignTimeAuthenticationViewModel();
             this.designTimeAuthenticationViewModel.PageLeaving += DesignTimeAuthenticationViewModel_PageLeaving;
-            this.runtimeAuthenticationTypeViewModel = new RuntimeAuthenticationTypeViewModel(this);
+            this.runtimeAuthenticationTypeViewModel = new RuntimeAuthenticationTypeViewModel();
             this.runtimeAuthenticationConfigViewModel = new RuntimeAuthenticationConfigViewModel(
-                this, () => this.designTimeAuthenticationViewModel.Authentication?.MyDomain);
+                () => this.designTimeAuthenticationViewModel.Authentication?.MyDomain);
             this.runtimeAuthenticationConfigViewModel.RuntimeAuthStrategy = this.runtimeAuthenticationTypeViewModel.RuntimeAuthStrategy;
-            this.objectSelectionViewModel = new ObjectSelectionViewModel(this);
+            this.objectSelectionViewModel = new ObjectSelectionViewModel();
 
             if (this.Context.IsUpdating)
             {

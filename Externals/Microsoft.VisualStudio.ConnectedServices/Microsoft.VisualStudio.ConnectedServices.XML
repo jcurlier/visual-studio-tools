@@ -118,6 +118,24 @@
             Gets the folder where the service artifacts are stored.
             </summary>
         </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.GettingStartedDocument">
+            <summary>
+            Contains information for launching the Getting Started documentation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.GettingStartedDocument.#ctor(System.Uri)">
+            <summary>
+            Initializes a new instance of the GettingStartedDocument class.
+            </summary>
+            <param name="uri">
+            The Uri that will be launched to show the "Getting Started" documentation to the user.
+            </param>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.GettingStartedDocument.Uri">
+            <summary>
+            Gets the Uri that will be launched to show the "Getting Started" documentation to the user.
+            </summary>
+        </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.UpdateServiceInstanceResult">
             <summary>
             Contains information for launching GettingStarted information after UpdateServiceInstanceAsync has completed.
@@ -128,12 +146,12 @@
             Initializes a new instance of the UpdateServiceInstanceResult class.
             </summary>
         </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.UpdateServiceInstanceResult.GettingStartedUrl">
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.UpdateServiceInstanceResult.GettingStartedDocument">
             <summary>
-            Gets or sets the Uri that will be launched to show the "Getting Started" documentation to the user.
+            Gets or sets the "Getting Started" documentation information.
             </summary>
             <remarks>
-            Leaving GettingStartedUrl null will result in the URL not being updated.
+            Leaving GettingStartedDocument null will result in the URL not being updated.
             </remarks>
         </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.AddServiceInstanceResult">
@@ -149,7 +167,8 @@
             The unique name of the folder where the service artifacts are stored.
             </param>
             <param name="gettingStartedUrl">
-            The Uri that will be launched to show the "Getting Started" documentation to the user.
+            The Uri that will be launched to show the "Getting Started" documentation to the user, or null if
+            one isn't available.
             </param>
         </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.AddServiceInstanceResult.FolderName">
@@ -157,10 +176,15 @@
             Gets the unique name of the folder where the service artifacts are stored.
             </summary>
         </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.AddServiceInstanceResult.GettingStartedUrl">
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.AddServiceInstanceResult.GettingStartedDocument">
             <summary>
-            Gets the Uri that will be launched to show the "Getting Started" documentation to the user.
+            Gets or sets the "Getting Started" documentation information.
             </summary>
+            <remarks>
+            The "Getting Started" document will be launched when configuration completes, 
+            and will be listed within the Service folder for viewing the documentation at a later point.
+            Leave null if you want to opt out of the built-in "Getting Started" functionality.
+            </remarks>
         </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.AuthenticationChangedEventArgs">
             <summary>
@@ -262,6 +286,9 @@
             Gets the unique Provider ID for the provider/handler.  This is used to match
             a provider with its handlers.
             </summary>
+            <remarks>
+            The recommended Provider ID format is:  [Service Company].[Service].[SubService]
+            </remarks>
         </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceProviderExportAttribute.SupportsUpdate">
             <summary>
@@ -1123,6 +1150,11 @@
             Gets the collection of pages in the wizard.  Each page is a “step” in the wizard.
             </summary>
         </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceWizard.Pages_CollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Hooks up the Page's Wizard property with the current Wizard instance.
+            </summary>
+        </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceWizard.IsPreviousEnabled">
             <summary>
             Gets or sets a value indicating whether the Previous button is enabled.
@@ -1336,13 +1368,10 @@
             Represents a page, or step, in a wizard.
             </summary>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceWizardPage.#ctor(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceWizard)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceWizardPage.#ctor">
             <summary>
             Initializes a new instance of the ConnectedServiceWizardPage class.
             </summary>
-            <param name="wizard">
-            The parent ConnectedServiceWizard view model that contains this page.
-            </param>
         </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceWizardPage.Wizard">
             <summary>

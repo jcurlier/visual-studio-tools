@@ -13,8 +13,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
     {
         private bool isValid;
 
-        protected SalesforceConnectedServiceWizardPage(SalesforceConnectedServiceWizard wizard)
-            : base(wizard)
+        protected SalesforceConnectedServiceWizardPage()
         {
             this.isValid = true;
         }
