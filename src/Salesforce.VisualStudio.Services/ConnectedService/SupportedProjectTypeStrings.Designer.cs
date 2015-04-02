@@ -61,7 +61,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ASP.NET 4 C# Web Application.
+        ///   Looks up a localized string similar to C# ASP.NET 4 Web Application.
         /// </summary>
         internal static string AspNet4Web {
             get {
@@ -88,7 +88,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Forms C# Application.
+        ///   Looks up a localized string similar to C# Windows Forms Application.
         /// </summary>
         internal static string WindowsForms {
             get {
@@ -106,7 +106,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WPF C# Application.
+        ///   Looks up a localized string similar to C# WPF Application.
         /// </summary>
         internal static string Wpf {
             get {

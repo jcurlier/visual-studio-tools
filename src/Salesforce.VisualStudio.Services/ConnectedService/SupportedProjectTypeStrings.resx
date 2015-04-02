@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AspNet4Web" xml:space="preserve">
-    <value>ASP.NET 4 C# Web Application</value>
+    <value>C# ASP.NET 4 Web Application</value>
   </data>
   <data name="ClassLibrary" xml:space="preserve">
     <value>C# Class Library</value>
@@ -127,12 +127,12 @@
     <value>C# Console Application</value>
   </data>
   <data name="WindowsForms" xml:space="preserve">
-    <value>Windows Forms C# Application</value>
+    <value>C# Windows Forms Application</value>
   </data>
   <data name="WindowsService" xml:space="preserve">
     <value>C# Windows Service</value>
   </data>
   <data name="Wpf" xml:space="preserve">
-    <value>WPF C# Application</value>
+    <value>C# WPF Application</value>
   </data>
 </root>
