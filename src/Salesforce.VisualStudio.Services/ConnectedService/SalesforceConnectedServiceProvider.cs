@@ -1,8 +1,13 @@
 ﻿using Microsoft.VisualStudio.ConnectedServices;
 using Microsoft.VisualStudio.LanguageServices;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
+using System.Linq;
 using System.Reflection;
+using System.Resources;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
@@ -26,6 +31,17 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             this.MoreInfoUri = new Uri(Constants.MoreInfoLink);
             this.Name = Resources.ConnectedServiceProvider_Name;
             this.Version = typeof(SalesforceConnectedServiceProvider).Assembly.GetName().Version;
+
+            ResourceSet resourceSet = SupportedProjectTypeStrings.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
+            IEnumerable<string> supportedProjectTypes = resourceSet
+                .OfType<DictionaryEntry>()
+                .Select(e => e.Value)
+                .OfType<string>()
+                .OrderBy(v => v);
+            foreach (string supportedProjectType in supportedProjectTypes)
+            {
+                this.SupportedProjectTypes.Add(supportedProjectType);
+            }
         }
 
         public override Task<ConnectedServiceConfigurator> CreateConfiguratorAsync(ConnectedServiceProviderContext context)

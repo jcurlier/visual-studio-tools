@@ -755,6 +755,12 @@
             and description are not enough for the user to understand.
             </summary>
         </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceProvider.SupportedProjectTypes">
+            <summary>
+            Gets a collection of strings that describe the types of projects this ConnectedServiceProvider
+            supports adding services to.
+            </summary>
+        </member>
         <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceProvider.CreateConfiguratorAsync(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceProviderContext)">
             <summary>
             Creates the view model object used for displaying the service configuration dialog.
