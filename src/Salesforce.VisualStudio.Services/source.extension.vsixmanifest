@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="Salesforce.VisualStudio.Services.7E67A4F0-A59D-46ED-AD77-917BE0405FFF" Version="|%CurrentProject%;GetBuildVersion|" Language="en-US" Publisher="Salesforce" />
-    <DisplayName>Salesforce Services for Visual Studio 2015 CTP6</DisplayName>
+    <Identity Id="Salesforce.VisualStudio.Services.55451A07-E6E0-47CC-855D-8A25B0B59409" Version="|%CurrentProject%;GetBuildVersion|" Language="en-US" Publisher="Salesforce" />
+    <DisplayName>Salesforce Services, Visual Studio 2015 RC</DisplayName>
     <Description xml:space="preserve">Integrate your applications with Salesforce REST services. This extension will configure your application to consume the Salesforce REST APIs, add the Salesforce .NET NuGet libraries and configure a Salesforce Connected App OAuth endpoint.</Description>
     <License>Salesforce_EULA.rtf</License>
     <GettingStartedGuide>http://developer.salesforce.com/go/VSNetTK</GettingStartedGuide>

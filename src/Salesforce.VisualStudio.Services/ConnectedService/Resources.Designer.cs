@@ -111,7 +111,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Provides programmatic access to your organization’s information using simple, powerful, and secure application programming interfaces (APIs). APIs open up a platform to developers and enable them to explore different ways to integrate platform capabilities within their own applications..
+        ///   Looks up a localized string similar to Provides simplified access to your organization’s data using Salesforce REST APIs..
         /// </summary>
         internal static string ConnectedServiceProvider_Description {
             get {
@@ -120,7 +120,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Salesforce for .NET.
+        ///   Looks up a localized string similar to Salesforce Data Services.
         /// </summary>
         internal static string ConnectedServiceProvider_Name {
             get {
@@ -219,7 +219,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Salesforce for .NET.
+        ///   Looks up a localized string similar to Configure Salesforce Data Services.
         /// </summary>
         internal static string DesignTimeAuthenticationViewModel_Title {
             get {
@@ -427,7 +427,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Salesforce for .NET.
+        ///   Looks up a localized string similar to Configure Salesforce Data Services.
         /// </summary>
         internal static string ObjectSelectionViewModel_Title {
             get {
@@ -463,7 +463,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Salesforce for .NET.
+        ///   Looks up a localized string similar to Configure Salesforce Data Services.
         /// </summary>
         internal static string RuntimeAuthenticationConfigViewModel_Title {
             get {
@@ -490,7 +490,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Salesforce for .NET.
+        ///   Looks up a localized string similar to Configure Salesforce Data Services.
         /// </summary>
         internal static string RuntimeAuthenticationTypeViewModel_Title {
             get {
