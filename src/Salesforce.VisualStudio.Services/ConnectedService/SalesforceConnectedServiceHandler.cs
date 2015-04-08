@@ -163,7 +163,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             // DeveloperForce.Force is the only NuGet package the experience has a direct dependency on, the rest are dependencies of it.
             // If the DeveloperForce.Force version is changed, the versions of its dependencies must also be updated as appropriate.
             this.PackageInstaller.InstallPackagesFromVSExtensionRepository(
-                "Salesforce.VisualStudio.Services.7E67A4F0-A59D-46ED-AD77-917BE0405FFF",
+                "Salesforce.VisualStudio.Services.55451A07-E6E0-47CC-855D-8A25B0B59409",
                 false,
                 false,
                 project,
