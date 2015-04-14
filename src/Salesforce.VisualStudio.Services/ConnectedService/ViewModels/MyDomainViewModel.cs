@@ -101,10 +101,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         private void OnPropertyChanged([CallerMemberName] string name = "")
         {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;

@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.ConnectedServices;
 using Microsoft.VisualStudio.Shell;
-using Salesforce.VisualStudio.Services.ConnectedService.Models;
-using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
 using System;
+using System.Diagnostics;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
@@ -20,7 +19,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         public new SalesforceConnectedServiceWizard Wizard
         {
-            get { return (SalesforceConnectedServiceWizard)base.Wizard; }
+            get
+            {
+                Debug.Assert(base.Wizard != null, "The Wizard property is only available after the page has been added to the Wizard.");
+                return (SalesforceConnectedServiceWizard)base.Wizard;
+            }
         }
 
         public bool IsValid

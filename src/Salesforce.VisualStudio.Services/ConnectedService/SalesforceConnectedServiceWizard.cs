@@ -109,15 +109,17 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             this.runtimeAuthenticationConfigViewModel.RuntimeAuthStrategy = this.runtimeAuthenticationTypeViewModel.RuntimeAuthStrategy;
             this.objectSelectionViewModel = new ObjectSelectionViewModel();
 
-            if (this.Context.IsUpdating)
-            {
-                this.RestoreAuthenticationSettings();
-            }
-
             this.Pages.Add(this.designTimeAuthenticationViewModel);
             this.Pages.Add(this.runtimeAuthenticationTypeViewModel);
             this.Pages.Add(this.runtimeAuthenticationConfigViewModel);
             this.Pages.Add(this.objectSelectionViewModel);
+
+            // Some logic within the view models depend on the Wizard.  This logic must be invoked after the pages have
+            // been added to the wizard in order for the Wizard property to be available on the ConnectedServiceWizardPage.
+            if (this.Context.IsUpdating)
+            {
+                this.RestoreAuthenticationSettings();
+            }
 
             foreach (SalesforceConnectedServiceWizardPage page in this.Pages)
             {
