@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.ConnectedServices;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.SalesforceMetadata;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -40,8 +41,27 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             ConnectedServiceLogger logger,
             Project project)
         {
-            ConnectedApp connectedApp = ConnectedAppHelper.ConstructConnectedApp(salesforceInstance, metadataService, project);
+            salesforceInstance.ConnectedAppName = ConnectedAppHelper.GetUniqueConnectedAppName(metadataService, project);
+            ConnectedApp connectedApp = ConnectedAppHelper.ConstructConnectedApp(salesforceInstance, project);
             SaveResult[] saveResults = metadataService.createMetadata(new Metadata[] { connectedApp });
+
+            if (ConnectedAppHelper.DoSaveResultsIndicateDuplicateValue(saveResults))
+            {
+                // The connected app failed to be created because one already exists with the specified name.  This implies that the 
+                // attempt to generate a unique name by reading the existing connected apps failed.  It is unknown at this point what 
+                // causes the Salesforce server to sometimes respond to a SOAP ReadMetadata request by returning nil for a Connected App
+                // name that actually exists.  In this case, retry using a random number as the app name's suffix.
+
+                Debug.Fail(Resources.DebugFailMessage_DuplicateConnectedAppName.FormatCurrentCulture(salesforceInstance.ConnectedAppName));
+
+                string secondAttemptConnectedAppName = ConnectedAppHelper.GetUniqueConnectedAppName(metadataService, project, true);
+                await logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_DuplicateConnectedAppName, salesforceInstance.ConnectedAppName, secondAttemptConnectedAppName);
+                
+                salesforceInstance.ConnectedAppName = secondAttemptConnectedAppName;
+                connectedApp = ConnectedAppHelper.ConstructConnectedApp(salesforceInstance, project);
+                saveResults = metadataService.createMetadata(new Metadata[] { connectedApp });
+            }
+
             if (saveResults.Length != 1 || !saveResults[0].success)
             {
                 string errorMessages = saveResults.SelectMany(r => r.errors)
@@ -66,12 +86,28 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             }
         }
 
-        private static string GetUniqueConnectedAppName(MetadataService metadataService, Project project)
+        private static bool DoSaveResultsIndicateDuplicateValue(SaveResult[] saveResults)
+        {
+            return saveResults.Length == 1 && !saveResults[0].success && saveResults[0].errors.Any(e => e.statusCode == StatusCode.DUPLICATE_VALUE);
+        }
+
+        private static string GetUniqueConnectedAppName(MetadataService metadataService, Project project, bool useRandomSuffix = false)
         {
             string validAppName = ConnectedAppHelper.MakeValidConnectedAppName(project.Name);
 
-            string appNameSuffix = GeneralUtilities.GetUniqueSuffix(suffix =>
-                ConnectedAppHelper.GetConnectedAppByName(validAppName + suffix, metadataService) != null);
+            string appNameSuffix;
+            if (useRandomSuffix)
+            {
+                // The default Random constructor uses a seed value derived from the system clock and has finite resolution.  However, 
+                // because this code path is only hit once per running of the handler, this Random object having the same seed in subsequent 
+                // calls (and thus undesirably generating the same number) is not a concern.
+                appNameSuffix = new Random().Next(100, 1000).ToString();
+            }
+            else
+            {
+                appNameSuffix = GeneralUtilities.GetUniqueSuffix(suffix =>
+                    ConnectedAppHelper.GetConnectedAppByName(validAppName + suffix, metadataService) != null);
+            }
 
             return validAppName + appNameSuffix;
         }
@@ -106,11 +142,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
 
         private static ConnectedApp ConstructConnectedApp(
             SalesforceConnectedServiceInstance salesforceInstance,
-            MetadataService metadataService,
             Project project)
         {
             ConnectedApp connectedApp = new ConnectedApp();
-            salesforceInstance.ConnectedAppName = ConnectedAppHelper.GetUniqueConnectedAppName(metadataService, project);
             connectedApp.contactEmail = salesforceInstance.DesignTimeAuthentication.UserName;
             connectedApp.fullName = salesforceInstance.ConnectedAppName;
             connectedApp.label = salesforceInstance.ConnectedAppName;

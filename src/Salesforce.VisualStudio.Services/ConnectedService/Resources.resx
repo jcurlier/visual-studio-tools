@@ -214,7 +214,7 @@ Details:  {0}</value>
     <value>Creating the connected app within Salesforce.</value>
   </data>
   <data name="LogMessage_FailedReadingConnectedApp" xml:space="preserve">
-    <value>Failed to read the connected app that was just created; the ConsumerKey AppSetting in the config file will need to be specified."</value>
+    <value>Failed to read the connected app that was just created; the ConsumerKey AppSetting in the config file will need to be specified.</value>
   </data>
   <data name="LogMessage_UpdatingConfigFile" xml:space="preserve">
     <value>Adding settings to the project's config file.</value>
@@ -293,5 +293,14 @@ Response:  {1}</value>
   <data name="LogMessage_InvalidModelsHintPath" xml:space="preserve">
     <value>The ModelsHintPath '{0}' specified in ConnectedService.json is invalid.</value>
     <comment>{0} = the path that is invalid</comment>
+  </data>
+  <data name="LogMessage_DuplicateConnectedAppName" xml:space="preserve">
+    <value>A connected app named '{0}' already exists.  Retrying using '{1}'.</value>
+    <comment>{0} = First-attempt connected app name
+{1} = Second-attempt connected app name</comment>
+  </data>
+  <data name="DebugFailMessage_DuplicateConnectedAppName" xml:space="preserve">
+    <value>A connected app named '{0}' already exists.  This implies that the Salesforce server responded to the SOAP ReadMetadata request to read this Connected App by returning nil for it even though it actually exists.</value>
+    <comment>{0} = Name of the connected app</comment>
   </data>
 </root>
