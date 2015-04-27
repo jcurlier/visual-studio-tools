@@ -32,7 +32,7 @@
                     <CheckBox Name="UseMyDomainCheckBox"
                               Content="Use a custom branded sign in page:"
                               IsChecked="{Binding Path=IsCustomDomain}" />
-                    <view:MyDomainControl Margin="20,14,130,36"
+                    <view:MyDomainControl Margin="20,14,130,20"
                                           DataContext="{Binding MyDomainViewModel}"
                                           IsEnabled="{Binding ElementName=UseMyDomainCheckBox, Path=IsChecked}" />
                 </StackPanel>

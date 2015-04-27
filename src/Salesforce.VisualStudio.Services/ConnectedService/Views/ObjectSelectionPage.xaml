@@ -18,7 +18,7 @@
                    Text="Which Salesforce objects would you like to scaffold?"
                    Style="{DynamicResource {x:Static vsfx:VsResourceKeys.TextBlockEnvironment122PercentFontSizeStyleKey}}" />
         <view:ObjectPicker Grid.Row="1"
-                           Margin="0,10,56,15"
+                           Margin="0,10,56,20"
                            Categories="{Binding Categories}"
                            ErrorMessage="{Binding ErrorMessage}" />
         <TextBlock Grid.Row="2">

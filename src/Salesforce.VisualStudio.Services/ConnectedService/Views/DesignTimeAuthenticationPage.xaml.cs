@@ -1,5 +1,6 @@
 ﻿using Salesforce.VisualStudio.Services.ConnectedService.ViewModels;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.Views
 {
@@ -13,6 +14,18 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
             this.InitializeComponent();
 
             this.DataContext = designTimeAuthenticationViewModel;
+        }
+
+        private DesignTimeAuthenticationViewModel DesignTimeAuthenticationViewModel
+        {
+            get { return (DesignTimeAuthenticationViewModel)this.DataContext; }
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            this.DesignTimeAuthenticationViewModel.NavigateHyperlink(e.Uri);
+
+            e.Handled = true;
         }
     }
 }

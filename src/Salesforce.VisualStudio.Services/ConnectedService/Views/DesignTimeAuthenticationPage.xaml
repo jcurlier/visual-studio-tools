@@ -8,13 +8,14 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <view:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" NonVisibleVisibility="Hidden" />
+            <view:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <AdornerDecorator>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -60,16 +61,24 @@
                           AutomationProperties.LabeledBy="{Binding ElementName=Environment_Label}" />
             </StackPanel>
             <StackPanel Grid.Row="4"
+                        Margin="0,0,0,20"
                         IsEnabled="{Binding Path=Authentication.IsNewIdentity}"
                         Visibility="{Binding Path=Authentication.EnvironmentType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static model:EnvironmentType.Custom}}">
                 <Label x:Name="DomainName_Label"
                        Target="{Binding ElementName=MyDomainControl}"
                        Padding="0"
                        Content="Domain name:" />
-                <view:MyDomainControl Margin="0,4,0,0"
+                <view:MyDomainControl Margin="0,4,0,4"
                                       x:Name="MyDomainControl"
                                       DataContext="{Binding MyDomainViewModel}" />
             </StackPanel>
+            <TextBlock Grid.Row="5"
+                       TextWrapping="Wrap">
+                    <Hyperlink NavigateUri="http://sforce.co/1yaHnsg"
+                               RequestNavigate="Hyperlink_RequestNavigate">
+                        Sign up for a Salesforce developer account
+                    </Hyperlink>
+            </TextBlock>
         </Grid>
     </AdornerDecorator>
 </UserControl>
