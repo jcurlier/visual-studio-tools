@@ -895,8 +895,7 @@
                             <ul>
                                 <li>Open <font class="inlineCode">app.config</font> and set the following values.</li>
                                 <ul>
-                                    <li><b>ConsumerSecret</b> is found using the information in Next Steps above.</li>
-                                    <li><b>Username</b> is the user the console will use at runtime. Typically a service account with limited permissions, but for demos, your account can be used.</li>
+                                    <li><b>UserName/Password</b> is the user the console will use at runtime. Typically a service account with limited permissions, but for demos, your account can be used.</li>
                                     <li><b>SecurityToken</b> is retrieved from Salesforce Setup. See more info <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=user_security_token.htm&language=en" target="_blank"> for retrieving the securitytoken</a>, or <a href="https://help.salesforce.com/HTViewHelpDoc?id=security_networkaccess.htm" target="_blank">Set Trusted IP Ranges for Your Organization</a> to avoid having to use the user security token. If you've setup a trusted network, you can either remove the config entry or leave it as <font class="inlineCode">OptionalValue</font></li>
                                 </ul>
                             </ul>
@@ -904,7 +903,7 @@
 <pre class="csharpcode">
 &lt;add key=<span class="str">"Salesforce:ConsumerKey"</span> value=<span class="str">"populated by the Connected Service Configuration"</span> /&gt;
 &lt;add key=<span class="str">"Salesforce:ConsumerSecret"</span> value=<span class="str">"RequiredValue"</span> /&gt;
-&lt;add key=<span class="str">"Salesforce:Username"</span> value=<span class="str">"RequiredValue"</span> /&gt;
+&lt;add key=<span class="str">"Salesforce:UserName"</span> value=<span class="str">"RequiredValue"</span> /&gt;
 &lt;add key=<span class="str">"Salesforce:Password"</span> value=<span class="str">"RequiredValue"</span> /&gt;
 &lt;add key=<span class="str">"Salesforce:SecurityToken"</span> value=<span class="str">"OptionalValue"</span> /&gt;
 </pre>

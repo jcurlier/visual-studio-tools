@@ -26,6 +26,15 @@
     <div class="content">
         <h1>Developing with Salesforce</h1>
         <h2>Here is how your project has been updated to use Salesforce</h2>
+        <h3>A Connected App was created in Salesforce Setup</h3>
+        <p>Based on the authentication strategy you've chosen, a <a href="https://developer.salesforce.com/page/Connected_Apps" target="_blank">Connected App</a> was configured enabling your application to be authenticated against the Salesforce REST APIs.  A Consumer Key and Consumer Secret have been created for your Connected App and saved to <font class="inlineCode">app/web.config</font>. You may change the Connected App in <a href="https:/login.salesforce.com/02u?retURL=%2Fui%2Fsetup%2FSetup%3Fsetupid%3DDevTools&setupid=TabSet" target="_blank">Salesforce Setup</a>.</p>
+        <p>*<i><strong>Note:</strong> if you change your Consumer Secret you will need to update the app/web.config file to reflect the new values.</i></p>
+        <p>To find the name, open <font class="inlineCode">app/web.config</font>, and look for the following line:</p>
+        <pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">appSettings</span><span class="kwrd">&gt;</span>
+        <span class="rem">&lt;!-- The Salesforce connected app is named: <b><span class="replace">YourProjectName-Dev</span></b> --&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">appSettings</span><span class="kwrd">&gt;</span>
+</pre>
         <h3>References have been added to your project</h3>
         <h4>NuGet package references</h4>
         <ul>
@@ -79,15 +88,6 @@
                 </div>
             </div>
         </div>
-        <h3>A Connected App was created in Salesforce Setup</h3>
-        <p>Based on the authentication strategy you've chosen, a <a href="https://developer.salesforce.com/page/Connected_Apps" target="_blank">Connected App</a> was configured enabling your application to be authenticated against the Salesforce REST APIs.  A Consumer Key and Consumer Secret have been created for your Connected App and saved to <font class="inlineCode">app/web.config</font>. You may change the Connected App in <a href="https:/login.salesforce.com/02u?retURL=%2Fui%2Fsetup%2FSetup%3Fsetupid%3DDevTools&setupid=TabSet" target="_blank">Salesforce Setup</a>.</p>
-        <p>*<i><strong>Note:</strong> if you change your Consumer Secret you will need to update the app/web.config file to reflect the new values.</i></p>
-        <p>To find the name, open <font class="inlineCode">app/web.config</font>, and look for the following line:</p>
-        <pre class="csharpcode">
-<span class="kwrd">&lt;</span><span class="html">appSettings</span><span class="kwrd">&gt;</span>
-    <span class="rem">&lt;!-- The Salesforce connected app is named: <b><span class="replace">YourProjectName-Dev</span></b> --&gt;</span>
-<span class="kwrd">&lt;/</span><span class="html">appSettings</span><span class="kwrd">&gt;</span>
-</pre>
         <div class="tip">Deployment Tip</div>
         <p>When you're ready to deploy your application to another environment, you'll need to edit or create another <a href="https://developer.salesforce.com/page/Connected_Apps" target="_blank">Connected App</a> with the appropriate settings, particularly the <a href="https://help.salesforce.com/apex/HTFederatedSearchResults#q=Editing%20a%20Connected%20App&t=AllTab&sort=relevancy" target="_blank">callback url</a>, and update the <font class="inlineCode">app/web.config</font> file to the target environment.</p>
         <p>If you're using the same Connected App across two different development instances, be sure to verify the :port number as well. Remember that it may take several minutes for Salesforce to propagate your changes, so give it a bit, or verify the redirects are proper before questioning your code.</p>
