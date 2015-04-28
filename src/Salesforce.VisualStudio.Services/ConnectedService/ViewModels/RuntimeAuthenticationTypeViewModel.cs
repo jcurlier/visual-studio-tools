@@ -10,12 +10,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
     /// </summary>
     internal class RuntimeAuthenticationTypeViewModel : SalesforceConnectedServiceWizardPage
     {
-        public const string RuntimeAuthStrategyPropertyName = "RuntimeAuthStrategy";
-
         private AuthenticationStrategy runtimeAuthStrategy;
 
-        public RuntimeAuthenticationTypeViewModel(ConnectedServiceProviderHost host, TelemetryHelper telemetryHelper, UserSettings userSettings)
-            : base(host, telemetryHelper, userSettings)
+        public RuntimeAuthenticationTypeViewModel()
         {
             this.runtimeAuthStrategy = AuthenticationStrategy.WebServerFlow;
             this.Title = Resources.RuntimeAuthenticationTypeViewModel_Title;
@@ -30,7 +27,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             set
             {
                 this.runtimeAuthStrategy = value;
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
     }

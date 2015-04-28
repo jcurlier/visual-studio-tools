@@ -111,7 +111,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Provides programmatic access to your organization’s information using simple, powerful, and secure application programming interfaces (APIs). APIs open up a platform to developers and enable them to explore different ways to integrate platform capabilities within their own applications..
+        ///   Looks up a localized string similar to Provides simplified access to your organization’s data using Salesforce REST APIs..
         /// </summary>
         internal static string ConnectedServiceProvider_Description {
             get {
@@ -120,7 +120,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Salesforce for .NET.
+        ///   Looks up a localized string similar to Salesforce Data Services.
         /// </summary>
         internal static string ConnectedServiceProvider_Name {
             get {
@@ -219,7 +219,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Salesforce for .NET.
+        ///   Looks up a localized string similar to Configure Salesforce Data Services.
         /// </summary>
         internal static string DesignTimeAuthenticationViewModel_Title {
             get {
@@ -318,16 +318,16 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to add the Salesforce connected service to the project - {0}.
+        ///   Looks up a localized string similar to A connected app named &apos;{0}&apos; already exists.  Retrying using &apos;{1}&apos;..
         /// </summary>
-        internal static string LogMessage_FailedAddingConnectedService {
+        internal static string LogMessage_DuplicateConnectedAppName {
             get {
-                return ResourceManager.GetString("LogMessage_FailedAddingConnectedService", resourceCulture);
+                return ResourceManager.GetString("LogMessage_DuplicateConnectedAppName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to read the connected app that was just created; the ConsumerKey AppSetting in the config file will need to be specified.&quot;.
+        ///   Looks up a localized string similar to Failed to read the connected app that was just created; the ConsumerKey AppSetting in the config file will need to be specified..
         /// </summary>
         internal static string LogMessage_FailedReadingConnectedApp {
             get {
@@ -336,11 +336,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Navigating to the getting started web page..
+        ///   Looks up a localized string similar to The ModelsHintPath &apos;{0}&apos; specified in ConnectedService.json is invalid..
         /// </summary>
-        internal static string LogMessage_PresentingGettingStarted {
+        internal static string LogMessage_InvalidModelsHintPath {
             get {
-                return ResourceManager.GetString("LogMessage_PresentingGettingStarted", resourceCulture);
+                return ResourceManager.GetString("LogMessage_InvalidModelsHintPath", resourceCulture);
             }
         }
         
@@ -354,11 +354,29 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Successfully updated the Salesforce connected service within the project..
+        /// </summary>
+        internal static string LogMessage_UpdatedConnectedService {
+            get {
+                return ResourceManager.GetString("LogMessage_UpdatedConnectedService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adding settings to the project&apos;s config file..
         /// </summary>
         internal static string LogMessage_UpdatingConfigFile {
             get {
                 return ResourceManager.GetString("LogMessage_UpdatingConfigFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating the Salesforce connected service within the project..
+        /// </summary>
+        internal static string LogMessage_UpdatingConnectedService {
+            get {
+                return ResourceManager.GetString("LogMessage_UpdatingConnectedService", resourceCulture);
             }
         }
         
@@ -418,7 +436,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Salesforce for .NET.
+        ///   Looks up a localized string similar to Configure Salesforce Data Services.
         /// </summary>
         internal static string ObjectSelectionViewModel_Title {
             get {
@@ -454,7 +472,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Salesforce for .NET.
+        ///   Looks up a localized string similar to Configure Salesforce Data Services.
         /// </summary>
         internal static string RuntimeAuthenticationConfigViewModel_Title {
             get {
@@ -481,11 +499,31 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Salesforce for .NET.
+        ///   Looks up a localized string similar to Configure Salesforce Data Services.
         /// </summary>
         internal static string RuntimeAuthenticationTypeViewModel_Title {
             get {
                 return ResourceManager.GetString("RuntimeAuthenticationTypeViewModel_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed loading the {0} user settings.
+        ///{1}.
+        /// </summary>
+        internal static string UserSettingsHelper_FailedLoading {
+            get {
+                return ResourceManager.GetString("UserSettingsHelper_FailedLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed saving the {0} user settings.
+        ///{1}.
+        /// </summary>
+        internal static string UserSettingsHelper_FailedSaving {
+            get {
+                return ResourceManager.GetString("UserSettingsHelper_FailedSaving", resourceCulture);
             }
         }
     }

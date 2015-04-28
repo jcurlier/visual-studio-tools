@@ -53,8 +53,14 @@
     <Compile Include="ConnectedService\CodeModel\SObjectPickListValue.cs" />
     <Compile Include="ConnectedService\Constants.cs" />
     <Compile Include="ConnectedService\CodeModel\SObjectChildRelationship.cs" />
+    <Compile Include="ConnectedService\DesignerData.cs" />
     <Compile Include="ConnectedService\Models\ConfigSetting.cs" />
     <Compile Include="ConnectedService\Models\EnvironmentType.cs" />
+    <Compile Include="ConnectedService\SupportedProjectTypeStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SupportedProjectTypeStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.cs" />
     <Compile Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.g.cs">
       <AutoGen>True</AutoGen>
@@ -74,11 +80,13 @@
       <DependentUpon>SalesforceService.tt</DependentUpon>
     </Compile>
     <Compile Include="ConnectedService\Templates\IPreprocessedT4Template.cs" />
+    <Compile Include="ConnectedService\Utilities\CodeAnalysisHelper.cs" />
     <Compile Include="ConnectedService\Utilities\IVsSqm.cs" />
     <Compile Include="ConnectedService\Utilities\RegistryHelper.cs" />
     <Compile Include="ConnectedService\Utilities\TelemetryHelper.cs" />
-    <Compile Include="ConnectedService\Utilities\ExceptionHelper.cs" />
+    <Compile Include="ConnectedService\Utilities\GeneralUtilities.cs" />
     <Compile Include="ConnectedService\Utilities\MetadataHelper.cs" />
+    <Compile Include="ConnectedService\Utilities\UserSettingsPersistenceHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\Environment.cs" />
     <Compile Include="ConnectedService\ViewModels\MyDomainViewModel.cs" />
     <Compile Include="ConnectedService\ViewModels\ObjectPickerCategory.cs" />
@@ -107,7 +115,6 @@
     <Compile Include="ConnectedService\Utilities\AuthenticationHelper.cs" />
     <Compile Include="ConnectedService\Utilities\ConfigHelperExtensions.cs" />
     <Compile Include="ConnectedService\Utilities\GeneratedCodeHelper.cs" />
-    <Compile Include="ConnectedService\Utilities\NamingUtilities.cs" />
     <Compile Include="ConnectedService\Utilities\ProjectHelper.cs" />
     <Compile Include="ConnectedService\ViewModels\ObjectSelectionViewModel.cs" />
     <Compile Include="ConnectedService\Views\ObjectSelectionPage.xaml.cs">
@@ -185,19 +192,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Packages\DeveloperForce.Force.0.6.4.nupkg">
+    <Content Include="Packages\DeveloperForce.Force.1.0.0.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Packages\Microsoft.Bcl.1.1.9.nupkg">
+    <Content Include="Packages\Microsoft.Bcl.1.1.10.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Packages\Microsoft.Bcl.Async.1.0.168.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Packages\Microsoft.Bcl.Build.1.0.14.nupkg">
+    <Content Include="Packages\Microsoft.Bcl.Build.1.0.21.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Packages\Microsoft.Net.Http.2.2.28.nupkg">
+    <Content Include="Packages\Microsoft.Net.Http.2.2.29.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Packages\Newtonsoft.Json.6.0.5.nupkg">
@@ -269,6 +276,42 @@
     <Reference Include="Microsoft.ApplicationInsights">
       <HintPath>..\..\packages\Microsoft.ApplicationInsights.0.11.0-build11410\lib\net40\Microsoft.ApplicationInsights.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Desktop">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.CSharp.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces.Desktop">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Desktop">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.VisualBasic.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Desktop">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.VisualBasic.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces.Desktop">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.VisualBasic.Workspaces.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.VisualBasic.Workspaces.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces.Desktop">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0.0-beta2\lib\net45\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
       <HintPath>..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.0.24\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
     </Reference>
@@ -282,11 +325,11 @@
       <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.ConnectedServices">
-      <HintPath>..\..\Externals\Microsoft.VisualStudio.ConnectedServices\Microsoft.VisualStudio.ConnectedServices.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.VisualStudio.ConnectedServices.2.0.0-beta\lib\net45\Microsoft.VisualStudio.ConnectedServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.ConnectedServices.Framework">
-      <HintPath>..\..\Externals\Microsoft.VisualStudio.ConnectedServices\Microsoft.VisualStudio.ConnectedServices.Framework.dll</HintPath>
+    <Reference Include="Microsoft.VisualStudio.LanguageServices">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.LanguageServices.1.0.0.0-beta2\lib\net45\Microsoft.VisualStudio.LanguageServices.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
     <Reference Include="Microsoft.VisualStudio.Shell.14.0">
@@ -316,6 +359,10 @@
       <HintPath>..\..\Externals\Salesforce\Salesforce.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.32.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.Collections.Immutable.1.1.32-beta\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Net.Http" />
@@ -324,6 +371,9 @@
     </Reference>
     <Reference Include="System.Net.Http.Primitives">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>..\..\packages\System.Reflection.Metadata.1.0.17-beta\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
@@ -338,6 +388,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnectedService\SupportedProjectTypeStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SupportedProjectTypeStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
     public abstract class ObjectPickerItem : INotifyPropertyChanged
     {
         private bool isTextSearchEnabled;
+        private bool isEnabled;
         private bool isSelected;
         private string name;
 
@@ -30,6 +31,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             this.isTextSearchEnabled = isTextSearchEnabled;
             this.name = name;
+            this.isEnabled = true;
         }
 
         /// <summary>
@@ -41,6 +43,19 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         }
 
         /// <summary>
+        /// Gets a Boolean value which indicates whether the item is enabled.
+        /// </summary>
+        public bool IsEnabled
+        {
+            get { return this.isEnabled; }
+            set
+            {
+                this.isEnabled = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Gets a Boolean value which indicates whether the item is selected.
         /// </summary>
         public bool IsSelected
@@ -49,7 +64,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             set
             {
                 this.isSelected = value;
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -78,12 +93,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         /// <param name="name">
         /// The name of the property that changed.
         /// </param>
-        protected void OnNotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

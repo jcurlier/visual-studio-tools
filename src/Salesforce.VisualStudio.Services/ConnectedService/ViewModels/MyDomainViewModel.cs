@@ -14,7 +14,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
     internal class MyDomainViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         private static readonly string[] myDomainError = { Resources.MyDomainViewModel_ErrorMessage };
-        private const string MyDomainPropertyName = "MyDomain";
 
         private string myDomain;
         private bool isValid;
@@ -57,7 +56,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                     if (isMyDomainValid != this.isValid)
                     {
                         this.isValid = isMyDomainValid;
-                        this.OnNotifyPropertyChanged(Constants.IsValidPropertyName);
+                        this.OnPropertyChanged(nameof(MyDomainViewModel.IsValid));
                     }
 
                     this.RefreshErrorState();
@@ -100,12 +99,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnNotifyPropertyChanged([CallerMemberName] string name = "")
+        private void OnPropertyChanged([CallerMemberName] string name = "")
         {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -120,7 +116,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         public IEnumerable GetErrors(string propertyName)
         {
-            if (propertyName == MyDomainViewModel.MyDomainPropertyName)
+            if (propertyName == nameof(MyDomainViewModel.MyDomain))
             {
                 return this.HasErrors ? MyDomainViewModel.myDomainError : Enumerable.Empty<string>();
             }
@@ -144,8 +140,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             if (hasErrorsNewValue != this.hasErrors)
             {
                 this.hasErrors = hasErrorsNewValue;
-                this.OnNotifyPropertyChanged(Constants.HasErrorsPropertyName);
-                this.OnErrorsChanged(MyDomainViewModel.MyDomainPropertyName);
+                this.OnPropertyChanged(nameof(MyDomainViewModel.HasErrors));
+                this.OnErrorsChanged(nameof(MyDomainViewModel.MyDomain));
             }
         }
     }

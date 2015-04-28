@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
+using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 {
@@ -10,11 +10,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
     [Serializable]
     public class ConfigurationKeyNames
     {
-        private string generatedArtifactSuffix;
+        private string serviceName;
 
-        internal ConfigurationKeyNames(string generatedArtifactSuffix)
+        internal ConfigurationKeyNames(string serviceName)
         {
-            this.generatedArtifactSuffix = generatedArtifactSuffix;
+            this.serviceName = serviceName;
         }
 
         public string ConsumerKey
@@ -55,12 +55,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.CodeModel
 
         private string GetQualifiedKeyName(string keyName)
         {
-            return ConfigurationKeyNames.GetQualifiedKeyName(keyName, this.generatedArtifactSuffix);
+            return ConfigurationKeyNames.GetQualifiedKeyName(keyName, this.serviceName);
         }
 
-        internal static string GetQualifiedKeyName(string keyName, string generatedArtifactSuffix)
+        internal static string GetQualifiedKeyName(string keyName, string serviceName)
         {
-            return String.Format(CultureInfo.InvariantCulture, Constants.ConfigKeyFormat, generatedArtifactSuffix, keyName);
+            return "{0}:{1}".FormatInvariantCulture(serviceName, keyName);
         }
     }
 }

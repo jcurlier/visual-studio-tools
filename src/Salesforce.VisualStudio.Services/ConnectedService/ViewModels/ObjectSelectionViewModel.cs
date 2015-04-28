@@ -1,11 +1,12 @@
-﻿using Microsoft.VisualStudio.ConnectedServices;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.VisualStudio.ConnectedServices;
 using Salesforce.VisualStudio.Services.ConnectedService.CodeModel;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
 using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
 using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,14 +22,18 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private DesignTimeAuthentication lastDesignTimeAuthentication;
         private Task loadObjectsTask;
 
-        public ObjectSelectionViewModel(ConnectedServiceProviderHost host, TelemetryHelper telemetryHelper, UserSettings userSettings)
-            : base(host, telemetryHelper, userSettings)
+        public ObjectSelectionViewModel()
         {
             this.allObjectsCategory = new ObjectPickerCategory(Resources.ObjectSelectionViewModel_AllObjects);
             this.Title = Resources.ObjectSelectionViewModel_Title;
             this.Description = Resources.ObjectSelectionViewModel_Description;
             this.Legend = Resources.ObjectSelectionViewModel_Legend;
             this.View = new ObjectSelectionPage(this);
+
+            // Because the ObjectPicker is a scrollable control itself, the page's scroll bar functionality
+            // needs to be disabled in order to force the control to be sized within the page and thus
+            // show scroll bars.
+            this.DisableScrollBars = true;
         }
 
         public IEnumerable<ObjectPickerCategory> Categories
@@ -42,7 +47,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             set
             {
                 this.errorMessage = value;
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
         /// <summary>
@@ -69,19 +74,62 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             try
             {
                 IEnumerable<SObjectDescription> objects = await MetadataLoader.LoadObjectsAsync(authentication);
-                this.allObjectsCategory.Children = objects
+                IEnumerable<ObjectPickerObject> children = objects
                     .Select(o => new ObjectPickerObject(this.allObjectsCategory, o.Name) { State = o })
+                    .ToArray();
+
+                if (this.Wizard.Context.IsUpdating)
+                {
+                    await this.InitializeObjectSelectionState(children);
+                }
+
+                // Make any previously selected items appear at the top then sort by name.
+                this.allObjectsCategory.Children = children
+                    .OrderByDescending(o => o.IsChecked)
+                    .ThenBy(o => o.Name)
                     .ToArray();
                 this.allObjectsCategory.IsSelected = true;
             }
             catch (Exception ex)
             {
-                if (ExceptionHelper.IsCriticalException(ex))
+                if (GeneralUtilities.IsCriticalException(ex))
                 {
                     throw;
                 }
 
-                this.ErrorMessage = String.Format(CultureInfo.CurrentCulture, Resources.ObjectSelectionViewModel_LoadingError, ex);
+                this.ErrorMessage = Resources.ObjectSelectionViewModel_LoadingError.FormatCurrentCulture(ex);
+            }
+        }
+
+        /// <summary>
+        /// Initialize the selection state of the objects in the object picker based on which objects have been previously
+        /// scaffolded.
+        /// </summary>
+        private async Task InitializeObjectSelectionState(IEnumerable<ObjectPickerObject> objects)
+        {
+            Project project = CodeAnalysisHelper.GetProject(this.Wizard.Context.ProjectHierarchy, this.Wizard.VisualStudioWorkspace);
+            Compilation compilation = await project?.GetCompilationAsync();
+            if (compilation != null)
+            {
+                string modelsNamespaceName =
+                    ProjectHelper.GetProjectNamespace(ProjectHelper.GetProjectFromHierarchy(this.Wizard.Context.ProjectHierarchy))
+                    + Type.Delimiter
+                    + this.Wizard.DesignerData.GetDefaultedModelsHintPath().Replace(Path.DirectorySeparatorChar, Type.Delimiter);
+                INamespaceSymbol modelsNamespace = CodeAnalysisHelper.GetNamespace(modelsNamespaceName, compilation);
+                if (modelsNamespace != null)
+                {
+                    foreach (INamedTypeSymbol type in modelsNamespace.GetTypeMembers())
+                    {
+                        // Types are matched only on type name, it is hard to do much more because users are free to change
+                        // the scaffolded code in a number of ways.
+                        ObjectPickerObject pickerObject = objects.FirstOrDefault(c => c.Name == type.Name);
+                        if (pickerObject != null)
+                        {
+                            pickerObject.IsChecked = true;
+                            pickerObject.IsEnabled = false;
+                        }
+                    }
+                }
             }
         }
 
@@ -92,7 +140,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             if (this.loadObjectsTask != null && (!this.loadObjectsTask.IsCompleted || this.loadObjectsTask.IsFaulted))
             {
-                using (this.Host.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
+                using (this.Wizard.Context.StartBusyIndicator(Resources.ObjectSelectionViewModel_LoadingObjectsProgress))
                 {
                     await this.loadObjectsTask;
                 }
@@ -101,10 +149,14 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             this.loadObjectsTask = null;
         }
 
+        /// <summary>
+        /// Gets the objects that were selected by the user.  In the case of update, only the objects that were
+        /// selected during update are returned.
+        /// </summary>
         public IEnumerable<SObjectDescription> GetSelectedObjects()
         {
             return this.allObjectsCategory.Children
-                .Where(c => c.IsChecked)
+                .Where(c => c.IsChecked && c.IsEnabled)
                 .Select(c => c.State)
                 .Cast<SObjectDescription>();
         }
@@ -114,11 +166,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             return this.allObjectsCategory.Children.Count();
         }
 
-        public override async Task<NavigationEnabledState> OnPageEnteringAsync(WizardEnteringArgs args)
+        public override async Task OnPageEnteringAsync(WizardEnteringArgs args)
         {
             await this.WaitOnRefreshObjectsAsync();
 
-            return await base.OnPageEnteringAsync(args);
+            await base.OnPageEnteringAsync(args);
         }
     }
 }

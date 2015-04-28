@@ -17,7 +17,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             return value.Equals(parameter);
@@ -27,7 +27,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Views
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             return value.Equals(true) ? parameter : Binding.DoNothing;

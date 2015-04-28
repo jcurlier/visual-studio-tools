@@ -4,11 +4,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:view="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService.Views"
              xmlns:core="clr-namespace:Salesforce.VisualStudio.Services.ConnectedService"
-             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0">
+             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.14.0"
+             xmlns:vsui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.14.0">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <view:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+            <vsui:IfElseConverter x:Key="NotConverter" FalseValue="True" TrueValue="False" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -26,7 +28,8 @@
                    Style="{DynamicResource {x:Static vsfx:VsResourceKeys.TextBlockEnvironment122PercentFontSizeStyleKey}}" />
         <Grid Grid.Row="1"
               Margin="0,0,56,0"
-              KeyboardNavigation.TabNavigation="Once">
+              KeyboardNavigation.TabNavigation="Once"
+              IsEnabled="{Binding Wizard.Context.IsUpdating, Converter={StaticResource NotConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -50,7 +53,7 @@
             </RadioButton>
             <RadioButton x:Name="ServiceAccountPassword_Radio"
                          Grid.Row="1"
-                         Margin="0,0,0,32"
+                         Margin="0,0,0,20"
                          GroupName="AuthType"
                          IsChecked="{Binding Path=RuntimeAuthStrategy, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static core:AuthenticationStrategy.UserNamePassword}}"
                          AutomationProperties.LabeledBy="{Binding ElementName=ServiceAccountPassword_Label}">

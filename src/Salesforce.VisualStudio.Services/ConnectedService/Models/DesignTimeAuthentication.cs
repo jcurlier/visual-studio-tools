@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
+using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
@@ -15,10 +15,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
     internal class DesignTimeAuthentication : IEquatable<DesignTimeAuthentication>, INotifyPropertyChanged
     {
         public const int CurrentVersion = 2;
-        public const string AccessTokenPropertyName = "AccessToken";
-        public const string EnvironmentTypePropertyName = "EnvironmentType";
-        private const string IsNewIdentityPropertyName = "IsNewIdentity";
-        private const string SummaryPropertyName = "Summary";
 
         [DataMember]
         private string userName;
@@ -48,9 +44,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
             set
             {
                 this.userName = value;
-                this.OnNotifyPropertyChanged();
-                this.OnNotifyPropertyChanged(DesignTimeAuthentication.SummaryPropertyName);
-                this.OnNotifyPropertyChanged(DesignTimeAuthentication.IsNewIdentityPropertyName);
+                this.OnPropertyChanged();
+                this.OnPropertyChanged(nameof(DesignTimeAuthentication.Summary));
+                this.OnPropertyChanged(nameof(DesignTimeAuthentication.IsNewIdentity));
             }
         }
 
@@ -60,8 +56,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
             set
             {
                 this.environmentType = value;
-                this.OnNotifyPropertyChanged();
-                this.OnNotifyPropertyChanged(DesignTimeAuthentication.SummaryPropertyName);
+                this.OnPropertyChanged();
+                this.OnPropertyChanged(nameof(DesignTimeAuthentication.Summary));
             }
         }
 
@@ -71,8 +67,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
             set
             {
                 this.myDomain = value;
-                this.OnNotifyPropertyChanged();
-                this.OnNotifyPropertyChanged(DesignTimeAuthentication.SummaryPropertyName);
+                this.OnPropertyChanged();
+                this.OnPropertyChanged(nameof(DesignTimeAuthentication.Summary));
             }
         }
 
@@ -82,7 +78,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
             set
             {
                 this.accessToken = value;
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -140,13 +136,13 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
                     switch (this.EnvironmentType)
                     {
                         case EnvironmentType.Production:
-                            result = string.Format(CultureInfo.CurrentCulture, Resources.DesignTimeAuthentication_Summary_Production, this.UserName);
+                            result = Resources.DesignTimeAuthentication_Summary_Production.FormatCurrentCulture(this.UserName);
                             break;
                         case EnvironmentType.Sandbox:
-                            result = string.Format(CultureInfo.CurrentCulture, Resources.DesignTimeAuthentication_Summary_Sandbox, this.UserName);
+                            result = Resources.DesignTimeAuthentication_Summary_Sandbox.FormatCurrentCulture(this.UserName);
                             break;
                         case EnvironmentType.Custom:
-                            result = string.Format(CultureInfo.CurrentCulture, Resources.DesignTimeAuthentication_Summary_Custom, this.UserName, this.MyDomain);
+                            result = Resources.DesignTimeAuthentication_Summary_Custom.FormatCurrentCulture(this.UserName, this.MyDomain);
                             break;
                         default:
                             throw new NotSupportedException();
@@ -164,12 +160,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnNotifyPropertyChanged([CallerMemberName] string name = "")
+        private void OnPropertyChanged([CallerMemberName] string name = "")
         {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         public bool Equals(DesignTimeAuthentication other)

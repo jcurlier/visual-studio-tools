@@ -22,7 +22,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
         }
 
         public static async Task AddGeneratedCodeAsync(
-            ConnectedServiceInstanceContext context,
+            ConnectedServiceHandlerContext context,
             Project project,
             string templateFileName,
             string outputDirectory,
@@ -70,7 +70,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 string generatedText = generateText(session);
                 string tempFileName = GeneratedCodeHelper.CreateTempFile(generatedText);
                 string targetPath = Path.Combine(outputDirectory, getArtifactName(session) + ".cs");
-                await HandlerHelper.AddFileAsync(context, tempFileName, targetPath);
+                await context.HandlerHelper.AddFileAsync(tempFileName, targetPath);
             }
         }
 

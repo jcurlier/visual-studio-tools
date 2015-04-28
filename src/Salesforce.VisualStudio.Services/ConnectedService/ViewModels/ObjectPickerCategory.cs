@@ -32,7 +32,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             set
             {
                 this.children = value;
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
                 this.UpdateSelectionState();
             }
         }
@@ -62,7 +62,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             {
                 if (value.HasValue)
                 {
-                    foreach (ObjectPickerObject child in this.Children)
+                    // Checking/Unchecking should never change disabled items.  This is applicable in update
+                    // scenarios where previously picked objects are disabled and can't be changed.
+                    foreach (ObjectPickerObject child in this.Children.Where(c => c.IsEnabled))
                     {
                         child.IsChecked = value.Value;
                     }
@@ -75,7 +77,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         /// </summary>
         public void UpdateSelectionState()
         {
-            this.OnNotifyPropertyChanged("IsChecked");
+            this.OnPropertyChanged(nameof(ObjectPickerCategory.IsChecked));
         }
     }
 }

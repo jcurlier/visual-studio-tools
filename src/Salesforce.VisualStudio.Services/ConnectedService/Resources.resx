@@ -133,10 +133,10 @@ Details:  {0}</value>
     <value>Salesforce</value>
   </data>
   <data name="ConnectedServiceProvider_Description" xml:space="preserve">
-    <value>Provides programmatic access to your organization’s information using simple, powerful, and secure application programming interfaces (APIs). APIs open up a platform to developers and enable them to explore different ways to integrate platform capabilities within their own applications.</value>
+    <value>Provides simplified access to your organization’s data using Salesforce REST APIs.</value>
   </data>
   <data name="ConnectedServiceProvider_Name" xml:space="preserve">
-    <value>Salesforce for .NET</value>
+    <value>Salesforce Data Services</value>
   </data>
   <data name="DesignTimeAuthenticationViewModel_Environment_Custom" xml:space="preserve">
     <value>Custom...</value>
@@ -170,7 +170,7 @@ Details:  {0}</value>
     <comment>{0} = the username of the active identity</comment>
   </data>
   <data name="DesignTimeAuthenticationViewModel_Title" xml:space="preserve">
-    <value>Configure Salesforce for .NET</value>
+    <value>Configure Salesforce Data Services</value>
   </data>
   <data name="ObjectSelectionViewModel_Description" xml:space="preserve">
     <value>Select objects to scaffold models within your application</value>
@@ -179,7 +179,7 @@ Details:  {0}</value>
     <value>Object Selection</value>
   </data>
   <data name="ObjectSelectionViewModel_Title" xml:space="preserve">
-    <value>Configure Salesforce for .NET</value>
+    <value>Configure Salesforce Data Services</value>
   </data>
   <data name="MyDomainViewModel_ErrorMessage" xml:space="preserve">
     <value>Please enter a valid URL (example: https://yoursite-dev-ed.my.salesforce.com)</value>
@@ -213,15 +213,8 @@ Details:  {0}</value>
   <data name="LogMessage_CreatingConnectedApp" xml:space="preserve">
     <value>Creating the connected app within Salesforce.</value>
   </data>
-  <data name="LogMessage_FailedAddingConnectedService" xml:space="preserve">
-    <value>Failed to add the Salesforce connected service to the project - {0}</value>
-    <comment>{0} = Exception details</comment>
-  </data>
   <data name="LogMessage_FailedReadingConnectedApp" xml:space="preserve">
-    <value>Failed to read the connected app that was just created; the ConsumerKey AppSetting in the config file will need to be specified."</value>
-  </data>
-  <data name="LogMessage_PresentingGettingStarted" xml:space="preserve">
-    <value>Navigating to the getting started web page.</value>
+    <value>Failed to read the connected app that was just created; the ConsumerKey AppSetting in the config file will need to be specified.</value>
   </data>
   <data name="LogMessage_UpdatingConfigFile" xml:space="preserve">
     <value>Adding settings to the project's config file.</value>
@@ -233,7 +226,7 @@ Details:  {0}</value>
     <value>Runtime Authentication Config</value>
   </data>
   <data name="RuntimeAuthenticationConfigViewModel_Title" xml:space="preserve">
-    <value>Configure Salesforce for .NET</value>
+    <value>Configure Salesforce Data Services</value>
   </data>
   <data name="RuntimeAuthenticationTypeViewModel_Description" xml:space="preserve">
     <value>Choose a runtime authentication model</value>
@@ -242,7 +235,7 @@ Details:  {0}</value>
     <value>Runtime Authentication</value>
   </data>
   <data name="RuntimeAuthenticationTypeViewModel_Title" xml:space="preserve">
-    <value>Configure Salesforce for .NET</value>
+    <value>Configure Salesforce Data Services</value>
   </data>
   <data name="AuthenticationHelper_UnableToConnectToSalesforce" xml:space="preserve">
     <value>Unable to connect to Salesforce.
@@ -278,5 +271,32 @@ Response:  {1}</value>
   </data>
   <data name="ObjectSelectionViewModel_LoadingObjectsProgress" xml:space="preserve">
     <value>Loading Objects...</value>
+  </data>
+  <data name="UserSettingsHelper_FailedLoading" xml:space="preserve">
+    <value>Failed loading the {0} user settings.
+{1}</value>
+    <comment>{0} = user settings filename
+{1} = exception details</comment>
+  </data>
+  <data name="UserSettingsHelper_FailedSaving" xml:space="preserve">
+    <value>Failed saving the {0} user settings.
+{1}</value>
+    <comment>{0} = user settings filename
+{1} = exception details</comment>
+  </data>
+  <data name="LogMessage_UpdatedConnectedService" xml:space="preserve">
+    <value>Successfully updated the Salesforce connected service within the project.</value>
+  </data>
+  <data name="LogMessage_UpdatingConnectedService" xml:space="preserve">
+    <value>Updating the Salesforce connected service within the project.</value>
+  </data>
+  <data name="LogMessage_InvalidModelsHintPath" xml:space="preserve">
+    <value>The ModelsHintPath '{0}' specified in ConnectedService.json is invalid.</value>
+    <comment>{0} = the path that is invalid</comment>
+  </data>
+  <data name="LogMessage_DuplicateConnectedAppName" xml:space="preserve">
+    <value>A connected app named '{0}' already exists.  Retrying using '{1}'.</value>
+    <comment>{0} = First-attempt connected app name
+{1} = Second-attempt connected app name</comment>
   </data>
 </root>

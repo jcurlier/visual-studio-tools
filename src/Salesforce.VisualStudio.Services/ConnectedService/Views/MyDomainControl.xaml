@@ -15,8 +15,7 @@
                   LostFocus="MyDomain_LostFocus"
                   Text="{Binding Path=MyDomain, ValidatesOnNotifyDataErrors=True}" >
             <ComboBox.Style>
-                <!--TODO:  This should be based on the ThemedDialogComboBoxStyleKey once it is available.-->
-                <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Static vsfx:VsResourceKeys.ComboBoxStyleKey}}">
+                <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Static vsfx:VsResourceKeys.ThemedDialogComboBoxStyleKey}}">
                     <Setter Property="Validation.ErrorTemplate">
                         <Setter.Value>
                             <ControlTemplate>

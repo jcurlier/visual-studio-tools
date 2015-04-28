@@ -8,7 +8,6 @@ using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -29,8 +28,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private Environment[] environments;
         private bool isFirstUse;
 
-        public DesignTimeAuthenticationViewModel(ConnectedServiceProviderHost host, TelemetryHelper telemetryHelper, UserSettings userSettings)
-            : base(host, telemetryHelper, userSettings)
+        public DesignTimeAuthenticationViewModel()
         {
             this.isFirstUse = true;
 
@@ -67,19 +65,14 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         {
             get
             {
-                string relativeUri = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "/services/oauth2/authorize?response_type=token&client_id={0}&redirect_uri={1}&display=popup",
-                    HttpUtility.UrlEncode(Constants.VisualStudioConnectedAppClientId),
-                    HttpUtility.UrlEncode(this.RedirectUrl.ToString()));
+                string relativeUri = "/services/oauth2/authorize?response_type=token&client_id={0}&redirect_uri={1}&display=popup"
+                    .FormatInvariantCulture(
+                        HttpUtility.UrlEncode(Constants.VisualStudioConnectedAppClientId),
+                        HttpUtility.UrlEncode(this.RedirectUrl.ToString()));
 
                 if (!this.Authentication.IsNewIdentity)
                 {
-                    relativeUri = string.Format(
-                        CultureInfo.InvariantCulture,
-                        "{0}&login_hint={1}",
-                        relativeUri,
-                        this.Authentication.UserName);
+                    relativeUri = "{0}&login_hint={1}".FormatInvariantCulture(relativeUri, this.Authentication.UserName);
                 }
 
                 return new Uri(this.Authentication.Domain, relativeUri);
@@ -94,7 +87,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 this.myDomainViewModel = value;
                 this.CalculateIsValid();
                 this.CalculateHasErrors();
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -112,7 +105,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
                     this.authentication = value;
                     this.authentication.PropertyChanged += this.Authentication_PropertyChanged;
-                    this.OnNotifyPropertyChanged();
+                    this.OnPropertyChanged();
                     this.InitializeMyDomainViewModel();
                 }
             }
@@ -127,25 +120,28 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         public event EventHandler<EventArgs> PageLeaving;
 
-        public override Task<NavigationEnabledState> OnPageEnteringAsync(WizardEnteringArgs args)
+        public override async Task OnPageEnteringAsync(WizardEnteringArgs args)
         {
-            this.AvailableAuthentications = this.UserSettings.MruDesignTimeAuthentications.Union(
+            await base.OnPageEnteringAsync(args);
+
+            this.AvailableAuthentications = this.Wizard.UserSettings.MruDesignTimeAuthentications.Union(
                 new DesignTimeAuthentication[] { new DesignTimeAuthentication() });
             this.Authentication = this.AvailableAuthentications.First();
-            this.OnNotifyPropertyChanged("AvailableAuthentications");
+            this.OnPropertyChanged(nameof(DesignTimeAuthenticationViewModel.AvailableAuthentications));
 
-            // If this is the first use of the page, default the finish button to be enabled.
-            bool? isFinishEnabled = this.isFirstUse ? true : (bool?)null;
-            this.isFirstUse = false;
-
-            return Task.FromResult(new NavigationEnabledState(null, null, isFinishEnabled));
+            if (this.isFirstUse)
+            {
+                // If this is the first use of the page, default the finish button to be enabled.
+                this.Wizard.IsFinishEnabled = true;
+                this.isFirstUse = false;
+            }
         }
 
         public override async Task<WizardNavigationResult> OnPageLeavingAsync(WizardLeavingArgs args)
         {
             WizardNavigationResult result;
 
-            using (this.Host.StartBusyIndicator(Resources.DesignTimeAuthenticationViewModel_AuthenticatingProgress))
+            using (this.Wizard.Context.StartBusyIndicator(Resources.DesignTimeAuthenticationViewModel_AuthenticatingProgress))
             {
                 string error = null;
 
@@ -156,7 +152,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
                     if (error == null && this.Authentication.EnvironmentType == EnvironmentType.Custom)
                     {
-                        UserSettings.AddToTopOfMruList(this.UserSettings.MruMyDomains, this.Authentication.MyDomain.ToString());
+                        UserSettings.AddToTopOfMruList(this.Wizard.UserSettings.MruMyDomains, this.Authentication.MyDomain.ToString());
                     }
                 }
                 else if (this.Authentication.AccessToken == null)
@@ -183,7 +179,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
                 if (error == null)
                 {
-                    UserSettings.AddToTopOfMruList(this.UserSettings.MruDesignTimeAuthentications, this.Authentication);
+                    UserSettings.AddToTopOfMruList(this.Wizard.UserSettings.MruDesignTimeAuthentications, this.Authentication);
                     result = WizardNavigationResult.Success;
 
                     if (this.PageLeaving != null)
@@ -234,7 +230,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 this.MyDomainViewModel = new MyDomainViewModel(
                     this.Authentication.MyDomain,
                     myDomainUri => this.Authentication.MyDomain = myDomainUri,
-                    this.UserSettings);
+                    this.Wizard.UserSettings);
                 this.MyDomainViewModel.PropertyChanged += this.MyDomainViewModel_PropertyChanged;
             }
         }
@@ -312,17 +308,17 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             else
             {
                 throw new InvalidOperationException(
-                    String.Format(CultureInfo.CurrentCulture, Resources.AuthenticationHelper_UnableToConnectToSalesforce, request, response));
+                    Resources.AuthenticationHelper_UnableToConnectToSalesforce.FormatCurrentCulture(request, response));
             }
         }
 
         private void MyDomainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == Constants.IsValidPropertyName)
+            if (e.PropertyName == nameof(MyDomainViewModel.IsValid))
             {
                 this.CalculateIsValid();
             }
-            else if (e.PropertyName == Constants.HasErrorsPropertyName)
+            else if (e.PropertyName == nameof(MyDomainViewModel.HasErrors))
             {
                 this.CalculateHasErrors();
             }
@@ -340,7 +336,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 
         private void Authentication_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == DesignTimeAuthentication.EnvironmentTypePropertyName)
+            if (e.PropertyName == nameof(DesignTimeAuthentication.EnvironmentType))
             {
                 this.InitializeMyDomainViewModel();
             }

@@ -5,8 +5,6 @@
     /// </summary>
     internal static class Constants
     {
-        public const string ConfigKeyFormat = "Salesforce{0}:{1}";
-
         public const string ConfigKey_ConsumerKey = "ConsumerKey";
         public const string ConfigKey_ConsumerSecret = "ConsumerSecret";
         public const string ConfigKey_Domain = "Domain";
@@ -18,8 +16,9 @@
         public const string ConfigValue_RequiredDefault = "RequiredValue";
         public const string ConfigValue_OptionalDefault = "OptionalValue";
 
-        public const string ProviderId = "ProviderId";
-        public const string ProviderIdValue = "SalesforceConnectedService";
+        // Core Connected Services relies on this id for the Salesforce breadcrumb functionality it provides.
+        // Changing it here would break that functionality.
+        public const string ProviderId = "Salesforce.ForceDotCom";
 
         public const string SalesforceApiVersion = "32.0";
         public const string SalesforceApiVersionWithPrefix = "v32.0";
@@ -28,8 +27,8 @@
         public const string ModelsName = "Models";
 
         public const string OAuthRedirectHandlerTypeName = "SalesforceOAuthRedirectHandler";
-        public const string OAuthRedirectHandlerNameFormat = "Salesforce{0}OAuthRedirectHandler";
-        public const string OAuthRedirectHandlerPathFormat = "/Salesforce{0}OAuthRedirectHandler.axd";
+        public const string OAuthRedirectHandlerNameFormat = "{0}OAuthRedirectHandler";
+        public const string OAuthRedirectHandlerPathFormat = "/{0}OAuthRedirectHandler.axd";
 
         public const string Metadata_ConnectedAppType = "ConnectedApp";
 
@@ -41,8 +40,5 @@
         public const string MoreInfoLink = "http://developer.salesforce.com/go/VSMoreInfo";
 
         public const string VisualStudioConnectedAppClientId = "3MVG9JZ_r.QzrS7gAjO9uCs2VkFkrvkiZiv9w9fBwzt4ds5YE4fN9VVa.3oTwr7KJKk.BZiPNekIw.d_yEVle";
-
-        public const string HasErrorsPropertyName = "HasErrors";
-        public const string IsValidPropertyName = "IsValid";
     }
 }

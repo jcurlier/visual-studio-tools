@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.ConnectedServices;
 using Salesforce.VisualStudio.Services.ConnectedService.Models;
-using Salesforce.VisualStudio.Services.ConnectedService.Utilities;
 using Salesforce.VisualStudio.Services.ConnectedService.Views;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
 {
@@ -17,12 +17,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
         private bool isCustomDomain;
         private Func<Uri> getDesignTimeMyDomain;
 
-        public RuntimeAuthenticationConfigViewModel(
-            ConnectedServiceProviderHost host,
-            TelemetryHelper telemetryHelper,
-            UserSettings userSettings,
-            Func<Uri> getDesignTimeMyDomain)
-            : base(host, telemetryHelper, userSettings)
+        public RuntimeAuthenticationConfigViewModel(Func<Uri> getDesignTimeMyDomain)
         {
             this.getDesignTimeMyDomain = getDesignTimeMyDomain;
             this.Title = Resources.RuntimeAuthenticationConfigViewModel_Title;
@@ -39,7 +34,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 this.myDomainViewModel = value;
                 this.CalculateIsValid();
                 this.CalculateHasErrors();
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -64,7 +59,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         throw new NotImplementedException();
                 }
 
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -74,7 +69,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             private set
             {
                 this.runtimeAuthentication = value;
-                this.OnNotifyPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -92,7 +87,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         this.MyDomainViewModel = new MyDomainViewModel(
                             this.getDesignTimeMyDomain(),
                             myDomainUri => ((WebServerFlowInfo)(this.RuntimeAuthentication)).MyDomain = myDomainUri,
-                            this.UserSettings);
+                            this.Wizard.UserSettings);
                         this.MyDomainViewModel.PropertyChanged += this.MyDomainViewModel_PropertyChanged;
                     }
                     else if (this.MyDomainViewModel != null)
@@ -101,18 +96,28 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                         this.MyDomainViewModel = null;
                     }
 
-                    this.OnNotifyPropertyChanged();
+                    this.OnPropertyChanged();
                 }
             }
         }
 
+        public override Task<WizardNavigationResult> OnPageLeavingAsync(WizardLeavingArgs args)
+        {
+            if (this.IsCustomDomain && this.MyDomainViewModel.IsValid)
+            {
+                UserSettings.AddToTopOfMruList(this.Wizard.UserSettings.MruMyDomains, this.MyDomainViewModel.MyDomain.ToString());
+            }
+
+            return base.OnPageLeavingAsync(args);
+        }
+
         private void MyDomainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == Constants.IsValidPropertyName)
+            if (e.PropertyName == nameof(MyDomainViewModel.IsValid))
             {
                 this.CalculateIsValid();
             }
-            else if (e.PropertyName == Constants.HasErrorsPropertyName)
+            else if (e.PropertyName == nameof(MyDomainViewModel.HasErrors))
             {
                 this.CalculateHasErrors();
             }
