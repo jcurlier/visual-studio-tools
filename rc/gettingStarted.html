@@ -105,7 +105,7 @@
                     {
                         QueryResult&lt;Contact&gt; contacts =
                             await client.QueryAsync&lt;Contact&gt;(<span class="str">"SELECT Id, Salutation, FirstName, LastName, MailingCity, MailingState, MailingCountry From Contact"</span>);
-                        <span class="kwrd">return</span> contacts.records;
+                        <span class="kwrd">return</span> contacts.Records;
                     }
                     );
             }
@@ -132,7 +132,7 @@
                     {
                         QueryResult&lt;Contact&gt; contacts =
                             await client.QueryAsync&lt;Contact&gt;(<span class="str">"SELECT Id, Salutation, FirstName, LastName, MailingStreet, MailingCity, MailingState, MailingPostalCode, MailingCountry, Phone, Email From Contact Where Id = '"</span> + id + <span class="str">"'"</span>);
-                        <span class="kwrd">return</span> contacts.records;
+                        <span class="kwrd">return</span> contacts.Records;
                     }
                     );
             }
@@ -159,7 +159,7 @@
                     {
                         QueryResult&lt;Contact&gt; contacts =
                             await client.QueryAsync&lt;Contact&gt;(<span class="str">"SELECT Id, Salutation, FirstName, LastName, MailingStreet, MailingCity, MailingState, MailingPostalCode, MailingCountry, Phone, Email From Contact Where Id= '"</span> + id + <span class="str">"'"</span>);
-                        <span class="kwrd">return</span> contacts.records;
+                        <span class="kwrd">return</span> contacts.Records;
                     }
                     );
             }
@@ -201,7 +201,7 @@
             {
                 <span class="kwrd">return</span> Redirect(<span class="kwrd">this</span>.ViewBag.AuthorizationUrl);
             }
-            <span class="kwrd">if</span> (success.success == <span class="str">"true"</span>)
+            <span class="kwrd">if</span> (success.Success == <span class="str">"true"</span>)
             {
                 <span class="kwrd">return</span> RedirectToAction(<span class="str">"Index"</span>);
             }
@@ -226,7 +226,7 @@
                     <span class="rem">// Query the properties you'll display for the user to confirm they wish to delete this Contact</span>
                     QueryResult&lt;Contact&gt; contacts =
                         await client.QueryAsync&lt;Contact&gt;(<span class="kwrd">string</span>.Format(<span class="str">"SELECT Id, FirstName, LastName, MailingCity, MailingState, MailingCountry From Contact Where Id='{0}'"</span>, id));
-                    <span class="kwrd">return</span> contacts.records;
+                    <span class="kwrd">return</span> contacts.Records;
                 }
                 );
             }
@@ -944,7 +944,7 @@
     <span class="kwrd">var</span> totalSize = 0;
     totalSize = results.totalSize;
     Console.WriteLine(<span class="kwrd">string</span>.Format(<span class="str">"Queried {0} records."</span>, totalSize));
-    contacts.AddRange(results.records);
+    contacts.AddRange(results.Records);
     <span class="kwrd">var</span> nextRecordsUrl = results.nextRecordsUrl;
     while (!<span class="kwrd">string</span>.IsNullOrEmpty(nextRecordsUrl)) {
         Console.WriteLine(<span class="str">"Found nextRecordsUrl."</span>);
@@ -952,7 +952,7 @@
         QueryResult&lt;Models.Salesforce.Contact&gt; continuationResults = await client.QueryContinuationAsync&lt;Models.Salesforce.Contact&gt;(nextRecordsUrl);
         Console.WriteLine(<span class="kwrd">string</span>.Format(<span class="str">"Queried an additional {0} records."</span>, continuationResults.totalSize));
         <span class="rem">// Add the resultSet to our parent collection</span>
-        contacts.AddRange(continuationResults.records);
+        contacts.AddRange(continuationResults.Records);
         <span class="rem">//pass nextRecordsUrl back to client.QueryAsync to request next set of records</span>
         nextRecordsUrl = continuationResults.nextRecordsUrl;
     }
@@ -1011,7 +1011,7 @@
     <span class="rem">// Shows that annonymous types can be used as well</span>
     Console.WriteLine(<span class="str">"Updating test record."</span>);
     <span class="kwrd">var</span> updateSuccess = await client.UpdateAsync(<span class="str">"Contact"</span>, contact.Id, <span class="kwrd">new</span> { MailingCity = <span class="str">"Some City"</span> });
-    <span class="kwrd">if</span> (updateSuccess.success != <span class="str">"true"</span>) {
+    <span class="kwrd">if</span> (updateSuccess.Success != <span class="str">"true"</span>) {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine(<span class="str">"--&gt; Failed to update test record!"</span>);
         <span class="kwrd">return</span>;
@@ -1026,7 +1026,7 @@
     Console.WriteLine(<span class="str">"Retrieving the record by ID."</span>);
     <span class="kwrd">var</span> result= await client.QueryAsync&lt;Models.Salesforce.Contact&gt;(
         <span class="kwrd">string</span>.Format(<span class="str">"SELECT FirstName, LastName, Email, MailingStreet, MailingCity FROM Contact WHERE Id = '{0}'"</span>, contact.Id));
-    <span class="kwrd">if</span> (result.records.Count() == 0) {
+    <span class="kwrd">if</span> (result.Records.Count() == 0) {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine(<span class="str">"--&gt; Failed to retrieve the record by ID!"</span>);
         Console.ResetColor();
@@ -1034,7 +1034,7 @@
     } <span class="kwrd">else</span> {
         <span class="rem">// Use FirstOrDefault extension method to get a single item from QueryAsync</span>
         <span class="rem">// note QueryResult returns a result objects, with records following the common REST programming model</span>
-        contact = result.records.FirstOrDefault();
+        contact = result.Records.FirstOrDefault();
         Console.ForegroundColor = ConsoleColor.DarkGreen;
         Console.WriteLine(<span class="kwrd">string</span>.Format(<span class="str">"--&gt; Successfully found {0}, {1}"</span>, contact.LastName, contact.FirstName));
         Console.ResetColor();
@@ -1046,7 +1046,7 @@
     <span class="kwrd">var</span> parameterizedResults = await client.QueryAsync&lt;Models.Salesforce.Contact&gt;(
         <span class="kwrd">string</span>.Format(<span class="str">"SELECT Id, FirstName, LastName FROM Contact WHERE FirstName Like '%{0}%'"</span>, searchParam));
     <span class="rem">// Get the </span>
-    contact= parameterizedResults.records.FirstOrDefault();
+    contact= parameterizedResults.Records.FirstOrDefault();
     <span class="kwrd">if</span> (contact == <span class="kwrd">null</span>) {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine(<span class="kwrd">string</span>.Format(<span class="str">"--&gt; Failed to find any Contacts named {0}"</span>, searchParam));
@@ -1054,7 +1054,7 @@
         <span class="kwrd">return</span>;
     } <span class="kwrd">else</span> {
         Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.WriteLine(<span class="kwrd">string</span>.Format(<span class="str">"--&gt; Found {0} records named {1}"</span>, parameterizedResults.records.Count(), searchParam));
+        Console.WriteLine(<span class="kwrd">string</span>.Format(<span class="str">"--&gt; Found {0} records named {1}"</span>, parameterizedResults.Records.Count(), searchParam));
         Console.ResetColor();
     }
     Console.WriteLine();
@@ -1097,7 +1097,7 @@
     Console.WriteLine(<span class="str">"{0}{1}"</span>, <span class="str">"Id"</span>.PadRight(20), <span class="str">"Name"</span>.PadRight(30));
     Console.BackgroundColor = ConsoleColor.White;
     Console.ForegroundColor = ConsoleColor.Blue;
-    <span class="kwrd">foreach</span> (dynamic acct <span class="kwrd">in</span> dynamicAccounts.records) {
+    <span class="kwrd">foreach</span> (dynamic acct <span class="kwrd">in</span> dynamicAccounts.Records) {
         Console.WriteLine(<span class="str">"{0}{1}"</span>, ((<span class="kwrd">string</span>)(acct.Id)).PadRight(20), ((<span class="kwrd">string</span>)(acct.Name)).PadRight(30).Substring(0, 30));
     }
     Console.ResetColor();
