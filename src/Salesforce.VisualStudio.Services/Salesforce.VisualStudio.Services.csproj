@@ -192,19 +192,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Packages\DeveloperForce.Force.0.6.4.nupkg">
+    <Content Include="Packages\DeveloperForce.Force.1.0.0.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Packages\Microsoft.Bcl.1.1.9.nupkg">
+    <Content Include="Packages\Microsoft.Bcl.1.1.10.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Packages\Microsoft.Bcl.Async.1.0.168.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Packages\Microsoft.Bcl.Build.1.0.14.nupkg">
+    <Content Include="Packages\Microsoft.Bcl.Build.1.0.21.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Packages\Microsoft.Net.Http.2.2.28.nupkg">
+    <Content Include="Packages\Microsoft.Net.Http.2.2.29.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Packages\Newtonsoft.Json.6.0.5.nupkg">
@@ -325,7 +325,7 @@
       <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.ConnectedServices">
-      <HintPath>..\..\Externals\Microsoft.VisualStudio.ConnectedServices\Microsoft.VisualStudio.ConnectedServices.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.VisualStudio.ConnectedServices.2.0.0-beta\lib\net45\Microsoft.VisualStudio.ConnectedServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.LanguageServices">

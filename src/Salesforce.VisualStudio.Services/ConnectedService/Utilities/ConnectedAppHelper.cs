@@ -52,7 +52,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 // causes the Salesforce server to sometimes respond to a SOAP ReadMetadata request by returning nil for a Connected App
                 // name that actually exists.  In this case, retry using a random number as the app name's suffix.
 
-                Debug.Fail(Resources.DebugFailMessage_DuplicateConnectedAppName.FormatCurrentCulture(salesforceInstance.ConnectedAppName));
+                Debug.Fail("A connected app named '{0}' already exists.  This implies that the Salesforce server responded to the SOAP ReadMetadata request to read this Connected App by returning nil for it even though it actually exists."
+                    .FormatCurrentCulture(salesforceInstance.ConnectedAppName));
 
                 string secondAttemptConnectedAppName = ConnectedAppHelper.GetUniqueConnectedAppName(metadataService, project, true);
                 await logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_DuplicateConnectedAppName, salesforceInstance.ConnectedAppName, secondAttemptConnectedAppName);

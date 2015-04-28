@@ -129,15 +129,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A connected app named &apos;{0}&apos; already exists.  This implies that the Salesforce server responded to the SOAP ReadMetadata request to read this Connected App by returning nil for it even though it actually exists..
-        /// </summary>
-        internal static string DebugFailMessage_DuplicateConnectedAppName {
-            get {
-                return ResourceManager.GetString("DebugFailMessage_DuplicateConnectedAppName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;New user account&gt;.
         /// </summary>
         internal static string DesignTimeAuthentication_NewIdentityName {

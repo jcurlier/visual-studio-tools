@@ -299,8 +299,4 @@ Response:  {1}</value>
     <comment>{0} = First-attempt connected app name
 {1} = Second-attempt connected app name</comment>
   </data>
-  <data name="DebugFailMessage_DuplicateConnectedAppName" xml:space="preserve">
-    <value>A connected app named '{0}' already exists.  This implies that the Salesforce server responded to the SOAP ReadMetadata request to read this Connected App by returning nil for it even though it actually exists.</value>
-    <comment>{0} = Name of the connected app</comment>
-  </data>
 </root>

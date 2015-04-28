@@ -168,11 +168,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 false,
                 project,
                 new Dictionary<string, string> {
-                    { "DeveloperForce.Force", "0.6.4" },
-                    { "Microsoft.Bcl", "1.1.9" },
+                    { "DeveloperForce.Force", "1.0.0" },
+                    { "Microsoft.Bcl", "1.1.10" },
                     { "Microsoft.Bcl.Async", "1.0.168" },
-                    { "Microsoft.Bcl.Build", "1.0.14" },
-                    { "Microsoft.Net.Http", "2.2.28" },
+                    { "Microsoft.Bcl.Build", "1.0.21" },
+                    { "Microsoft.Net.Http", "2.2.29" },
                     { "Newtonsoft.Json", "6.0.5" },
                 });
         }
