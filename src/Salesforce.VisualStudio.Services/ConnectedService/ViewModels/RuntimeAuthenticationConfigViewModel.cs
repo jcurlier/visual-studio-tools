@@ -101,7 +101,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             }
         }
 
-        public override Task<WizardNavigationResult> OnPageLeavingAsync(WizardLeavingArgs args)
+        public override Task<PageNavigationResult> OnPageLeavingAsync(WizardLeavingArgs args)
         {
             if (this.IsCustomDomain && this.MyDomainViewModel.IsValid)
             {
