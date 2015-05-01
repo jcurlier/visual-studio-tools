@@ -902,7 +902,7 @@
                             <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 &lt;add key=<span class="str">"Salesforce:ConsumerKey"</span> value=<span class="str">"populated by the Connected Service Configuration"</span> /&gt;
-&lt;add key=<span class="str">"Salesforce:ConsumerSecret"</span> value=<span class="str">"RequiredValue"</span> /&gt;
+&lt;add key=<span class="str">"Salesforce:ConsumerSecret"</span> value=<span class="str">"populated by the Connected Service Configuration"</span> /&gt;
 &lt;add key=<span class="str">"Salesforce:UserName"</span> value=<span class="str">"RequiredValue"</span> /&gt;
 &lt;add key=<span class="str">"Salesforce:Password"</span> value=<span class="str">"RequiredValue"</span> /&gt;
 &lt;add key=<span class="str">"Salesforce:SecurityToken"</span> value=<span class="str">"OptionalValue"</span> /&gt;
@@ -935,25 +935,25 @@
     ForceClient client = await Salesforce.SalesforceService.GetUserNamePasswordForceClientAsync();
     Console.WriteLine(<span class="str">"Connected to Salesforce"</span>);
     Console.WriteLine(<span class="str">"Get a list of Contacts"</span>);
-    <span class="rem">// a collection to hold the results as we get multile resultsets</span>
+    <span class="rem">// a collection to hold the results as we get multiple resultsets</span>
     <span class="kwrd">var</span> contacts = <span class="kwrd">new</span> List&lt;Models.Salesforce.Contact&gt;();
     <span class="kwrd">var</span> results = await client.QueryAsync&lt;Models.Salesforce.Contact&gt;(
         <span class="str">"SELECT Id, FirstName, LastName, Email FROM Contact ORDER BY LastName, FirstName"</span>);
             
     <span class="kwrd">var</span> totalSize = 0;
-    totalSize = results.totalSize;
+    totalSize = results.TotalSize;
     Console.WriteLine(<span class="kwrd">string</span>.Format(<span class="str">"Queried {0} records."</span>, totalSize));
     contacts.AddRange(results.Records);
-    <span class="kwrd">var</span> nextRecordsUrl = results.nextRecordsUrl;
+    <span class="kwrd">var</span> nextRecordsUrl = results.NextRecordsUrl;
     while (!<span class="kwrd">string</span>.IsNullOrEmpty(nextRecordsUrl)) {
         Console.WriteLine(<span class="str">"Found nextRecordsUrl."</span>);
         <span class="rem">// Query the next ResultSet</span>
         QueryResult&lt;Models.Salesforce.Contact&gt; continuationResults = await client.QueryContinuationAsync&lt;Models.Salesforce.Contact&gt;(nextRecordsUrl);
-        Console.WriteLine(<span class="kwrd">string</span>.Format(<span class="str">"Queried an additional {0} records."</span>, continuationResults.totalSize));
+        Console.WriteLine(<span class="kwrd">string</span>.Format(<span class="str">"Queried an additional {0} records."</span>, continuationResults.TotalSize));
         <span class="rem">// Add the resultSet to our parent collection</span>
         contacts.AddRange(continuationResults.Records);
         <span class="rem">//pass nextRecordsUrl back to client.QueryAsync to request next set of records</span>
-        nextRecordsUrl = continuationResults.nextRecordsUrl;
+        nextRecordsUrl = continuationResults.NextRecordsUrl;
     }
     Console.WriteLine(<span class="kwrd">string</span>.Format(<span class="str">"Retrieved accounts {0}, expected size = {1}"</span>, totalSize, contacts.Count()));
     Console.WriteLine();
