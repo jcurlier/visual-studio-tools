@@ -200,8 +200,10 @@ Details:  {0}</value>
   <data name="LogMessage_AddingGeneratedCode" xml:space="preserve">
     <value>Adding scaffold code files to the project.</value>
   </data>
-  <data name="LogMessage_AddingNuGetPackages" xml:space="preserve">
-    <value>Adding NuGet packages to the project.</value>
+  <data name="LogMessage_AddingNuGetPackage" xml:space="preserve">
+    <value>Installing NuGet package '{0}' version {1}.</value>
+    <comment>{0} = id of the package
+{1} = Package version</comment>
   </data>
   <data name="LogMessage_BuildingObjectModel" xml:space="preserve">
     <value>Building the object model for the Salesforce objects.</value>
@@ -298,5 +300,23 @@ Response:  {1}</value>
     <value>A connected app named '{0}' already exists.  Retrying using '{1}'.</value>
     <comment>{0} = First-attempt connected app name
 {1} = Second-attempt connected app name</comment>
+  </data>
+  <data name="LogMessage_UpgradingNuGetPackage" xml:space="preserve">
+    <value>Upgrading NuGet package '{0}' from version {1} to {2}.</value>
+    <comment>{0} = id of the package
+{1} = Old package version
+{2} = New package version</comment>
+  </data>
+  <data name="LogMessage_NewerMajorVersionNuGetPackageExists" xml:space="preserve">
+    <value>The code being added depends on NugGet package ‘{0}’ version {1}.  A newer version ({2}) is already installed.  This may cause compatibility issues.</value>
+    <comment>{0} = id of the package
+{1} = Old package version
+{2} = New package version</comment>
+  </data>
+  <data name="LogMessage_OlderMajorVersionNuGetPackageExists" xml:space="preserve">
+    <value>Upgrading NuGet package '{0}' from version {1} to {2}.  A major version upgrade may introduce compatibility issues with existing code.</value>
+    <comment>{0} = id of the package
+{1} = Old package version
+{2} = New package version</comment>
   </data>
 </root>
