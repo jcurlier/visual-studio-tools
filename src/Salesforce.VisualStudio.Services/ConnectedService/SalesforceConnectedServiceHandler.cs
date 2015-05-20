@@ -191,7 +191,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 else
                 {
                     Version installedVersion = SalesforceConnectedServiceHandler.GetNuGetPackageVersion(installedPackage);
-                    if (installedVersion.Major < requiredPackage.Item2.Major)
+                    if (installedVersion == null)
+                    {
+                        // Unable to parse the version - continue.
+                        continue;
+                    }
+                    else if (installedVersion.Major < requiredPackage.Item2.Major)
                     {
                         // An older potentially non-compatible version of the package already exists - warn and upgrade the package.
                         await context.Logger.WriteMessageAsync(
@@ -208,8 +213,8 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                             LoggerMessageCategory.Warning,
                             Resources.LogMessage_NewerMajorVersionNuGetPackageExists,
                             requiredPackage.Item1,
-                            installedPackage.VersionString,
-                            requiredPackage.Item2.ToString());
+                            requiredPackage.Item2.ToString(),
+                            installedPackage.VersionString);
 
                         continue;
                     }
