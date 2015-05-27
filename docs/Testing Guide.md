@@ -4,14 +4,14 @@ This document is a testing guide for contributors to the Salesforce Connected Se
 
 ## Installation
 
-- Appropriate EULA is shown on installation from the Extensions and Updates Gallery.
-- The correct supported version(s) of Visual Studio is indicated.
+- Appropriate EULA is shown on installation from the Extensions and Updates Gallery.
+- The correct supported version(s) of Visual Studio is indicated.
 
 ![](./images/Installation.png)
 
 ## Service Selection
 
-- Version corresponds the assembly version of Salesforce.VisualStudio.Services.dll.
+- Version corresponds to the assembly version of Salesforce.VisualStudio.Services.dll.
 - Project type support
   - The Configure button is disabled for all unsupported project types.
   - Supported projects work for all scenarios else scenario is blocked.
@@ -74,8 +74,8 @@ This document is a testing guide for contributors to the Salesforce Connected Se
 ### Design Time Authentication
 
 - MRUs maintain a list of recently entered items.
-- My Domain is validated a well-formed url.
-- After the user is prompted for the Salesforce credentials the Refresh Token cached.
+- My Domain is validated as a well-formed url.
+- After the user is prompted for the Salesforce credentials the Refresh Token is cached.
 - Data re-read upon credential change (e.g. Objects - object selection is refreshed so to reflect the permissions of the new user) .
 - Salesforce sign-in can be cancelled.
 - Salesforce app authorization can be cancelled.
