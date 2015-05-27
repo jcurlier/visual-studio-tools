@@ -56,11 +56,6 @@
     <Compile Include="ConnectedService\DesignerData.cs" />
     <Compile Include="ConnectedService\Models\ConfigSetting.cs" />
     <Compile Include="ConnectedService\Models\EnvironmentType.cs" />
-    <Compile Include="ConnectedService\SupportedProjectTypeStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SupportedProjectTypeStrings.resx</DependentUpon>
-    </Compile>
     <Compile Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.cs" />
     <Compile Include="ConnectedService\Templates\CSharp\SalesforceOAuthRedirectHandler.g.cs">
       <AutoGen>True</AutoGen>
@@ -388,10 +383,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConnectedService\SupportedProjectTypeStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SupportedProjectTypeStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
