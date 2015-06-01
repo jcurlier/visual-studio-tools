@@ -167,7 +167,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         private async Task AddNuGetPackagesAsync(ConnectedServiceHandlerContext context, Project project)
         {
-            IEnumerable<IVsPackageMetadata> installedPackages = this.PackageInstallerServices.GetInstalledPackages();
+            IEnumerable<IVsPackageMetadata> installedPackages = this.PackageInstallerServices.GetInstalledPackages(project);
             Dictionary<string, string> packagesToInstall = new Dictionary<string, string>();
 
             foreach (Tuple<string, Version> requiredPackage in SalesforceConnectedServiceHandler.requiredPackages)
