@@ -53,8 +53,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         public override async Task<AddServiceInstanceResult> AddServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
         {
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingConnectedService);
-
             SalesforceConnectedServiceInstance salesforceInstance = (SalesforceConnectedServiceInstance)context.ServiceInstance;
 
             try
@@ -75,7 +73,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 salesforceInstance.DesignerData.StoreExtendedDesignerData(context);
 
                 salesforceInstance.TelemetryHelper.TrackAddServiceSucceededEvent(salesforceInstance);
-                await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddedConnectedService);
 
                 return new AddServiceInstanceResult(
                     salesforceInstance.DesignerData.ServiceName,
@@ -90,8 +87,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         public override async Task<UpdateServiceInstanceResult> UpdateServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
         {
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_UpdatingConnectedService);
-
             SalesforceConnectedServiceInstance salesforceInstance = (SalesforceConnectedServiceInstance)context.ServiceInstance;
 
             try
@@ -123,7 +118,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 salesforceInstance.DesignerData.StoreExtendedDesignerData(context);
 
                 salesforceInstance.TelemetryHelper.TrackUpdateServiceSucceededEvent(salesforceInstance);
-                await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_UpdatedConnectedService);
 
                 return new UpdateServiceInstanceResult();
             }
