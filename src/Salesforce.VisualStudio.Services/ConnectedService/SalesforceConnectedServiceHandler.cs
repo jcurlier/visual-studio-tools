@@ -29,7 +29,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
     // Exclude the following C# projects - Windows Store, Windows Phone, Universal, Shared Class Libs, ASP.net 5, Silverlight
     [ConnectedServiceHandlerExport(
         Constants.ProviderId,
-        AppliesTo = "CSharp + !WindowsAppContainer + !WindowsPhone + !SharedAssetsProject + !MultiTarget + !ProjectK",
+        AppliesTo = "CSharp + !WindowsAppContainer + !WindowsPhone + !SharedAssetsProject + !MultiTarget + !DNX",
         SupportedProjectTypes = "!A1591282-1198-4647-A2B1-27E5FF5F6F3B" /* Excluding Silverlight */)]
     internal class SalesforceConnectedServiceHandler : ConnectedServiceHandler
     {
