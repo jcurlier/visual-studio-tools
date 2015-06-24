@@ -42,7 +42,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             Tuple.Create("Microsoft.Bcl.Build", new Version("1.0.21")),
             Tuple.Create("Microsoft.Bcl.Async", new Version("1.0.168")),
             Tuple.Create("Microsoft.Bcl", new Version("1.1.10")),
-            Tuple.Create("DeveloperForce.Force", new Version("1.0.0")),
+            Tuple.Create("DeveloperForce.Force", new Version("1.0.1")),
         };
 
         [Import]
