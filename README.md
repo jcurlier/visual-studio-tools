@@ -1,6 +1,6 @@
 Salesforce Visual-Studio-Tools
 ===================
-[![Build status](https://ci.appveyor.com/api/projects/status/2efac63m6lat3iq4)](https://ci.appveyor.com/project/crummel/visual-studio-tools)
+[![Build status](https://ci.appveyor.com/api/projects/status/2efac63m6lat3iq4)](https://ci.appveyor.com/project/dcarroll/visual-studio-tools)
 
 Microsoft Visual Studio 2015 tooling for [Salesforce.com](http://Salesforce.com)
 
