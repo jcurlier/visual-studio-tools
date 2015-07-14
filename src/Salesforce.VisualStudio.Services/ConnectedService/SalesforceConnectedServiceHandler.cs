@@ -235,7 +235,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
             if (packagesToInstall.Any())
             {
                 this.PackageInstaller.InstallPackagesFromVSExtensionRepository(
-                    "Salesforce.VisualStudio.Services.55451A07-E6E0-47CC-855D-8A25B0B59409",
+                    "Salesforce.VisualStudio.Services.B161EEC7-17E0-4C35-AF8D-F241325BDD1C",
                     false,
                     false,
                     project,
