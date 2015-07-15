@@ -59,6 +59,43 @@
             service is added to the project.  The default is false.
             </summary>
         </member>
+        <member name="T:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInfo">
+            <summary>
+            Provides information about a connected service that has been configured in a Visual Studio project.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInfo.#ctor(System.String,System.Version,Microsoft.VisualStudio.Shell.IVsHierarchyItem)">
+            <summary>
+            Initializes a new instance of the ConnectedServiceInfo class.
+            </summary>
+            <param name="providerId">
+            The string identifier of the ConnectedServiceProvider that configured this service.
+            </param>
+            <param name="version">
+            The version of the provider that was used to configure this service.
+            </param>
+            <param name="serviceFolder">
+            An IVsHierarchyItem that represents the folder that contains the ConnectedService.json file.
+            </param>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInfo.ProviderId">
+            <summary>
+            Gets the string identifier of the ConnectedServiceProvider that configured this service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInfo.Version">
+            <summary>
+            Gets the version of the provider that was used to configure this service.
+            </summary>
+            <remarks>
+            This can be null if the Version isn't specified in the ConnectedService.json file.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInfo.ServiceFolder">
+            <summary>
+            Gets an IVsHierarchyItem that represents the folder that contains the ConnectedService.json file.
+            </summary>
+        </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceUILess">
             <summary>
             A ConnectedServiceConfigurator that doesn't need to show UI to create a ConnectedServiceInstance.  The information
@@ -158,13 +195,24 @@
             a connected service is being updated.
             </summary>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceUpdateContext.#ctor(Microsoft.VisualStudio.Shell.IVsHierarchyItem)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceUpdateContext.#ctor(System.Version,Microsoft.VisualStudio.Shell.IVsHierarchyItem)">
             <summary>
             Initializes a new instance of the ConnectedServiceUpdateContext class.
             </summary>
+            <param name="version">
+            The version of the provider that was used to configure this service.
+            </param>
             <param name="serviceFolder">
             The folder where the service artifacts are stored.
             </param>
+        </member>
+        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceUpdateContext.Version">
+            <summary>
+            Gets the version of the provider that was used to configure this service.
+            </summary>
+            <remarks>
+            This can be null if the Version isn't specified in the ConnectedService.json file.
+            </remarks>
         </member>
         <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceUpdateContext.ServiceFolder">
             <summary>
@@ -611,87 +659,6 @@
             The autentication event data.
             </param>
         </member>
-        <member name="T:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceHyperlinkAuthenticator">
-            <summary>
-            A ConnectedServiceAuthenticator that displays a hyperlink to allow the user to log in and out.
-            </summary>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceHyperlinkAuthenticator.#ctor">
-            <summary>
-            Initializes a new instance of the ConnectedServiceHyperlinkAuthenticator class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceHyperlinkAuthenticator.AuthenticatedText">
-            <summary>
-            Gets or sets the text to display when a user is logged in.
-            </summary>
-            <remarks>
-            <para>
-            Should be null for non-user-based authentication schemes.
-            </para>
-            </remarks>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceHyperlinkAuthenticator.ChangeAuthenticationText">
-            <summary>
-            Gets or sets the text to display to the user as a hint to change user or
-            import credentials.
-            </summary>
-            <remarks>
-            <para>
-            Typically "Import credentials..." for credentials based services,
-            "Change user" or "Log off" for user-based services.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceHyperlinkAuthenticator.ChangeAuthenticationAsync(System.Threading.CancellationToken)">
-            <summary>
-            The action to take when the user chooses to switch users or import
-            credentials.
-            </summary>
-            <param name="ct">
-            CancellationToken used to cancel the authentication operation.
-            </param>
-            <returns>
-            Returns a Task that represents changing the authentication.  The
-            Task's result value indicates whether any change was made; this
-            should be 'true' any time <see cref="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceAuthenticator.IsAuthenticated"/> changes,
-            and should also be 'true' if some aspect of the authentication
-            has changed.  (For example, if additional credentials are
-            imported.)
-            </returns>
-            <remarks>
-            <para>
-            This method is guaranteed to be called from the UI thread.
-            </para>
-            <para>
-            If an implementation desires to present blocking/modal UI, it may
-            do so.  If the authentication is changed before the method
-            returns, the returned Task should be marked as completed (likely
-            via Task.FromResult()).
-            </para>
-            <para>
-            If the implementation runs in the background, it may return an
-            in-progress Task, and the Connected Services code will refresh the
-            UI once the Task completes.  In this case, the Connected Services
-            code may cancel the task via the CancellationToken if the user
-            closes the Conencted Services UI before the instance has been
-            created.
-            </para>
-            <para>
-            If the implementation does not or cannot monitor the
-            authentication, it may return null.  In this case, the Connected
-            Services code will do nothing until and unless a change
-            notification is sent for the IsAuthenticated property.
-            </para>
-            <para>
-            If the implementation shows/handles any errors, the Task should
-            not fault on them, nor throw them as Exceptions.  If the returned
-            Task completes in a Faulted state (such that the Exception member
-            is non-null) the Connected Services UI will inform the user of
-            the failure.
-            </para>
-            </remarks>
-        </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceHandlerContext">
             <summary>
             The context information and services given to ConnectedServiceHandler instances during AddServiceInstanceAsync and UpdateServiceInstanceAsync.
@@ -826,12 +793,6 @@
             <summary>
             Gets a link to MSDN, Azure Portal, sign-up page, etc. if the name
             and description are not enough for the user to understand.
-            </summary>
-        </member>
-        <member name="P:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceProvider.SupportedProjectTypes">
-            <summary>
-            Gets a collection of strings that describe the types of projects this ConnectedServiceProvider
-            supports adding services to.
             </summary>
         </member>
         <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceProvider.CreateConfiguratorAsync(Microsoft.VisualStudio.ConnectedServices.ConnectedServiceProviderContext)">
@@ -1414,13 +1375,24 @@
             </summary>
             <param name="project">The project to which to add the connected service.</param>
         </member>
-        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServicesManager.ShowProviderConfigurationDialogAsync(System.String,Microsoft.VisualStudio.Shell.Interop.IVsHierarchy)">
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServicesManager.CanConfigureService(System.String,System.String,Microsoft.VisualStudio.Shell.Interop.IVsHierarchy)">
             <summary>
-            Shows the configuration dialog for the provider.
+            Determines whether or not the specified provider can be configured on the specified project.
             </summary>
             <param name="providerId">The string identifier of the ConnectedServiceProvider.</param>
-            <param name="project">The project to which to show the dialog for.</param>
-            <returns>A Task that will signal when this action is complete.</returns>
+            <param name="providerVersionRange">
+            The range of provider versions for which to check. The syntax for specifying a version range is 
+            the same syntax as used in the .vsixmanifest InstallationTarget Version attribute.
+            For more information, see http://msdn.microsoft.com/en-us/library/ee943167.aspx.
+            </param>
+            <param name="project">The project to which to check if configuring the service is possible.</param>
+            <returns>
+            True if a connected service from the specified provider can be configured in the specified project; otherwise, false.
+            </returns>
+            <remarks>
+            CanConfigureService checks if the specified provider is installed, in the acceptable version ranage, and
+            whether there is an installed handler that supports the specified project.
+            </remarks>
         </member>
         <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServicesManager.ConfigureServiceAsync(System.String,Microsoft.VisualStudio.Shell.Interop.IVsHierarchy,Microsoft.VisualStudio.ConnectedServices.ConfigureServiceOptions)">
             <summary>
@@ -1430,6 +1402,17 @@
             <param name="project">The project to which to configure the service.</param>
             <param name="options">The options to use while configuring the service.</param>
             <returns>A Task that will signal when this action is complete.</returns>
+        </member>
+        <member name="M:Microsoft.VisualStudio.ConnectedServices.ConnectedServicesManager.GetConfiguredServices(Microsoft.VisualStudio.Shell.Interop.IVsHierarchy)">
+            <summary>
+            Gets the connected services that have been configured in the specified project.
+            </summary>
+            <param name="project">
+            The project for which to get all the configured services.
+            </param>
+            <returns>
+            A collection of ConnectedServiceInfo objects that represent each service that has been configured in the project.
+            </returns>
         </member>
         <member name="T:Microsoft.VisualStudio.ConnectedServices.ConnectedServiceInstance">
             <summary>

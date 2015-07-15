@@ -130,7 +130,7 @@ publish/
 # NuGet Packages Directory
 packages/*
 # Need to have the ConnectedServices package checked in since the latest version is not posted to the gallery
-!packages/Microsoft.VisualStudio.ConnectedServices.2.0.0-beta
+!packages/Microsoft.VisualStudio.ConnectedServices.*
 !src/Salesforce.VisualStudio.Services/Packages
 ## TODO: If the tool you use requires repositories.config uncomment the next line
 #!packages/repositories.config
