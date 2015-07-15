@@ -137,9 +137,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
             }
         }
 
-        public override async Task<WizardNavigationResult> OnPageLeavingAsync(WizardLeavingArgs args)
+        public override async Task<PageNavigationResult> OnPageLeavingAsync(WizardLeavingArgs args)
         {
-            WizardNavigationResult result;
+            PageNavigationResult result;
 
             using (this.Wizard.Context.StartBusyIndicator(Resources.DesignTimeAuthenticationViewModel_AuthenticatingProgress))
             {
@@ -180,7 +180,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 if (error == null)
                 {
                     UserSettings.AddToTopOfMruList(this.Wizard.UserSettings.MruDesignTimeAuthentications, this.Authentication);
-                    result = WizardNavigationResult.Success;
+                    result = PageNavigationResult.Success;
 
                     if (this.PageLeaving != null)
                     {
@@ -189,7 +189,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.ViewModels
                 }
                 else
                 {
-                    result = new WizardNavigationResult() { ErrorMessage = error, ShowMessageBoxOnFailure = true };
+                    result = new PageNavigationResult() { ErrorMessage = error, ShowMessageBoxOnFailure = true };
                 }
             }
 

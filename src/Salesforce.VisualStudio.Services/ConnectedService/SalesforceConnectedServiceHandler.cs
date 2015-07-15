@@ -29,17 +29,30 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
     // Exclude the following C# projects - Windows Store, Windows Phone, Universal, Shared Class Libs, ASP.net 5, Silverlight
     [ConnectedServiceHandlerExport(
         Constants.ProviderId,
-        AppliesTo = "CSharp + !WindowsAppContainer + !WindowsPhone + !SharedAssetsProject + !MultiTarget + !ProjectK",
+        AppliesTo = "CSharp + !WindowsAppContainer + !WindowsPhone + !SharedAssetsProject + !MultiTarget + !DNX",
         SupportedProjectTypes = "!A1591282-1198-4647-A2B1-27E5FF5F6F3B" /* Excluding Silverlight */)]
     internal class SalesforceConnectedServiceHandler : ConnectedServiceHandler
     {
+        // DeveloperForce.Force is the only NuGet package the experience has a direct dependency on, the rest are dependencies it has.
+        // If the DeveloperForce.Force version is changed, the versions of its dependencies must also be updated as appropriate.
+        private static Tuple<string, Version>[] requiredPackages = new Tuple<string, Version>[]
+        {
+            Tuple.Create("Newtonsoft.Json", new Version("6.0.5")),
+            Tuple.Create("Microsoft.Net.Http", new Version("2.2.29")),
+            Tuple.Create("Microsoft.Bcl.Build", new Version("1.0.21")),
+            Tuple.Create("Microsoft.Bcl.Async", new Version("1.0.168")),
+            Tuple.Create("Microsoft.Bcl", new Version("1.1.10")),
+            Tuple.Create("DeveloperForce.Force", new Version("1.0.1")),
+        };
+
         [Import]
         internal IVsPackageInstaller PackageInstaller { get; set; }
 
+        [Import]
+        internal IVsPackageInstallerServices PackageInstallerServices { get; set; }
+
         public override async Task<AddServiceInstanceResult> AddServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
         {
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingConnectedService);
-
             SalesforceConnectedServiceInstance salesforceInstance = (SalesforceConnectedServiceInstance)context.ServiceInstance;
 
             try
@@ -60,7 +73,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 salesforceInstance.DesignerData.StoreExtendedDesignerData(context);
 
                 salesforceInstance.TelemetryHelper.TrackAddServiceSucceededEvent(salesforceInstance);
-                await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddedConnectedService);
 
                 return new AddServiceInstanceResult(
                     salesforceInstance.DesignerData.ServiceName,
@@ -75,8 +87,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         public override async Task<UpdateServiceInstanceResult> UpdateServiceInstanceAsync(ConnectedServiceHandlerContext context, CancellationToken ct)
         {
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_UpdatingConnectedService);
-
             SalesforceConnectedServiceInstance salesforceInstance = (SalesforceConnectedServiceInstance)context.ServiceInstance;
 
             try
@@ -108,7 +118,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 salesforceInstance.DesignerData.StoreExtendedDesignerData(context);
 
                 salesforceInstance.TelemetryHelper.TrackUpdateServiceSucceededEvent(salesforceInstance);
-                await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_UpdatedConnectedService);
 
                 return new UpdateServiceInstanceResult();
             }
@@ -158,23 +167,100 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
 
         private async Task AddNuGetPackagesAsync(ConnectedServiceHandlerContext context, Project project)
         {
-            await context.Logger.WriteMessageAsync(LoggerMessageCategory.Information, Resources.LogMessage_AddingNuGetPackages);
+            IEnumerable<IVsPackageMetadata> installedPackages = this.PackageInstallerServices.GetInstalledPackages(project);
+            Dictionary<string, string> packagesToInstall = new Dictionary<string, string>();
 
-            // DeveloperForce.Force is the only NuGet package the experience has a direct dependency on, the rest are dependencies of it.
-            // If the DeveloperForce.Force version is changed, the versions of its dependencies must also be updated as appropriate.
-            this.PackageInstaller.InstallPackagesFromVSExtensionRepository(
-                "Salesforce.VisualStudio.Services.55451A07-E6E0-47CC-855D-8A25B0B59409",
-                false,
-                false,
-                project,
-                new Dictionary<string, string> {
-                    { "DeveloperForce.Force", "1.0.0" },
-                    { "Microsoft.Bcl", "1.1.10" },
-                    { "Microsoft.Bcl.Async", "1.0.168" },
-                    { "Microsoft.Bcl.Build", "1.0.21" },
-                    { "Microsoft.Net.Http", "2.2.29" },
-                    { "Newtonsoft.Json", "6.0.5" },
-                });
+            foreach (Tuple<string, Version> requiredPackage in SalesforceConnectedServiceHandler.requiredPackages)
+            {
+                IVsPackageMetadata installedPackage = installedPackages.FirstOrDefault(p => p.Id == requiredPackage.Item1);
+                if (installedPackage == null)
+                {
+                    // The package does not exist - notify and install the package.
+                    await context.Logger.WriteMessageAsync(
+                        LoggerMessageCategory.Information,
+                        Resources.LogMessage_AddingNuGetPackage,
+                        requiredPackage.Item1,
+                        requiredPackage.Item2.ToString());
+                }
+                else
+                {
+                    Version installedVersion = SalesforceConnectedServiceHandler.GetNuGetPackageVersion(installedPackage);
+                    if (installedVersion == null)
+                    {
+                        // Unable to parse the version - continue.
+                        continue;
+                    }
+                    else if (installedVersion.Major < requiredPackage.Item2.Major)
+                    {
+                        // An older potentially non-compatible version of the package already exists - warn and upgrade the package.
+                        await context.Logger.WriteMessageAsync(
+                            LoggerMessageCategory.Warning,
+                            Resources.LogMessage_OlderMajorVersionNuGetPackageExists,
+                            requiredPackage.Item1,
+                            installedPackage.VersionString,
+                            requiredPackage.Item2.ToString());
+                    }
+                    else if (installedVersion.Major > requiredPackage.Item2.Major)
+                    {
+                        // A newer potentially non-compatible version of the package already exists - warn and continue.
+                        await context.Logger.WriteMessageAsync(
+                            LoggerMessageCategory.Warning,
+                            Resources.LogMessage_NewerMajorVersionNuGetPackageExists,
+                            requiredPackage.Item1,
+                            requiredPackage.Item2.ToString(),
+                            installedPackage.VersionString);
+
+                        continue;
+                    }
+                    else if (installedVersion >= requiredPackage.Item2)
+                    {
+                        // A newer semantically compatible version of the package already exists - continue.
+                        continue;
+                    }
+                    else
+                    {
+                        // An older semantically compatible version of the package exists - notify and upgrade the package.
+                        await context.Logger.WriteMessageAsync(
+                            LoggerMessageCategory.Information,
+                            Resources.LogMessage_UpgradingNuGetPackage,
+                            requiredPackage.Item1,
+                            installedPackage.VersionString,
+                            requiredPackage.Item2.ToString());
+                    }
+                }
+
+                packagesToInstall.Add(requiredPackage.Item1, requiredPackage.Item2.ToString());
+            }
+
+            if (packagesToInstall.Any())
+            {
+                this.PackageInstaller.InstallPackagesFromVSExtensionRepository(
+                    "Salesforce.VisualStudio.Services.B161EEC7-17E0-4C35-AF8D-F241325BDD1C",
+                    false,
+                    false,
+                    project,
+                    packagesToInstall);
+            }
+        }
+
+        private static Version GetNuGetPackageVersion(IVsPackageMetadata package)
+        {
+            Version version;
+            string versionString = package.VersionString;
+            int dashIndex = versionString.IndexOf('-');
+            if (dashIndex != -1)
+            {
+                // Trim off any pre-release versions.  Because the handler should never install pre-release
+                // versions they can be ignored when comparing versions.
+                versionString = versionString.Substring(0, dashIndex);
+            }
+
+            if (!Version.TryParse(versionString, out version))
+            {
+                Debug.Fail("Unable to parse the NuGet package version " + versionString);
+            }
+
+            return version;
         }
 
         private static async Task AddAssemblyReferencesAsync(ConnectedServiceHandlerContext context, SalesforceConnectedServiceInstance salesforceInstance)

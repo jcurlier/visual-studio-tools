@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.VisualStudio.ConnectedServices</id>
+    <version>2.0.0</version>
+    <title>Visual Studio Connected Services SDK</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <licenseUrl>http://www.microsoft.com/web/webpi/eula/connectedservicessdk_for_visualstudio_2.htm</licenseUrl>
+    <projectUrl>http://go.microsoft.com/fwlink/?LinkId=534854</projectUrl>
+    <iconUrl>http://www.unsigned-softworks.sk/visual-installer/images/features/intellisense/vs-2012-icon.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Connected Services is the modern Add Service Reference. Using this SDK, service providers can create a customized experience for consuming services in all projects of Visual Studio 2015.</description>
+    <summary>APIs for creating Connected Services in Visual Studio 2015.</summary>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>VisualStudio ConnectedServices</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.VisualStudio.Shell.Immutable.11.0" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="Microsoft.VisualStudio.Shell.Interop" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="PresentationCore" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="System.ComponentModel.Composition" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.5" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

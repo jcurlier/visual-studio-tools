@@ -237,15 +237,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully added a Salesforce connected service to the project..
-        /// </summary>
-        internal static string LogMessage_AddedConnectedService {
-            get {
-                return ResourceManager.GetString("LogMessage_AddedConnectedService", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Adding reference to {0}..
         /// </summary>
         internal static string LogMessage_AddingAssemblyReference {
@@ -260,15 +251,6 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         internal static string LogMessage_AddingAssemblyReferences {
             get {
                 return ResourceManager.GetString("LogMessage_AddingAssemblyReferences", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adding a Salesforce connected service to the project..
-        /// </summary>
-        internal static string LogMessage_AddingConnectedService {
-            get {
-                return ResourceManager.GetString("LogMessage_AddingConnectedService", resourceCulture);
             }
         }
         
@@ -291,11 +273,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adding NuGet packages to the project..
+        ///   Looks up a localized string similar to Installing NuGet package &apos;{0}&apos; version {1}..
         /// </summary>
-        internal static string LogMessage_AddingNuGetPackages {
+        internal static string LogMessage_AddingNuGetPackage {
             get {
-                return ResourceManager.GetString("LogMessage_AddingNuGetPackages", resourceCulture);
+                return ResourceManager.GetString("LogMessage_AddingNuGetPackage", resourceCulture);
             }
         }
         
@@ -345,20 +327,29 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The code being added depends on NugGet package ‘{0}’ version {1}.  A newer version ({2}) is already installed.  This may cause compatibility issues..
+        /// </summary>
+        internal static string LogMessage_NewerMajorVersionNuGetPackageExists {
+            get {
+                return ResourceManager.GetString("LogMessage_NewerMajorVersionNuGetPackageExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upgrading NuGet package &apos;{0}&apos; from version {1} to {2}.  A major version upgrade may introduce compatibility issues with existing code..
+        /// </summary>
+        internal static string LogMessage_OlderMajorVersionNuGetPackageExists {
+            get {
+                return ResourceManager.GetString("LogMessage_OlderMajorVersionNuGetPackageExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No CLR type found for the Salesforce soap type &apos;{0}&apos; used on the &apos;{1}.{2}&apos; property..
         /// </summary>
         internal static string LogMessage_UnsupportedSoapType {
             get {
                 return ResourceManager.GetString("LogMessage_UnsupportedSoapType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully updated the Salesforce connected service within the project..
-        /// </summary>
-        internal static string LogMessage_UpdatedConnectedService {
-            get {
-                return ResourceManager.GetString("LogMessage_UpdatedConnectedService", resourceCulture);
             }
         }
         
@@ -372,11 +363,11 @@ namespace Salesforce.VisualStudio.Services.ConnectedService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Updating the Salesforce connected service within the project..
+        ///   Looks up a localized string similar to Upgrading NuGet package &apos;{0}&apos; from version {1} to {2}..
         /// </summary>
-        internal static string LogMessage_UpdatingConnectedService {
+        internal static string LogMessage_UpgradingNuGetPackage {
             get {
-                return ResourceManager.GetString("LogMessage_UpdatingConnectedService", resourceCulture);
+                return ResourceManager.GetString("LogMessage_UpgradingNuGetPackage", resourceCulture);
             }
         }
         
