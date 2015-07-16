@@ -88,6 +88,9 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
                 if (this.telemetryClient == null)
                 {
                     this.telemetryClient = new TelemetryClient();
+
+                    // Use the "SalesforceConnectedServiceInsights" Application Insights resource in Azure.
+                    this.telemetryClient.InstrumentationKey = "f10a0520-d9c9-4105-81ed-713e0ae31074";
                 }
                 return this.telemetryClient;
             }
