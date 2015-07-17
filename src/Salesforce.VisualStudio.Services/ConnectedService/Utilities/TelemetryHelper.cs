@@ -18,7 +18,7 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
     /// <summary>
     /// A utility class for gathering and logging telemetry data.
     /// </summary>
-    internal class TelemetryHelper
+    internal class TelemetryHelper : IDisposable
     {
         // Event Names
         private const string WizardStartedEventName = "SalesforceConnectedService/WizardStarted";
@@ -349,6 +349,12 @@ namespace Salesforce.VisualStudio.Services.ConnectedService.Utilities
             }
 
             return returnValue;
+        }
+
+        public void Dispose()
+        {
+            // Immediately log all events in the in-memory buffer.
+            this.TelemetryClient.Flush();
         }
     }
 }

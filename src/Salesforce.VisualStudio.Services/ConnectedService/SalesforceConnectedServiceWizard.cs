@@ -189,5 +189,24 @@ namespace Salesforce.VisualStudio.Services.ConnectedService
                 this.runtimeAuthenticationConfigViewModel.RuntimeAuthStrategy = this.runtimeAuthenticationTypeViewModel.RuntimeAuthStrategy;
             }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (disposing)
+                {
+                    this.telemetryHelper?.Dispose();
+                    this.designTimeAuthenticationViewModel?.Dispose();
+                    this.runtimeAuthenticationTypeViewModel?.Dispose();
+                    this.runtimeAuthenticationConfigViewModel?.Dispose();
+                    this.objectSelectionViewModel?.Dispose();
+                }
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
+        }
     }
 }
