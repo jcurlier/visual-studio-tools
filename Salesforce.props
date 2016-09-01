@@ -6,5 +6,6 @@
     <MajorVersion>1.0</MajorVersion>
     <AssemblyVersion>$(MajorVersion).0.0</AssemblyVersion>
     <BuildVersion>$(MajorVersion).$(BuildNumber)</BuildVersion>
+    <VsPrivateAssembliesRoot>$(VsInstallRoot)\Common7\IDE\PrivateAssemblies</VsPrivateAssembliesRoot>
   </PropertyGroup>
 </Project>
